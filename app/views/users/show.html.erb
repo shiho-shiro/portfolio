@@ -1,2 +1,28 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div class="user_box">
+  <table class="user_detail">
+    <tr>
+      <% if @user.image.blank? %>
+        <th>アバター</th>
+        <td><%= image_tag 'no_image.jpeg', class:"icon_image" %></td>
+      <% else %>
+        <th>アバター</th>
+        <td><%= image_tag @user.image.to_s, class:"icon_image" %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <th>ユーザー名</th>
+      <td><%= @user.username %></td>
+    </tr>
+    <tr>
+      <th>メールアドレス</th>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <th>パスワード</th>
+      <td>*********</td>
+    </tr>
+  </table>
+  <span id="user_edit">
+    <%= link_to "編集する", edit_user_registration_path %>
+  </span>
+</div>

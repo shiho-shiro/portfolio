@@ -1,0 +1,17 @@
+<header>
+  <div class="header">
+    <div class="header_menu">
+    <% if user_signed_in?  %>
+    <%= link_to "プロフィール", users_show_path, class:"nemu_list" %>
+    <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"nemu_list" %>
+    <% else %>
+    <%= link_to "ログイン", new_user_session_path, class:"nemu_list" %>
+    <%= link_to "新規登録", new_user_registration_path, class:"nemu_list" %>
+    <% end %>
+  </div>
+    <% if flash[:notice] %>
+    <div class="flash_user_show">
+      <%= flash[:notice] %>
+    </div>
+    <% end %>
+</header>

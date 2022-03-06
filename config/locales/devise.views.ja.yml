@@ -4,6 +4,7 @@ ja:
       user:
         current_password: "現在のパスワード"
         email: "メールアドレス"
+        username: "ユーザー名"
         password: "パスワード"
         password_confirmation: "確認用パスワード"
         remember_me: "ログインを記憶"
@@ -31,6 +32,7 @@ ja:
         message: "ログイン失敗が繰り返されたため、アカウントはロックされています。"
     passwords:
       edit:
+        username: "ユーザー名"
         change_my_password: "パスワードを変更する"
         change_your_password: "パスワードを変更"
         confirm_new_password: "確認用新しいパスワード"

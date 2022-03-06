@@ -5,6 +5,7 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 /db/mysql/*
+/.env
 # Ignore bundler config.
 /.bundle
 
