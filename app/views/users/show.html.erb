@@ -6,7 +6,7 @@
         <td><%= image_tag 'no_image.jpeg', class:"icon_image" %></td>
       <% else %>
         <th>アバター</th>
-        <td><%= image_tag @user.image.to_s, class:"icon_image" %></td>
+        <td><%= image_tag @user.image.url, class:"icon_image" %></td>
       <% end %>
     </tr>
     <tr>

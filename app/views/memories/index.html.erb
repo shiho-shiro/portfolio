@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Memories</h1>
+<% @memories.each do |memory| %>
+  <div class="memory_content">
+    <%= link_to(memory_path(memory.id), {class:"tr_size"}) do %>
+      <%= memory.date %>
+      <%= memory.title %>
+    <% end %>
+  </div>
+<% end %>
+
+<br>
+
+<%= link_to 'New Memory', new_memory_path %>

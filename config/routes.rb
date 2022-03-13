@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root 'home#top'
   devise_for :users, controllers: { registrations: 'registrations' },
     :controllers => {
@@ -11,5 +12,6 @@ Rails.application.routes.draw do
     get "sign_out", :to => "users/sessions#destroy"
   end
 
-  get 'users/show'
+  resources :memories
+  resources :users, only: [:show]
 end

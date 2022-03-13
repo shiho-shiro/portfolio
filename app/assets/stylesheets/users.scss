@@ -7,3 +7,9 @@
   object-fit: cover;
   //タテヨコ比を変えないままトリミング
 }
+.header_user_image{
+  width: 70px;
+  height: 70px;
+  border-radius: 50px;
+  object-fit: cover;
+}
