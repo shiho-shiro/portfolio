@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable #:confirmable
 
+  validates :username, presence: true
+
   has_many :memories, dependent: :destroy
 
   def update_without_current_password(params, *options)
