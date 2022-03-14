@@ -9,29 +9,33 @@
         <td><%= image_tag @user.image.url, class:"icon_image" %></td>
       <% end %>
     </tr>
+
     <tr>
       <th>ユーザー名</th>
       <td><%= @user.username %></td>
     </tr>
+
     <tr>
       <th>国<p>行ったことがある/行きたい</p></th>
       <td><%= @user.country %></td>
     </tr>
-    <tr>
+
     <tr>
       <th>仕事<p>現地でやた事がある/やってみたい</p></th>
       <td><%= @user.job %></td>
     </tr>
-    <tr>
+
     <tr>
       <th>メールアドレス</th>
       <td><%= @user.email %></td>
     </tr>
+
     <tr>
       <th>パスワード</th>
       <td>*********</td>
     </tr>
   </table>
+  
   <span id="user_edit">
     <%= link_to "編集する", edit_user_registration_path %>
   </span>
