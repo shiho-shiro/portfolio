@@ -1,0 +1,24 @@
+<p>
+  <strong>Title:</strong>
+  <%= @memory.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @memory.content %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @memory.date %>
+</p>
+
+<p>
+  <% if @memory.image.present? %>
+    <%= image_tag @memory.image.url, class:"memory_image"  %>
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_memory_path(@memory) %>
+<%= link_to 'Back', memories_path %>
+<%= link_to 'Destroy', @memory, method: :delete, data: { confirm: 'Are you sure?' } %>
