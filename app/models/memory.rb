@@ -12,7 +12,7 @@ class Memory < ApplicationRecord
       errors.add(:date, "今日より過去の日付の指定はできません。")
     end
   end
-
+  
   belongs_to :user, optional: true
   mount_uploader :image, ImageUploader
 end

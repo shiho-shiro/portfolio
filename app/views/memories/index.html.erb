@@ -1,7 +1,7 @@
 <h1>Memories</h1>
 <% @memories.each do |memory| %>
   <div class="memory_content">
-    <%= link_to(memory_path(memory.id), {class:"tr_size"}) do %>
+    <%= link_to(memory_path(memory.id), {class:"menu tr_size"}) do %>
       <%= memory.date %>
       <%= memory.title %>
     <% end %>
@@ -10,4 +10,4 @@
 
 <br>
 
-<%= link_to 'New Memory', new_memory_path %>
+<%= link_to 'New Memory', new_memory_path, class:"menu" %>
