@@ -2,17 +2,19 @@ class MemoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_current_user
   before_action :set_memory, only: [:show, :edit, :update, :destroy]
-
+  before_action :memory_user, only: [:show_other_index]
   def index
     @user = current_user
-    @memories = current_user.memories
+    @memories = @user.memories
   end
 
+  def show_other_index
+    @user = current_user
+  end
 
   def show
     @user = current_user
   end
-
 
   def new
     @user = current_user
@@ -57,5 +59,13 @@ class MemoriesController < ApplicationController
 
     def memory_params
       params.require(:memory).permit(:title, :content, :date, :image).merge(user_id: current_user.id)
+    end
+
+    def memory_user
+      @other_user = User.find(params[:id])
+      @memories = @other_user.memories
+      if @other_user == current_user
+        redirect_to :action => 'index'
+      end
     end
 end

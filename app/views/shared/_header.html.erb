@@ -2,13 +2,16 @@
   <div class="header">
     <div class="header_menu">
       <% if user_signed_in?  %>
-        <% if @user.image.present? %>
-          <%= link_to image_tag(@user.image.url, class:"header_user_image"), user_path(current_user) %>
-        <% else %>
-          <%= link_to image_tag('no_image.jpeg', class:"header_user_image"), user_path(current_user) %>
+        <% if @user == current_user %>
+          <% if @user.image.present? %>
+            <%= link_to image_tag(@user.image.url, class:"header_user_image"), user_path(current_user) %>
+          <% else %>
+            <%= link_to image_tag('no_image.jpeg', class:"header_user_image"), user_path(current_user) %>
+          <% end %>
         <% end %>
         <%= link_to "Home", root_path, class:"menu menu_list" %>
         <%= link_to "Memory", memories_path, class:"menu menu_list" %>
+        <%= link_to "Concern", concerns_path, class:"menu menu_list" %>
         <%= link_to "プロフィール", user_path(current_user), class:"menu menu_list" %>
         <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"menu menu_list" %>
       <% else %>

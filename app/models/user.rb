@@ -7,6 +7,7 @@ class User < ApplicationRecord
   validates :username, presence: true
 
   has_many :memories, dependent: :destroy
+  has_many :concerns, dependent: :destroy
 
   def update_without_current_password(params, *options)
     params.delete(:current_password)
@@ -20,5 +21,6 @@ class User < ApplicationRecord
     clean_up_passwords
     result
   end
+
   mount_uploader :image, ImageUploader
 end

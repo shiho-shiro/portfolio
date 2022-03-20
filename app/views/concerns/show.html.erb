@@ -1,0 +1,27 @@
+<div class="concern_user">
+  <% if @concern.user.image.present? %>
+    <%= link_to image_tag(@concern.user.image.url, class:"concern_user_image"), show_other_user_path(@concern.user) %>
+  <% end %>
+  <%= @concern.user.username %><br>
+  <%= @concern.created_at %>
+</div>
+<p>
+  <strong>Title:</strong>
+  <%= @concern.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @concern.content %>
+</p>
+
+<p>
+  <%= @concern.image %>
+</p>
+
+<% if @user == @concernuser %>
+  <%= link_to 'Edit', edit_concern_path(@concern) %> |
+  <%= link_to 'Back', concerns_path %>
+<% else %>
+  <%= link_to 'Back', concerns_path %>
+<% end %>

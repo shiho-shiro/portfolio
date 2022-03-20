@@ -1,0 +1,40 @@
+<div class="user_box">
+  <table class="user_detail">
+    <tr>
+      <% if @other_user.image.blank? %>
+        <th>アバター</th>
+        <td><%= image_tag 'no_image.jpeg', class:"icon_image" %></td>
+      <% else %>
+        <th>アバター</th>
+        <td><%= image_tag @other_user.image.url, class:"icon_image" %></td>
+      <% end %>
+    </tr>
+
+    <tr>
+      <th>ユーザー名</th>
+      <td><%= @other_user.username %></td>
+    </tr>
+
+    <tr>
+      <th>国<p>行ったことがある/行きたい</p></th>
+      <td><%= @other_user.country %></td>
+    </tr>
+
+    <tr>
+      <th>仕事<p>現地でやた事がある/やってみたい</p></th>
+      <td><%= @other_user.job %></td>
+    </tr>
+
+    <tr>
+      <th>メールアドレス</th>
+      <td><%= @other_user.email %></td>
+    </tr>
+
+    <tr>
+      <th>パスワード</th>
+      <td>*********</td>
+    </tr>
+  </table>
+
+  <%= link_to "memory",  show_other_index_memory_path(@other_user.id), class:"menu" %>
+</div>

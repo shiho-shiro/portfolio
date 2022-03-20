@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_08_025020) do
+ActiveRecord::Schema.define(version: 2022_03_16_025904) do
+
+  create_table "concerns", charset: "utf8mb4", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.string "image"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "memories", charset: "utf8mb4", force: :cascade do |t|
     t.string "title"
