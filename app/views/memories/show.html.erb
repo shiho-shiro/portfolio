@@ -19,6 +19,10 @@
   <% end %>
 </p>
 
-<%= link_to 'Edit', edit_memory_path(@memory) %>
-<%= link_to 'Back', memories_path %>
-<%= link_to 'Destroy', @memory, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% if @user == @memory.user %>
+  <%= link_to 'Edit', edit_memory_path(@memory) %>
+  <%= link_to 'Back', memories_path %>
+  <%= link_to 'Destroy', @memory, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% else %>
+  <%= link_to 'Back', show_other_index_memory_path(@memory.user.id) %>
+<% end %>

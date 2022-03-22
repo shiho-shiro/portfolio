@@ -10,6 +10,7 @@
 
 <br>
 
-<% if @user != current_user %>
-	<%= link_to 'Back', show_other_user_path, class:"menu" %>
+<% if @other_user != @user %>
+	<%= link_to 'Back', show_other_user_path(@other_user.id), class:"menu" %>
+	<%= link_to "Concern一覧に戻る", concerns_path, class:"menu" %>
 <% end %>

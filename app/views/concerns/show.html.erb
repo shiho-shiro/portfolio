@@ -19,7 +19,7 @@
   <%= @concern.image %>
 </p>
 
-<% if @user == @concernuser %>
+<% if @user == @concern.user %>
   <%= link_to 'Edit', edit_concern_path(@concern) %> |
   <%= link_to 'Back', concerns_path %>
 <% else %>
