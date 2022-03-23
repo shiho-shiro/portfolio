@@ -3,7 +3,7 @@ class ConcernsController < ApplicationController
 
   def index
     @user = current_user
-    @concerns = Concern.includes(:user)
+    @concerns = Concern.includes(:user).order(created_at: :desc)
   end
 
   def show
