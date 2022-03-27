@@ -12,7 +12,10 @@ Rails.application.routes.draw do
     get "sign_out", :to => "users/sessions#destroy"
   end
 
-  resources :concerns
+  resources :concerns do
+    resources :advices, only:[:create, :destroy]
+  end
+
   resources :memories do
     member do
       get 'show_other_index'

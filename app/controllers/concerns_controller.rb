@@ -1,17 +1,19 @@
 class ConcernsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_current_user
   before_action :set_concern, only: [:show, :edit, :update, :destroy]
 
   def index
     @user = current_user
-    @concerns = Concern.includes(:user).order(created_at: :desc)
+    @concerns = Concern.includes(:user)
   end
 
   def show
     @user = current_user
+    @advice = Advice.new
   end
 
   def new
-    @user = current_user
     @concern = Concern.new
   end
 
@@ -20,9 +22,7 @@ class ConcernsController < ApplicationController
   end
 
   def create
-    @user = current_user
     @concern = Concern.new(concern_params)
-
     if @concern.save
       redirect_to @concern, notice: '投稿されました。'
     else
@@ -31,7 +31,6 @@ class ConcernsController < ApplicationController
   end
 
   def update
-    @user = current_user
     if @concern.update(concern_params)
       redirect_to @concern, notice: '投稿内容が変更されました。'
     else

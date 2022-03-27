@@ -26,9 +26,7 @@ class MemoriesController < ApplicationController
   end
 
   def create
-    @user = current_user
     @memory = Memory.new(memory_params)
-
     if @memory.save
       redirect_to @memory, notice: 'Memoryを作成しました'
     else
@@ -36,9 +34,7 @@ class MemoriesController < ApplicationController
     end
   end
 
-
   def update
-    @user = current_user
     if @memory.update(memory_params)
       redirect_to @memory, notice: 'Memoryを更新しました。'
     else
