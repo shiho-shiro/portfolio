@@ -2,6 +2,7 @@ class Concern < ApplicationRecord
   with_options presence: true do
     validates :title
     validates :content
+    validates :country
   end
 
   mount_uploader :image, ImageUploader

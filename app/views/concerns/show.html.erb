@@ -5,6 +5,12 @@
   <%= @concern.user.username %><br>
   <%= @concern.created_at.to_s(:datetime_jp) %>
 </div>
+
+<p>
+  <strong>対象国:</strong>
+  <%= @concern.country %>
+</p>
+
 <p>
   <strong>Title:</strong>
   <%= @concern.title %>
@@ -27,7 +33,7 @@
     <%= advice.user.username %>
     <%= advice.advice %>
     <% if advice.user == current_user %>
-      <%= button_to "削除", concern_advice_path(@concern, advice), method: :delete,data: { confirm: 'Are you sure?' } %>
+      <%= button_to "削除", concern_advice_path(@concern, advice), method: :delete, class:"btn_to" %>
     <% end %>
   <% end %>
 <% end %>
@@ -56,7 +62,7 @@
 <% if @user == @concern.user %>
   <%= link_to 'Edit', edit_concern_path(@concern) %> |
   <%= link_to 'Back', concerns_path %>
-  <%= button_to 'Destroy', concern_path, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <%= button_to 'Destroy', concern_path, method: :delete, class:"btn_to" %>
 <% else %>
   <%= link_to 'Back', concerns_path %>
 <% end %>

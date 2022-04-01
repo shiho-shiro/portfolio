@@ -22,7 +22,7 @@
 <% if @user == @memory.user %>
   <%= link_to 'Edit', edit_memory_path(@memory) %>
   <%= link_to 'Back', memories_path %>
-  <%= button_to 'Destroy', memory_path, method: :delete %>
+  <%= button_to 'Destroy', memory_path, method: :delete, class:"btn_to" %>
 <% else %>
   <%= link_to 'Back', show_other_index_memory_path(@memory.user.id) %>
 <% end %>

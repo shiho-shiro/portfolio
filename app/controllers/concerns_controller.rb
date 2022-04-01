@@ -14,6 +14,7 @@ class ConcernsController < ApplicationController
   end
 
   def new
+    @user = current_user
     @concern = Concern.new
   end
 
@@ -51,6 +52,6 @@ class ConcernsController < ApplicationController
     end
 
     def concern_params
-      params.require(:concern).permit(:title, :content, :image).merge(user_id: current_user.id)
+      params.require(:concern).permit(:title, :content, :image, :country).merge(user_id: current_user.id)
     end
 end
