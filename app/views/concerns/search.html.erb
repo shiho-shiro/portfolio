@@ -1,0 +1,14 @@
+<h1>検索結果</h1>
+
+<% @results.each do |concern| %>
+  <div class="concern_content">
+    <%= concern.user.username %>
+    <%= concern.created_at.to_s(:datetime_jp) %></br>
+    <%= link_to(concern_path(concern.id), {class:"menu tr_size"}) do %>
+      <%= concern.title %>
+    <% end %>
+  </div>
+<% end %>
+<br>
+
+<%= link_to 'New Concern', new_concern_path %>

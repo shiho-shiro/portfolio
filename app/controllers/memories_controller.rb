@@ -3,26 +3,22 @@ class MemoriesController < ApplicationController
   before_action :set_current_user
   before_action :set_memory, only: [:show, :edit, :update, :destroy]
   before_action :memory_user, only: [:show_other_index]
+  
   def index
-    @user = current_user
     @memories = @user.memories.order(created_at: :desc)
   end
 
   def show_other_index
-    @user = current_user
   end
 
-  def show
-    @user = current_user
+  def showr
   end
 
   def new
-    @user = current_user
     @memory = Memory.new
   end
 
   def edit
-    @user = current_user
   end
 
   def create
@@ -43,7 +39,6 @@ class MemoriesController < ApplicationController
   end
 
   def destroy
-    @user = current_user
     @memory.destroy
     redirect_to memories_url, notice: 'Memoryを削除しました。'
   end

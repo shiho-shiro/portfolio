@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   end
 
   resources :concerns do
+    collection do
+      get 'search'
+    end
     resources :advices, only:[:create, :destroy]
   end
 

@@ -2,24 +2,21 @@ class ConcernsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_current_user
   before_action :set_concern, only: [:show, :edit, :update, :destroy]
+  before_action :set_q, only: [:index, :search]
 
   def index
-    @user = current_user
     @concerns = Concern.includes(:user)
   end
 
   def show
-    @user = current_user
     @advice = Advice.new
   end
 
   def new
-    @user = current_user
     @concern = Concern.new
   end
 
   def edit
-    @user = current_user
   end
 
   def create
@@ -40,18 +37,25 @@ class ConcernsController < ApplicationController
   end
 
   def destroy
-    @user = current_user
     @concern.destroy
     redirect_to concerns_url, notice: '投稿が削除されました。'
   end
 
+  def search
+    @results = @q.result
+  end
+
   private
 
-    def set_concern
-      @concern = Concern.find(params[:id])
-    end
+  def set_concern
+    @concern = Concern.find(params[:id])
+  end
 
-    def concern_params
-      params.require(:concern).permit(:title, :content, :image, :country).merge(user_id: current_user.id)
-    end
+  def set_q
+    @q = Concern.ransack(params[:q])
+  end
+
+  def concern_params
+    params.require(:concern).permit(:title, :content, :image, :country).merge(user_id: current_user.id)
+  end
 end

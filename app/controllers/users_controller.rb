@@ -3,11 +3,9 @@ class UsersController < ApplicationController
   before_action :other_user, only: [:show_other]
 
   def show
-    @user = current_user
   end
 
   def show_other
-    @user = current_user
   end
 
   private

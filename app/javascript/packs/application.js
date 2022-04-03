@@ -10,7 +10,5 @@ require("@rails/activestorage").start()
 require("channels")
 require("jquery")
 
-
-import 'bootstrap'
-import '../stylesheets/application.scss'
-
+import 'bootstrap';
+import '../stylesheets/application';

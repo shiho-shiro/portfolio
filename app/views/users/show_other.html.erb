@@ -3,10 +3,10 @@
     <tr>
       <% if @other_user.image.blank? %>
         <th>アバター</th>
-        <td><%= image_tag 'no_image.jpeg', class:"icon_image" %></td>
+        <td><%= image_tag 'no_image.jpeg', class:"rounded-circle" %></td>
       <% else %>
         <th>アバター</th>
-        <td><%= image_tag @other_user.image.url, class:"icon_image" %></td>
+        <td><%= image_tag @other_user.image.url, class:"rounded-circle" %></td>
       <% end %>
     </tr>
 
