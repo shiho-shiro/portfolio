@@ -88,11 +88,11 @@ GEM
       ssrf_filter (~> 1.0)
     childprocess (4.1.0)
     concurrent-ruby (1.1.9)
-    countries (4.2.3)
+    countries (5.0.0)
       i18n_data (~> 0.16.0)
       sixarm_ruby_unaccent (~> 1.1)
-    country_select (6.1.1)
-      countries (~> 4.2)
+    country_select (7.0.0)
+      countries (~> 5.0)
       sort_alphabetical (~> 1.1)
     crass (1.0.6)
     devise (4.8.1)
@@ -299,6 +299,7 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   carrierwave
+  countries
   country_select
   devise
   devise-i18n

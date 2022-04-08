@@ -8,7 +8,7 @@
 
 <p>
   <strong>対象国:</strong>
-  <%= @concern.country %>
+  <%= @concern.country_name %>
 </p>
 
 <p>
@@ -23,7 +23,7 @@
 
 <p>
   <% if @concern.image.present? %>
-    <%= image_tag @concern.image.url, class:"memory_image" %>
+    <%= image_tag @concern.image.url, class:"img-fluid img-thumbnail" %>
   <% end %>
 </p>
 

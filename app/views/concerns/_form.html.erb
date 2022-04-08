@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :country %>
-    <%= f.country_select :country %>
+    <%= f.label :country_code %>
+    <%= f.country_select :country_code, format: :with_alpha2 %>
   </div>
 
   <div class="field">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_01_032823) do
+ActiveRecord::Schema.define(version: 2022_04_07_035854) do
 
   create_table "advices", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2022_04_01_032823) do
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "country"
+    t.string "country_code", default: "JP"
   end
 
   create_table "memories", charset: "utf8mb4", force: :cascade do |t|
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2022_04_01_032823) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "username"
     t.string "image"
-    t.string "country"
+    t.string "country_code", default: "JP"
     t.string "job"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
