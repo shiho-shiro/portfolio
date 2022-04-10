@@ -2,9 +2,9 @@
 
 <h2>お悩み検索</h2>
 <%= search_form_for @q, url: search_concerns_path do |f| %>
-  <%= f.text_field :title_cont, placeholder: "何かお探しですか？"%>
-  <%= f.label :country_cont, '国を指定する' %>
-  <%= f.country_select :country_code_cont, { include_blank: true, selected: 1 } %>
+  <%= f.text_field :title_cont, placeholder: "タイトルから探す" %>
+  <h5 class="d-inline-block">OR</h5>
+  <%= f.country_select :country_code_cont, { include_blank: "国を指定する", selected: 1 } %>
   <br>
   <%= f.submit '検索' %>
 <% end %>
