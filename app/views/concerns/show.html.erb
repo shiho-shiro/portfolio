@@ -1,0 +1,68 @@
+<div class="concern_user">
+  <% if @concern.user.image.present? %>
+    <%= link_to image_tag(@concern.user.image.url, class:"rounded-circle"), show_other_user_path(@concern.user) %>
+  <% end %>
+  <%= @concern.user.username %><br>
+  <%= @concern.created_at.to_s(:datetime_jp) %>
+</div>
+
+<p>
+  <strong>対象国:</strong>
+  <%= @concern.country_name %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @concern.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @concern.content %>
+</p>
+
+<p>
+  <% if @concern.image.present? %>
+    <%= image_tag @concern.image.url, class:"img-fluid img-thumbnail" %>
+  <% end %>
+</p>
+
+<h4>コメント一覧</h4>
+<% if @concern.advices %>
+  <% @concern.advices.each do |advice| %>
+    <%= advice.user.username %>
+    <%= advice.advice %>
+    <% if advice.user == current_user %>
+      <%= button_to "削除", concern_advice_path(@concern, advice), method: :delete, class:"btn_to" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= form_with(model:[@concern, @advice], local: true) do |f| %>
+  <% if @advice.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@advice.errors.count, "error") %> prohibited this concern from being saved:</h2>
+      <ul>
+        <% @advice.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.text_area :advice, placeholder: "アドバイスを記入" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "アドバイスを送る" %>
+  </div>
+<% end %>
+
+<% if @user == @concern.user %>
+  <%= link_to 'Edit', edit_concern_path(@concern) %> |
+  <%= link_to 'Back', concerns_path %>
+  <%= button_to 'Destroy', concern_path, method: :delete, class:"btn_to" %>
+<% else %>
+  <%= link_to 'Back', concerns_path %>
+<% end %>

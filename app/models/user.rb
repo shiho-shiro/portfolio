@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates :username, presence: true
 
   has_many :memories, dependent: :destroy
+  has_many :concerns, dependent: :destroy
+  has_many :advices, dependent: :destroy
 
   def update_without_current_password(params, *options)
     params.delete(:current_password)
@@ -20,5 +22,11 @@ class User < ApplicationRecord
     clean_up_passwords
     result
   end
+
+  def country_name
+    country = ISO3166::Country[country_code]
+    country.translations[I18n.locale.to_s] || country.name
+  end
+
   mount_uploader :image, ImageUploader
 end

@@ -1,0 +1,44 @@
+<div class="user_box">
+  <table class="user_detail">
+    <tr>
+      <% if @other_user.image.blank? %>
+        <th>アバター</th>
+        <td><%= image_tag 'no_image.jpeg', class:"rounded-circle" %></td>
+      <% else %>
+        <th>アバター</th>
+        <td><%= image_tag @other_user.image.url, class:"rounded-circle" %></td>
+      <% end %>
+    </tr>
+
+    <tr>
+      <th>ユーザー名</th>
+      <td><%= @other_user.username %></td>
+    </tr>
+
+    <tr>
+      <th>国<p>行ったことがある/行きたい</p></th>
+      <td><%= @other_user.country_name %></td>
+    </tr>
+
+    <tr>
+      <th>仕事<p>現地でやた事がある/やってみたい</p></th>
+      <td><%= @other_user.job %></td>
+    </tr>
+
+    <tr>
+      <th>メールアドレス</th>
+      <td><%= @other_user.email %></td>
+    </tr>
+
+    <tr>
+      <th>パスワード</th>
+      <td>*********</td>
+    </tr>
+  </table>
+
+<% if @other_user != @user %>
+  <%= link_to "memory", show_other_index_memory_path(@other_user.id), class:"menu" %>
+  <%= link_to "Concern一覧に戻る", concerns_path, class:"menu" %>
+  <%= link_to "Back", concern_path(@other_user.concerns.ids) %>
+<% end %>
+</div>

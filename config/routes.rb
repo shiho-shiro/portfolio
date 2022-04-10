@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   root 'home#top'
-  devise_for :users, controllers: { registrations: 'registrations' },
+  devise_for :users,
     :controllers => {
       :registrations => 'users/registrations',
       :sessions => 'users/sessions'
@@ -12,6 +12,22 @@ Rails.application.routes.draw do
     get "sign_out", :to => "users/sessions#destroy"
   end
 
-  resources :memories
-  resources :users, only: [:show]
+  resources :concerns do
+    collection do
+      get 'search'
+    end
+    resources :advices, only:[:create, :destroy]
+  end
+
+  resources :memories do
+    member do
+      get 'show_other_index'
+    end
+  end
+
+  resources :users, only:[:show] do
+    member do
+      get 'show_other'
+    end
+  end
 end

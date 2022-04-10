@@ -1,0 +1,23 @@
+<h1>Concerns</h1>
+
+<h2>お悩み検索</h2>
+<%= search_form_for @q, url: search_concerns_path do |f| %>
+  <%= f.text_field :title_cont, placeholder: "タイトルから探す" %>
+  <h5 class="d-inline-block">OR</h5>
+  <%= f.country_select :country_code_cont, { include_blank: "国を指定する", selected: 1 } %>
+  <br>
+  <%= f.submit '検索' %>
+<% end %>
+
+<% @concerns.each do |concern| %>
+  <div class="concern_content">
+    <%= concern.user.username %>
+    <%= concern.created_at.to_s(:datetime_jp) %></br>
+    <%= link_to(concern_path(concern.id), {class:"menu tr_size"}) do %>
+      <%= concern.title %>
+    <% end %>
+  </div>
+<% end %>
+<br>
+
+<%= link_to 'New Concern', new_concern_path %>

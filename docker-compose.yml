@@ -9,6 +9,7 @@ services:
             - "3306:3306"
         volumes:
             - ./db/mysql/volumes:/var/lib/mysql
+            - ./my.cnf:/etc/mysql/conf.d/my.cnf
 
     web:
         build: .

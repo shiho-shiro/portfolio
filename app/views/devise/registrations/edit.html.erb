@@ -18,8 +18,8 @@
   </div>
 
   <div class="field">
-    <%= f.label :country,"行ったことのある/行ってみたい" %><br />
-    <%= f.text_field :country, autofocus: true, placeholder: "Country name" %>
+    <%= f.label :country_code,"行ったことのある/行ってみたい" %><br />
+    <%= f.country_select :country_code, autofocus: true, placeholder: "Country name", format: :with_alpha2 %>
   </div>
 
   <div class="field">
@@ -54,4 +54,4 @@
 
 <p><%= t('.unhappy') %> <%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %></p>
 
-<%= link_to t('devise.shared.links.back'), :back , class:"menu"%>
+<%= link_to t('devise.shared.links.back'), :back %>

@@ -15,10 +15,14 @@
 
 <p>
   <% if @memory.image.present? %>
-    <%= image_tag @memory.image.url, class:"memory_image"  %>
+    <%= image_tag @memory.image.url, class:"img-fluid img-thumbnail" %>
   <% end %>
 </p>
 
-<%= link_to 'Edit', edit_memory_path(@memory) %>
-<%= link_to 'Back', memories_path %>
-<%= link_to 'Destroy', @memory, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% if @user == @memory.user %>
+  <%= link_to 'Edit', edit_memory_path(@memory) %>
+  <%= link_to 'Back', memories_path %>
+  <%= button_to 'Destroy', memory_path, method: :delete, class:"btn_to" %>
+<% else %>
+  <%= link_to 'Back', show_other_index_memory_path(@memory.user.id) %>
+<% end %>

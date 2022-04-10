@@ -1,0 +1,16 @@
+<h1>Memories</h1>
+<% @memories.each do |memory| %>
+  <div class="memory_content">
+    <%= link_to(memory_path(memory.id), {class:"menu tr_size"}) do %>
+      <%= memory.date %>
+      <%= memory.title %>
+    <% end %>
+  </div>
+<% end %>
+
+<br>
+
+<% if @other_user != @user %>
+	<%= link_to 'Back', show_other_user_path(@other_user.id), class:"menu" %>
+	<%= link_to "Concern一覧に戻る", concerns_path, class:"menu" %>
+<% end %>
