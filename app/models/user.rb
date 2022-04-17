@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :memories, dependent: :destroy
   has_many :concerns, dependent: :destroy
   has_many :advices, dependent: :destroy
+  has_many :recommend, dependent: :destroy
 
   def update_without_current_password(params, *options)
     params.delete(:current_password)

@@ -25,6 +25,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :recommends do
+    collection do
+      get 'search'
+    end
+  end
+
   resources :users, only:[:show] do
     member do
       get 'show_other'

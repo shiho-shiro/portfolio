@@ -1,0 +1,37 @@
+<div class="recommend_user">
+  <% if @recommend.user.image.present? %>
+    <%= link_to image_tag(@recommend.user.image.url, class:"rounded-circle"), show_other_user_path(@recommend.user) %>
+  <% end %>
+  <%= @recommend.user.username %><br>
+  <%= @recommend.created_at.to_s(:datetime_jp) %>
+</div>
+
+<p>
+  <strong>対象国:</strong>
+  <%= @recommend.country_name %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @recommend.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @recommend.content %>
+</p>
+
+<p>
+  <% if @recommend.image.present? %>
+    <%= image_tag @recommend.image.url, class:"img-fluid img-thumbnail" %>
+  <% end %>
+</p>
+
+
+<% if @user == @recommend.user %>
+  <%= link_to 'Edit', edit_recommend_path(@recommend) %> |
+  <%= link_to 'Back', recommends_path %>
+  <%= link_to 'Destroy', recommend_path, method: :delete, class:"btn_to" %>
+<% else %>
+  <%= link_to 'Back', recommneds_path %>
+<% end %>

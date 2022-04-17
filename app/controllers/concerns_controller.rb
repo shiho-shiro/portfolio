@@ -42,12 +42,10 @@ class ConcernsController < ApplicationController
   end
 
   def search
-    @results = @q.result
+    @results = @q.result.includes(:user)
   end
 
   private
-
-
   def set_concern
     @concern = Concern.find(params[:id])
   end

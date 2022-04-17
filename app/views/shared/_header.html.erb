@@ -12,6 +12,7 @@
         <%= link_to "Home", root_path, class:"menu menu_list" %>
         <%= link_to "Memory", memories_path, class:"menu menu_list" %>
         <%= link_to "Concern", concerns_path, class:"menu menu_list" %>
+        <%= link_to "Recommend", recommends_path, class:"menu menu_list" %>
         <%= link_to "プロフィール", user_path(current_user), class:"menu menu_list" %>
         <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"menu menu_list btn_to" %>
       <% else %>

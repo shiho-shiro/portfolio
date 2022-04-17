@@ -1,0 +1,23 @@
+<h1>Recommend</h1>
+
+<h2>オススメ検索</h2>
+<%= search_form_for @q, url: search_recommends_path do |f| %>
+  <%= f.text_field :title_cont, placeholder: "タイトルから探す" %>
+  <h5 class="d-inline-block">OR</h5>
+  <%= f.country_select :country_code_cont, { include_blank: "国を指定する", selected: 1 } %>
+  <br>
+  <%= f.submit '検索' %>
+<% end %>
+
+<% @recommends.each do |recommend| %>
+  <div class="concern_content">
+    <%= recommend.user.username %>
+    <%= recommend.created_at.to_s(:datetime_jp) %></br>
+    <%= link_to(recommend_path(recommend.id), {class:"menu tr_size"}) do %>
+      <%= recommend.title %>
+    <% end %>
+  </div>
+<% end %>
+<br>
+
+<%= link_to 'New Recommend', new_recommend_path %>

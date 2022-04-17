@@ -1,0 +1,54 @@
+<%= form_with(model: @recommend) do |f| %>
+  <% if recommend.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(recommend.errors.count, "error") %> prohibited this recommend from being saved:</h2>
+
+      <ul>
+        <% recommend.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :country_code %>
+    <%= f.country_select :country_code, format: :with_alpha2 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :content %>
+    <%= f.text_field :content %>
+  </div>
+
+  <div class="field">
+    <%= f.label :image %>
+    <%= f.file_field :image %>
+  </div>
+
+  <div class="field">
+    <%= f.label :address %>
+    <%= f.text_field :address %>
+  </div>
+
+  <div class="field">
+    <%= f.label :latitude %>
+    <%= f.text_field :latitude %>
+  </div>
+
+  <div class="field">
+    <%= f.label :longitude %>
+    <%= f.text_field :longitude %>
+  </div>
+
+   <%= f.hidden_field :user_id %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
