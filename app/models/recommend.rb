@@ -3,6 +3,7 @@ class Recommend < ApplicationRecord
     validates :title
     validates :content
     validates :country_code
+    validates :address
   end
 
   def country_name
@@ -12,4 +13,6 @@ class Recommend < ApplicationRecord
 
   belongs_to :user
   mount_uploader :image, ImageUploader
+  geocoded_by :address
+  after_validation :geocode, if: :address_changed?
 end

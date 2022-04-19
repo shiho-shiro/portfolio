@@ -12,38 +12,23 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :country_code %>
-    <%= f.country_select :country_code, format: :with_alpha2 %>
+    <%= f.country_select :country_code, { include_blank: "オススメしたい国を指定", selected: 1 }, format: :with_alpha2 %>
   </div>
 
   <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
+    <%= f.text_field :title , placeholder: "例：「一番人気のカフェ！」...など", :size => "30" %>
   </div>
 
   <div class="field">
-    <%= f.label :content %>
-    <%= f.text_field :content %>
+    <%= f.text_area :content, placeholder: "例：「朝食にピッタリのサンドウッチが楽しめるカフェです！」...など", size: "60x4" %>
   </div>
 
   <div class="field">
-    <%= f.label :image %>
     <%= f.file_field :image %>
   </div>
 
   <div class="field">
-    <%= f.label :address %>
-    <%= f.text_field :address %>
-  </div>
-
-  <div class="field">
-    <%= f.label :latitude %>
-    <%= f.text_field :latitude %>
-  </div>
-
-  <div class="field">
-    <%= f.label :longitude %>
-    <%= f.text_field :longitude %>
+    <%= f.text_field :address, placeholder: "住所を教えてね！" %>
   </div>
 
    <%= f.hidden_field :user_id %>

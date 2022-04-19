@@ -7,17 +7,14 @@
 </div>
 
 <p>
-  <strong>対象国:</strong>
   <%= @recommend.country_name %>
 </p>
 
 <p>
-  <strong>Title:</strong>
   <%= @recommend.title %>
 </p>
 
 <p>
-  <strong>Content:</strong>
   <%= @recommend.content %>
 </p>
 
@@ -27,6 +24,35 @@
   <% end %>
 </p>
 
+<script type="text/javascript">
+  function initMap() {
+    var test = {lat: <%= @recommend.latitude %>, lng: <%= @recommend.longitude %>};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 15,
+      center: test
+    });
+    var transitLayer = new google.maps.TransitLayer();
+    transitLayer.setMap(map);
+    var contentString = '住所：<%= @recommend.address %>';
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+      position:test,
+      map: map,
+      title: contentString
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap">
+</script>
+
+<div id="map"></div>
 
 <% if @user == @recommend.user %>
   <%= link_to 'Edit', edit_recommend_path(@recommend) %> |
