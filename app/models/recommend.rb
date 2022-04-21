@@ -1,4 +1,10 @@
 class Recommend < ApplicationRecord
+  belongs_to :user
+  has_many :likes, dependent: :destroy
+
+  mount_uploader :image, ImageUploader
+  geocoded_by :address
+  after_validation :geocode, if: :address_changed?
   with_options presence: true do
     validates :title
     validates :content
@@ -10,9 +16,4 @@ class Recommend < ApplicationRecord
     country = ISO3166::Country[country_code]
     country.translations[I18n.locale.to_s] || country.name
   end
-
-  belongs_to :user
-  mount_uploader :image, ImageUploader
-  geocoded_by :address
-  after_validation :geocode, if: :address_changed?
 end

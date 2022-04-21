@@ -2,7 +2,14 @@
   <% if @recommend.user.image.present? %>
     <%= link_to image_tag(@recommend.user.image.url, class:"rounded-circle"), show_other_user_path(@recommend.user) %>
   <% end %>
-  <%= @recommend.user.username %><br>
+  <%= @recommend.user.username %>
+  <% if current_user.already_likes?(@recommend) %>
+    <%= link_to "ちゅき♡を外す", recommend_like_path(@recommend), method: :delete %>
+  <% else %>
+    <%= link_to "ちゅき♡", recommend_likes_path(@recommend), method: :post %>
+  <% end %>
+  <%= @recommend.likes.count %>
+  <br>
   <%= @recommend.created_at.to_s(:datetime_jp) %>
 </div>
 
@@ -59,5 +66,5 @@
   <%= link_to 'Back', recommends_path %>
   <%= link_to 'Destroy', recommend_path, method: :delete, class:"btn_to" %>
 <% else %>
-  <%= link_to 'Back', recommneds_path %>
+  <%= link_to 'Back', recommends_path %>
 <% end %>

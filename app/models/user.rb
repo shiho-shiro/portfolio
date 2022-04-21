@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :concerns, dependent: :destroy
   has_many :advices, dependent: :destroy
   has_many :recommend, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   def update_without_current_password(params, *options)
     params.delete(:current_password)
@@ -27,6 +28,10 @@ class User < ApplicationRecord
   def country_name
     country = ISO3166::Country[country_code]
     country.translations[I18n.locale.to_s] || country.name
+  end
+
+  def already_likes?(recommend)
+    self.likes.exists?(recommend_id: recommend.id)
   end
 
   mount_uploader :image, ImageUploader
