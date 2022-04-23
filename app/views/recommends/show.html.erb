@@ -4,10 +4,15 @@
   <% end %>
   <%= @recommend.user.username %>
   <% if current_user.already_likes?(@recommend) %>
-    <%= link_to "ちゅき♡を外す", recommend_like_path(@recommend), method: :delete %>
+    <%= link_to recommend_likes_path(@recommend), method: :delete do %>
+      <i class="fa-solid fa-heart"></i>
+    <% end %>
   <% else %>
-    <%= link_to "ちゅき♡", recommend_likes_path(@recommend), method: :post %>
+    <%= link_to recommend_likes_path(@recommend), method: :post do %>
+      <i class="fa-regular fa-heart"></i>
+    <% end %>
   <% end %>
+
   <%= @recommend.likes.count %>
   <br>
   <%= @recommend.created_at.to_s(:datetime_jp) %>

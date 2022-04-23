@@ -14,7 +14,9 @@
     <%= recommend.user.username %>
     <%= recommend.created_at.to_s(:datetime_jp) %></br>
     <%= link_to(recommend_path(recommend.id), {class:"menu tr_size"}) do %>
-      <%= recommend.title %> ♡ <%= recommend.likes.count %>
+      <%= recommend.title %>
+      <i class="fas fa-heart"></i>
+      <%= recommend.likes.count %>
     <% end %>
   </div>
 <% end %>
