@@ -1,6 +1,8 @@
 <div class="recommend_user">
   <% if @recommend.user.image.present? %>
     <%= link_to image_tag(@recommend.user.image.url, class:"rounded-circle"), show_other_user_path(@recommend.user) %>
+      <% else %>
+    <%= link_to image_tag('no_image.jpeg', class:"rounded-circle"), show_other_user_path(@recommend.user) %>
   <% end %>
   <%= @recommend.user.username %>
   <% if @recommend.user != current_user %>

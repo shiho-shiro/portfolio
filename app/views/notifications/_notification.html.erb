@@ -1,6 +1,10 @@
 <% visiter = notification.visiter %>
 <div class="notification-view">
+  <% if visiter.image.present? %>
     <%= image_tag(visiter.image.url, class:"rounded-circle") %>
+  <% else %>
+    <%= image_tag 'no_image.jpeg', class:"rounded-circle" %>
+  <% end %>
   <%= notification_form(notification) %><span class="moderate-font"><%= "(#{time_ago_in_words(notification.created_at)} 前)" %></span>
   <br>
   <% if !@advice.nil? %>

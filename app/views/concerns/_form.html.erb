@@ -1,7 +1,7 @@
 <%= form_with(model: @concern, local: true) do |f| %>
   <% if @concern.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@concern.errors.count, "error") %> prohibited this concern from being saved:</h2>
+      <h2><%= pluralize(@concern.errors.count, "件") %>入力ミスがあります。</h2>
 
       <ul>
         <% @concern.errors.each do |error| %>

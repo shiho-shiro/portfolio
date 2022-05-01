@@ -1,6 +1,8 @@
 <div class="concern_user">
   <% if @concern.user.image.present? %>
     <%= link_to image_tag(@concern.user.image.url, class:"rounded-circle"), show_other_user_path(@concern.user) %>
+  <% else %>
+    <%= link_to image_tag('no_image.jpeg', class:"rounded-circle"), show_other_user_path(@concern.user) %>
   <% end %>
   <%= @concern.user.username %><br>
   <%= @concern.created_at.to_s(:datetime_jp) %>
@@ -30,7 +32,11 @@
 <h4>コメント一覧</h4>
 <% if @concern.advices %>
   <% @concern.advices.each do |advice| %>
-    <%= image_tag(advice.user.image.url, class:"rounded-circle small-account")  %>
+    <% if advice.user.image.present? %>
+      <%= image_tag(advice.user.image.url, class:"rounded-circle small-account") %>
+    <% else %>
+      <%= image_tag('no_image.jpeg', class:"rounded-circle small-account") %>
+    <% end %>
     <%= advice.user.username %>
     <%= advice.advice %></br>
     <% if advice.user == current_user %>
