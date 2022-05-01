@@ -6,6 +6,7 @@ class AdvicesController < ApplicationController
     @concern = Concern.find(params[:concern_id])
     @advice = current_user.advices.new(advice_params)
     if @advice.save
+      @concern.create_notification_advice!(current_user, @advice.id)
       redirect_to concern_path(@concern)
     else
       render 'concerns/show'

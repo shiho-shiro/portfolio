@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :advices, dependent: :destroy
   has_many :recommend, dependent: :destroy
   has_many :likes, dependent: :destroy
+  has_many :active_notifications, class_name: "Notification", foreign_key: "visiter_id", dependent: :destroy
+  has_many :passive_notifications, class_name: "Notification", foreign_key: "visited_id", dependent: :destroy
 
   def update_without_current_password(params, *options)
     params.delete(:current_password)

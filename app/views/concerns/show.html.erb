@@ -30,8 +30,9 @@
 <h4>コメント一覧</h4>
 <% if @concern.advices %>
   <% @concern.advices.each do |advice| %>
+    <%= image_tag(advice.user.image.url, class:"rounded-circle small-account")  %>
     <%= advice.user.username %>
-    <%= advice.advice %>
+    <%= advice.advice %></br>
     <% if advice.user == current_user %>
       <%= button_to "削除", concern_advice_path(@concern, advice), method: :delete, class:"btn_to" %>
     <% end %>

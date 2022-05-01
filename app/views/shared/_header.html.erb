@@ -13,6 +13,10 @@
         <%= link_to "Memory", memories_path, class:"menu menu_list" %>
         <%= link_to "Concern", concerns_path, class:"menu menu_list" %>
         <%= link_to "Recommend", recommends_path, class:"menu menu_list" %>
+        <% if unchecked_notifications.any? %>
+          <i class="fa fa-circle" style="color: gold;"></i>
+        <% end %>
+          <%= link_to "お知らせ", notifications_path, class: "btn-default" %>
         <%= link_to "プロフィール", user_path(current_user), class:"menu menu_list" %>
         <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"menu menu_list btn_to" %>
       <% else %>

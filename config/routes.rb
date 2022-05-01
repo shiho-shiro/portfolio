@@ -37,4 +37,6 @@ Rails.application.routes.draw do
       get 'show_other'
     end
   end
+
+  resources :notifications, only: [:index, :destroy]
 end
