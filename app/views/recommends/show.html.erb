@@ -73,9 +73,9 @@
 <div id="map"></div>
 
 <% if @user == @recommend.user %>
-  <%= link_to 'Edit', edit_recommend_path(@recommend) %> |
-  <%= link_to 'Back', recommends_path %>
-  <%= link_to 'Destroy', recommend_path, method: :delete, class:"btn_to" %>
+  <%= link_to 'Edit', edit_recommend_path(@recommend), class: "btn btn-outline-primary btn-sm" %> |
+  <%= link_to 'Back', recommends_path, class: "btn btn-outline-primary btn-sm" %>
+  <%= link_to 'Destroy', recommend_path, method: :delete, class: "btn btn-outline-danger btn-sm" %>
 <% else %>
-  <%= link_to 'Back', recommends_path %>
+  <%= link_to 'Back', recommends_path, class: "btn btn-outline-primary btn-sm" %>
 <% end %>

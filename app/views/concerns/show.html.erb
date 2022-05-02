@@ -40,7 +40,7 @@
     <%= advice.user.username %>
     <%= advice.advice %></br>
     <% if advice.user == current_user %>
-      <%= button_to "削除", concern_advice_path(@concern, advice), method: :delete, class:"btn_to" %>
+      <%= button_to "削除", concern_advice_path(@concern, advice), method: :delete, class: "btn btn-outline-danger btn-sm" %>
     <% end %>
   <% end %>
 <% end %>
@@ -48,7 +48,7 @@
 <%= form_with(model:[@concern, @advice], local: true) do |f| %>
   <% if @advice.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@advice.errors.count, "error") %> prohibited this concern from being saved:</h2>
+      <h2><%= pluralize(@advice.errors.count, "件") %>入力ミスがあります。</h2>
       <ul>
         <% @advice.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -62,14 +62,14 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "アドバイスを送る" %>
+    <%= f.submit "アドバイスを送る", class: "btn btn-outline-primary btn-sm" %>
   </div>
 <% end %>
 
 <% if @user == @concern.user %>
-  <%= link_to 'Edit', edit_concern_path(@concern) %> |
-  <%= link_to 'Back', concerns_path %>
-  <%= button_to 'Destroy', concern_path, method: :delete, class:"btn_to" %>
+  <%= link_to 'Edit', edit_concern_path(@concern), class: "btn btn-outline-primary btn-sm" %> |
+  <%= link_to 'Back', concerns_path, class: "btn btn-outline-primary btn-sm" %>
+  <%= button_to 'Destroy', concern_path, method: :delete, class: "btn btn-outline-danger btn-sm" %>
 <% else %>
-  <%= link_to 'Back', concerns_path %>
+  <%= link_to 'Back', concerns_path, class: "btn btn-outline-primary btn-sm" %>
 <% end %>

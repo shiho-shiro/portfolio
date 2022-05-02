@@ -20,9 +20,9 @@
 </p>
 
 <% if @user == @memory.user %>
-  <%= link_to 'Edit', edit_memory_path(@memory) %>
-  <%= link_to 'Back', memories_path %>
-  <%= button_to 'Destroy', memory_path, method: :delete, class:"btn_to" %>
+  <%= link_to 'Edit', edit_memory_path(@memory), class: "btn btn-outline-primary btn-sm" %>
+  <%= link_to 'Back', memories_path, class: "btn btn-outline-primary btn-sm" %>
+  <%= button_to 'Destroy', memory_path, method: :delete, class: "btn btn-outline-danger btn-sm" %>
 <% else %>
-  <%= link_to 'Back', show_other_index_memory_path(@memory.user.id) %>
+  <%= link_to 'Back', show_other_index_memory_path(@memory.user.id), class: "btn btn-outline-primary btn-sm" %>
 <% end %>

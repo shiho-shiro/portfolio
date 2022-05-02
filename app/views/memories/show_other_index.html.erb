@@ -11,6 +11,6 @@
 <br>
 
 <% if @other_user != @user %>
-	<%= link_to 'Back', show_other_user_path(@other_user.id), class:"menu" %>
-	<%= link_to "Concern一覧に戻る", concerns_path, class:"menu" %>
+	<%= link_to 'Back', show_other_user_path(@other_user.id), class: "btn btn-outline-primary btn-sm" %>
+	<%= link_to "Concern一覧に戻る", concerns_path, class: "btn btn-outline-primary btn-sm" %>
 <% end %>

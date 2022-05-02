@@ -6,7 +6,7 @@
   <h5 class="d-inline-block">OR</h5>
   <%= f.country_select :country_code_cont, { include_blank: "国を指定する", selected: 1 } %>
   <br>
-  <%= f.submit '検索' %>
+  <%= f.submit '検索', class: "btn btn-outline-primary btn-sm"  %>
 <% end %>
 
 <% @recommends.each do |recommend| %>
@@ -22,4 +22,4 @@
 <% end %>
 <br>
 
-<%= link_to 'New Recommend', new_recommend_path %>
+<%= link_to 'New Recommend', new_recommend_path, class: "btn btn-outline-primary btn-sm"  %>

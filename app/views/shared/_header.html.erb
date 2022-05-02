@@ -9,16 +9,16 @@
             <%= link_to image_tag('no_image.jpeg', class:"rounded-circle"), user_path(current_user) %>
           <% end %>
         <% end %>
-        <%= link_to "Home", root_path, class:"menu menu_list" %>
-        <%= link_to "Memory", memories_path, class:"menu menu_list" %>
-        <%= link_to "Concern", concerns_path, class:"menu menu_list" %>
-        <%= link_to "Recommend", recommends_path, class:"menu menu_list" %>
+        <%= link_to "Home", root_path, class: "btn btn-outline-primary btn-sm" %>
+        <%= link_to "Memory", memories_path, class: "btn btn-outline-primary btn-sm" %>
+        <%= link_to "Concern", concerns_path, class: "btn btn-outline-primary btn-sm" %>
+        <%= link_to "Recommend", recommends_path, class: "btn btn-outline-primary btn-sm" %>
         <% if unchecked_notifications.any? %>
           <i class="fa fa-circle" style="color: gold;"></i>
         <% end %>
-          <%= link_to "お知らせ", notifications_path, class: "btn-default" %>
-        <%= link_to "プロフィール", user_path(current_user), class:"menu menu_list" %>
-        <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"menu menu_list btn_to" %>
+          <%= link_to "お知らせ", notifications_path, class: "btn btn-outline-primary btn-sm" %>
+        <%= link_to "プロフィール", user_path(current_user), class: "btn btn-outline-primary btn-sm" %>
+        <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger btn-sm" %>
       <% else %>
         <%= link_to "ログイン", new_user_session_path, class:"menu menu_list" %>
         <%= link_to "新規登録", new_user_registration_path, class:"menu menu_list" %>
