@@ -5,11 +5,12 @@ class ConcernsController < ApplicationController
   before_action :set_q, only: [:index, :search]
 
   def index
-    @concerns = Concern.includes(:user)
+    @concerns = Concern.includes(:user).page(params[:page]).per(5)
   end
 
   def show
     @advice = Advice.new
+    @advices = @concern.advices.page(params[:page]).per(5)
   end
 
   def new
@@ -42,7 +43,7 @@ class ConcernsController < ApplicationController
   end
 
   def search
-    @results = @q.result.includes(:user)
+    @results = @q.result.includes(:user).page(params[:page]).per(5)
   end
 
   private

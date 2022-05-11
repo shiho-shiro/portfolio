@@ -15,7 +15,7 @@ class Concern < ApplicationRecord
   end
 
   def create_notification_advice!(current_user, advice_id)
-    temp_ids = Advice.select(:user_id).where(concern_id: id).where.not(user_id: current_user.id).distinct
+    temp_ids = Advice.select(:user_id).where(concern_id: id).where.not("user_id = ? or user_id = ?", current_user.id, user_id).distinct
     temp_ids.each do |temp_id|
       save_notification_advice!(current_user, advice_id, temp_id['user_id'])
     end

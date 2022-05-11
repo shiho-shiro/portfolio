@@ -3,9 +3,9 @@ class MemoriesController < ApplicationController
   before_action :set_current_user
   before_action :set_memory, only: [:show, :edit, :update, :destroy]
   before_action :memory_user, only: [:show_other_index]
-  
+
   def index
-    @memories = @user.memories.order(created_at: :desc)
+    @memories = @user.memories.order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def show_other_index

@@ -29,22 +29,6 @@
   <% end %>
 </p>
 
-<h4>コメント一覧</h4>
-<% if @concern.advices %>
-  <% @concern.advices.each do |advice| %>
-    <% if advice.user.image.present? %>
-      <%= image_tag(advice.user.image.url, class:"rounded-circle small-account") %>
-    <% else %>
-      <%= image_tag('no_image.jpeg', class:"rounded-circle small-account") %>
-    <% end %>
-    <%= advice.user.username %>
-    <%= advice.advice %></br>
-    <% if advice.user == current_user %>
-      <%= button_to "削除", concern_advice_path(@concern, advice), method: :delete, class: "btn btn-outline-danger btn-sm" %>
-    <% end %>
-  <% end %>
-<% end %>
-
 <%= form_with(model:[@concern, @advice], local: true) do |f| %>
   <% if @advice.errors.any? %>
     <div id="error_explanation">
@@ -65,6 +49,24 @@
     <%= f.submit "アドバイスを送る", class: "btn btn-outline-primary btn-sm" %>
   </div>
 <% end %>
+
+<h4>コメント一覧</h4>
+<% if @concern.advices %>
+  <% @advices.each do |advice| %>
+    <% if advice.user.image.present? %>
+      <%= image_tag(advice.user.image.url, class:"rounded-circle small-account") %>
+    <% else %>
+      <%= image_tag('no_image.jpeg', class:"rounded-circle small-account") %>
+    <% end %>
+    <%= advice.user.username %>
+    <%= advice.advice %></br>
+    <% if advice.user == current_user %>
+      <%= button_to "削除", concern_advice_path(@concern, advice), method: :delete, class: "btn btn-outline-danger btn-sm" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= paginate @advices %>
 
 <% if @user == @concern.user %>
   <%= link_to 'Edit', edit_concern_path(@concern), class: "btn btn-outline-primary btn-sm" %> |

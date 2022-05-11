@@ -1,7 +1,31 @@
 <header>
   <div class="header">
-    <div class="header_menu">
+    <div class="text-right">
       <% if user_signed_in?  %>
+        <%= link_to "Home", root_path, class: "btn btn-outline-primary btn-sm" %>
+        <%= link_to memories_path, class: "btn btn-outline-primary btn-sm" do %>
+          <i class="fa-solid fa-book-open-reader"></i>
+        <% end %>
+
+        <%= link_to concerns_path, class: "btn btn-outline-primary btn-sm" do %>
+          <i class="fa-solid fa-person-circle-question"></i>
+        <% end %>
+
+        <%= link_to recommends_path, class: "btn btn-outline-primary btn-sm" do %>
+          <i class="fa-regular fa-heart"></i>
+        <% end %>
+
+        <% if unchecked_notifications.any? %>
+          <%= link_to notifications_path, class: "btn btn-outline-primary btn-sm" do %>
+          <i class="fa fa-circle" style="color: gold;"></i>
+          <i class="fa-regular fa-bell"></i>
+          <% end %>
+        <% else %>
+          <%= link_to notifications_path, class: "btn btn-outline-primary btn-sm" do %>
+            <i class="fa-regular fa-bell"></i>
+          <% end %>
+        <% end %>
+
         <% if @user == current_user %>
           <% if @user.image.present? %>
             <%= link_to image_tag(@user.image.url, class:"rounded-circle"), user_path(current_user) %>
@@ -9,20 +33,21 @@
             <%= link_to image_tag('no_image.jpeg', class:"rounded-circle"), user_path(current_user) %>
           <% end %>
         <% end %>
-        <%= link_to "Home", root_path, class: "btn btn-outline-primary btn-sm" %>
-        <%= link_to "Memory", memories_path, class: "btn btn-outline-primary btn-sm" %>
-        <%= link_to "Concern", concerns_path, class: "btn btn-outline-primary btn-sm" %>
-        <%= link_to "Recommend", recommends_path, class: "btn btn-outline-primary btn-sm" %>
-        <% if unchecked_notifications.any? %>
-          <i class="fa fa-circle" style="color: gold;"></i>
+
+        <%= link_to destroy_user_session_path, method: :delete, class: "btn btn-outline-danger btn-sm" do %>
+          <i class="fa-solid fa-right-from-bracket"></i>
         <% end %>
-          <%= link_to "お知らせ", notifications_path, class: "btn btn-outline-primary btn-sm" %>
-        <%= link_to "プロフィール", user_path(current_user), class: "btn btn-outline-primary btn-sm" %>
-        <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger btn-sm" %>
+
       <% else %>
-        <%= link_to "ログイン", new_user_session_path, class:"menu menu_list" %>
-        <%= link_to "新規登録", new_user_registration_path, class:"menu menu_list" %>
+        <%= link_to new_user_session_path, class: "btn btn-outline-primary btn-sm" do %>
+          <i class="fa-solid fa-right-to-bracket"></i>
+        <% end %>
+
+        <%= link_to new_user_registration_path, class: "btn btn-outline-primary btn-sm" do %>
+          <i class="fa-solid fa-user-plus"></i>
+        <% end %>
       <% end %>
+
     </div>
     <div id="notice">
       <%= flash[:notice] %>
