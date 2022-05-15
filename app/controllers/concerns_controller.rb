@@ -5,7 +5,7 @@ class ConcernsController < ApplicationController
   before_action :set_q, only: [:index, :search]
 
   def index
-    @concerns = Concern.includes(:user).page(params[:page]).per(5)
+    @concerns = Concern.includes(:user).order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def show

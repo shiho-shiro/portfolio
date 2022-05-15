@@ -1,56 +1,56 @@
-<header>
-  <div class="header">
-    <div class="text-right">
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+  <%= link_to "Home", root_path, class: "navbar-brand"%>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#responsiveMenu" aria-controls="responsiveMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse justify-content-end" id="responsiveMenu">
+    <ul class="navbar-nav">
       <% if user_signed_in?  %>
-        <%= link_to "Home", root_path, class: "btn btn-outline-primary btn-sm" %>
-        <%= link_to memories_path, class: "btn btn-outline-primary btn-sm" do %>
-          <i class="fa-solid fa-book-open-reader"></i>
-        <% end %>
-
-        <%= link_to concerns_path, class: "btn btn-outline-primary btn-sm" do %>
-          <i class="fa-solid fa-person-circle-question"></i>
-        <% end %>
-
-        <%= link_to recommends_path, class: "btn btn-outline-primary btn-sm" do %>
-          <i class="fa-regular fa-heart"></i>
-        <% end %>
-
-        <% if unchecked_notifications.any? %>
-          <%= link_to notifications_path, class: "btn btn-outline-primary btn-sm" do %>
-          <i class="fa fa-circle" style="color: gold;"></i>
-          <i class="fa-regular fa-bell"></i>
-          <% end %>
-        <% else %>
-          <%= link_to notifications_path, class: "btn btn-outline-primary btn-sm" do %>
-            <i class="fa-regular fa-bell"></i>
-          <% end %>
-        <% end %>
-
-        <% if @user == current_user %>
-          <% if @user.image.present? %>
-            <%= link_to image_tag(@user.image.url, class:"rounded-circle"), user_path(current_user) %>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to'Memory', memories_path, class:'nav-link' %><span class="sr-only">(current)</span>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to'お悩み相談', concerns_path, class:'nav-link' %>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to'オススメ', recommends_path, class:'nav-link' %>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <% if unchecked_notifications.any? %>
+            <i class="fa fa-circle" style="color: gold;"></i>
+            <%= link_to '通知',notifications_path, class:'nav-link' %>
           <% else %>
-            <%= link_to image_tag('no_image.jpeg', class:"rounded-circle"), user_path(current_user) %>
+            <%= link_to '通知', notifications_path, class:'nav-link' %>
           <% end %>
-        <% end %>
-
-        <%= link_to destroy_user_session_path, method: :delete, class: "btn btn-outline-danger btn-sm" do %>
-          <i class="fa-solid fa-right-from-bracket"></i>
-        <% end %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <% if @user == current_user %>
+              <% if @user.image.present? %>
+                <%= image_tag @user.image.url, class:"rounded-circle" %>
+              <% else %>
+                <%= image_tag 'no_image.jpeg', class:"rounded-circle" %>
+              <% end %>
+            <% end %>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <%= link_to 'アカウント', user_path(current_user), class: "dropdown-item" %>
+            <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+          </div>
+        </li>
 
       <% else %>
-        <%= link_to new_user_session_path, class: "btn btn-outline-primary btn-sm" do %>
-          <i class="fa-solid fa-right-to-bracket"></i>
-        <% end %>
-
-        <%= link_to new_user_registration_path, class: "btn btn-outline-primary btn-sm" do %>
-          <i class="fa-solid fa-user-plus"></i>
-        <% end %>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to 'ログイン', new_user_session_path, class:'nav-link'  %>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to '新規登録', new_user_registration_path, class:'nav-link' %>
+        </li>
       <% end %>
-
-    </div>
-    <div id="notice">
-      <%= flash[:notice] %>
-    </div>
+    </ul>
   </div>
-</header>
+</nav>
+  <div id="notice">
+    <%= flash[:notice] %>
+  </div>

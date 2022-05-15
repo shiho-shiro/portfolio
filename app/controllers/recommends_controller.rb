@@ -5,7 +5,7 @@ class RecommendsController < ApplicationController
   before_action :set_q, only: [:index, :search]
 
   def index
-    @recommends = Recommend.includes(:user).page(params[:page]).per(5)
+    @recommends = Recommend.includes(:user).order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def show

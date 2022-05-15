@@ -1,13 +1,22 @@
-<h1>Memories</h1>
-<% @memories.each do |memory| %>
-  <div class="memory_content">
-    <%= link_to(memory_path(memory.id), {class:"menu tr_size"}) do %>
-      <%= memory.date %>
-      <%= memory.title %>
+<h1>日記</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">更新日</th>
+      <th scope="col">タイトル</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @memories.each do |memory| %>
+      <tr>
+        <th scope="row"><%= memory.date %></th>
+        <td><%= link_to  memory.title + 'の日記を見る', memory_path(memory.id), class:"menu tr_size" %></td>
+      </tr>
     <% end %>
-  </div>
-<% end %>
-<br>
+  </tbody>
+</table>
 
 <%= paginate @memories %>
+
 <%= link_to 'New Memory', new_memory_path, class: "btn btn-outline-primary btn-sm" %>
