@@ -5,7 +5,7 @@ class MemoriesController < ApplicationController
   before_action :memory_user, only: [:show_other_index]
 
   def index
-    @memories = @user.memories.order(created_at: :desc).page(params[:page]).per(10)
+    @memories = @user.memories.order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def show_other_index

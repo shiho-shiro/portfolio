@@ -12,6 +12,7 @@ class Recommend < ApplicationRecord
     validates :country_code
     validates :address
   end
+  validates :title, {length: {maximum: 20}}
 
   def country_name
     country = ISO3166::Country[country_code]

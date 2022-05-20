@@ -1,25 +1,55 @@
-<h1>Concerns</h1>
-
-<h2>お悩み検索</h2>
-<%= search_form_for @q, url: search_concerns_path do |f| %>
-  <%= f.text_field :title_cont, placeholder: "タイトルから探す" %>
-  <h5 class="d-inline-block">OR</h5>
-  <%= f.country_select :country_code_cont, { include_blank: "国を指定する", selected: 1 } %>
-  <br>
-  <%= f.submit '検索', class: "btn btn-outline-primary btn-sm" %>
-<% end %>
-
-<% @concerns.each do |concern| %>
-  <div class="concern_content">
-    <%= concern.user.username %> コメント(<%= concern.advices.count%>)
-    <%= concern.created_at.to_s(:datetime_jp) %></br>
-    <%= link_to(concern_path(concern.id), {class:"menu tr_size"}) do %>
-      <%= concern.title %>
-    <% end %>
+<div class="container">
+  <div class="row">
+    <h2 class="col-lg-12 text-center text-md-left mt-4 font-italic border-bottom">お悩み相談</h2>
   </div>
-<% end %>
-<br>
 
-<%= paginate @concerns %>
+  <div class="row">
+    <div class="col-lg-12 text-center mt-md-4">
+      <%= link_to 'お悩みを投稿する', new_concern_path, class:"btn btn-outline-primary btn-sm" %>
+    </div>
+  </div>
 
-<%= link_to 'New Concern', new_concern_path, class: "btn btn-outline-primary btn-sm"  %>
+  <div class="row">
+    <div class="col-lg-12">
+      <%= search_form_for @q, url: search_concerns_path, class:"form-inline justify-content-center" do |f| %>
+        <%= f.country_select :country_code_cont, { include_blank: "国を指定する", selected: 1 }, class:"custom-select col-lg-2 col-md-3 col-sm-4 mr-sm-2 my-2" %>
+        <%= f.text_field :title_cont, class:"form-control col-lg-7 col-md-5 col-sm-5 mr-sm-2", type:"search", placeholder:"タイトルから探す" %>
+        <%= f.submit 'お悩み検索',class:"btn btn-outline-success my-1 my-sm-0 " %>
+      <% end %>
+    </div>
+  </div>
+
+  <% @concerns.each do |concern| %>
+    <div class="p-4 m-3 border">
+      <% if concern.user.image.present? %>
+        <%= image_tag concern.user.image.url, class:"rounded-circle" %>
+        <span class="m-2">
+          <i class="fa-solid fa-comment-dots"></i>
+          <%= concern.advices.count %>
+        </span>
+      <% else %>
+        <%= image_tag 'no_image.jpeg', class:"rounded-circle" %>
+        <span class="m-2">
+          <i class="fa-solid fa-comment-dots"></i>
+          <%= concern.advices.count %>
+        </span>
+      <% end %>
+      <div class="row d-md-inline-flex align-top">
+        <div class="col-lg-12 align-middle">
+          <ul class="list-group">
+            <li class="list-group-flush list-unstyled ">
+              <span class="small"><%= concern.created_at.to_s(:datetime_jp) %></span>
+            </li>
+            <li class="list-group-flush list-unstyled">
+              <%= link_to concern_path(concern.id) do %>
+                <%= concern.title %>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @concerns, class:"pagination" %>
