@@ -10,7 +10,7 @@ class ConcernsController < ApplicationController
 
   def show
     @advice = Advice.new
-    @advices = @concern.advices.page(params[:page]).per(5)
+    @advices = @concern.advices.order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def new

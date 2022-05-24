@@ -7,9 +7,10 @@ class AdvicesController < ApplicationController
     @advice = current_user.advices.new(advice_params)
     if @advice.save
       @concern.create_notification_advice!(current_user, @advice.id)
-      redirect_to concern_path(@concern)
+      redirect_to concern_path(@concern), notice: "アドバイスしました。"
     else
-      render 'concerns/show'
+      flash[:notice] = "アドバイスが出来ませんでした。"
+      redirect_back(fallback_location: root_path)
     end
   end
 

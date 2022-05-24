@@ -3,5 +3,6 @@ class Advice < ApplicationRecord
   belongs_to :concern
   has_many :notifications, dependent: :destroy
 
-  validates :advice, {length: {maximum: 200}}
+  validates :advice, presence: true
+  validates :advice, {length: {maximum: 100}}
 end
