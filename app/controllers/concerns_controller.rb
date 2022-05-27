@@ -43,7 +43,7 @@ class ConcernsController < ApplicationController
   end
 
   def search
-    @results = @q.result.includes(:user).page(params[:page]).per(5)
+    @concern_results = @q.result.includes(:user).page(params[:page]).per(5)
   end
 
   private

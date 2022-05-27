@@ -1,15 +1,39 @@
-<h1>検索結果</h1>
-
-<% @results.each do |concern| %>
-  <div class="concern_content">
-    <%= concern.user.username %>
-    <%= concern.created_at.to_s(:datetime_jp) %></br>
-    <%= link_to(concern_path(concern.id), {class:"menu tr_size"}) do %>
-      <%= concern.title %>
-    <% end %>
+<div class="container">
+  <div class="row">
+    <h2 class="col-lg-12 text-center text-md-left mt-4 font-italic border-bottom">検索結果 <%= @concern_results.total_count %> 件</h2>
   </div>
-<% end %>
-<br>
-<%= paginate @results %>
 
-<%= link_to 'New Concern', new_concern_path, class: "btn btn-outline-primary btn-sm"  %>
+  <% @concern_results.each do |c_result| %>
+    <div class="p-4 m-3 border">
+      <% if c_result.user.image.present? %>
+        <%= image_tag c_result.user.image.url, class:"rounded-circle" %>
+        <span class="m-2">
+          <i class="fa-solid fa-comment-dots"></i>
+          <%= c_result.advices.count %>
+        </span>
+      <% else %>
+        <%= image_tag 'no_image.jpeg', class:"rounded-circle" %>
+        <span class="m-2">
+          <i class="fa-solid fa-comment-dots"></i>
+          <%= c_result.advices.count %>
+        </span>
+      <% end %>
+      <div class="row d-md-inline-flex align-top ml-1">
+        <div class="col-lg-12 align-middle">
+          <ul class="list-group">
+            <li class="list-group-flush list-unstyled">
+              <span class="small"><%= c_result.created_at.to_s(:datetime_jp) %></span>
+            </li>
+            <li class="list-group-flush list-unstyled font-weight-bold">
+              <%= link_to concern_path(c_result.id) do %>
+                <%= c_result.title %>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @concern_results, class:"pagination" %>

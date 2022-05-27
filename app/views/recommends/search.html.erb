@@ -1,14 +1,39 @@
-<h1>検索結果</h1>
-
-<% @results.each do |recommend| %>
-  <div class="recommend_content">
-    <%= recommend.user.username %>
-    <%= recommend.created_at.to_s(:datetime_jp) %></br>
-    <%= link_to(recommend_path(recommend.id), {class:"menu tr_size"}) do %>
-      <%= recommend.title %>
-    <% end %>
+<div class="container">
+  <div class="row">
+    <h2 class="col-lg-12 text-center text-md-left mt-4 font-italic border-bottom">検索結果 <%= @recommend_results.total_count %> 件</h2>
   </div>
-<% end %>
-<br>
 
-<%= link_to 'New Recommend', new_recommend_path, class: "btn btn-outline-primary btn-sm" %>
+  <% @recommend_results.each do |r_result| %>
+    <div class="p-4 m-3 border">
+      <% if r_result.user.image.present? %>
+        <%= image_tag r_result.user.image.url, class:"rounded-circle" %>
+        <span class="m-2">
+          <i class="fa-solid fa-heart"></i>
+          <%= r_result.likes.count %>
+        </span>
+      <% else %>
+        <%= image_tag 'no_image.jpeg', class:"rounded-circle" %>
+        <span class="m-2">
+          <i class="fa-solid fa-heart"></i>
+          <%= r_result.likes.count %>
+        </span>
+      <% end %>
+      <div class="row d-md-inline-flex align-top ml-1">
+        <div class="col-lg-12 align-middle">
+          <ul class="list-group">
+            <li class="list-group-flush list-unstyled">
+              <span class="small"><%= r_result.created_at.to_s(:datetime_jp) %></span>
+            </li>
+            <li class="list-group-flush list-unstyled font-weight-bold">
+              <%= link_to recommend_path(r_result.id) do %>
+                <%= r_result.title %>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @recommend_results, class:"pagination" %>

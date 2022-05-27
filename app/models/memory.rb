@@ -5,7 +5,7 @@ class Memory < ApplicationRecord
     validates :date
   end
   validates :title, {length: {maximum: 20}}
-  validates :content, {length: {maximum: 200}}
+  validates :content, {length: {maximum: 300}}
   validate :date_cannot_be_in_the_past, on: :create
 
   def date_cannot_be_in_the_past
