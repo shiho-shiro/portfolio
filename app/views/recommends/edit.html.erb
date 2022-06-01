@@ -1,6 +1,11 @@
-<h1>Editing Recommend</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 d-md-flex justify-content-between border-bottom mt-4">
+      <h2 class="col-md-6 text-center text-md-left font-italic">オススメ編集</h2>
+      <%= link_to "この投稿を見る", @recommend, class:"col-12 col-md-3 col-lg-2 btn btn-outline-primary mb-3 mb-md-2" %>
+    </div>
+  </div>
 
-<%= render 'form', recommend: @recommend %>
+  <%= render 'form', recommend: @recommend %>
 
-<%= link_to 'Show', @recommend, class: "btn btn-outline-primary btn-sm"  %> |
-<%= link_to 'Back', recommends_path, class: "btn btn-outline-primary btn-sm"  %>
+</div>

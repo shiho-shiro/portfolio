@@ -1,4 +1,24 @@
 ja:
+  activerecord:
+    models:
+      concern: お悩み相談
+    attributes:
+      concern:
+        title: タイトル
+        content: 相談内容
+        country_code: 対象国
+        image: 画像
+      recommend:
+        title: タイトル
+        content: オススメ内容
+        country_code: 対象国
+        address: 住所
+        image: 画像
+      memory:
+        title: タイトル
+        content: 日記
+        date: 日付は
+        image: 画像
   views:
     pagination:
       first: "&laquo; 最初"
@@ -6,7 +26,6 @@ ja:
       previous: "&lsaquo; 前"
       next: "次 &rsaquo;"
       truncate: "..."
-
   countries:
     AC: アセンション島
     AD: アンドラ

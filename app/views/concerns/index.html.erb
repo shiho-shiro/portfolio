@@ -14,7 +14,7 @@
       <%= search_form_for @q, url: search_concerns_path, class:"form-inline justify-content-center" do |f| %>
         <%= f.country_select :country_code_cont, { include_blank: "国を指定する", selected: 1 }, class:"custom-select col-lg-2 col-md-3 col-sm-4 mr-sm-2 my-2" %>
         <%= f.text_field :title_cont, class:"form-control col-lg-7 col-md-5 col-sm-5 mr-sm-2", type:"search", placeholder:"タイトルから探す" %>
-        <%= f.submit 'お悩み検索',class:"btn btn-outline-success my-1 my-sm-0 " %>
+        <%= f.submit "お悩み検索",class:"btn btn-outline-success my-1 my-sm-0 " %>
       <% end %>
     </div>
   </div>

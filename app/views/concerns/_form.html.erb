@@ -1,37 +1,47 @@
-<%= form_with(model: @concern, local: true) do |f| %>
+<%= form_with(model: @concern, local: true, class:"form-inline d-block") do |f| %>
   <% if @concern.errors.any? %>
-    <div id="error_explanation">
+    <div class="text-center text-danger font-weight-bold py-3" id="error_explanation">
       <h2><%= pluralize(@concern.errors.count, "件") %>入力ミスがあります。</h2>
-
-      <ul>
+      <ul class="list-group">
         <% @concern.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <li class="list-group-flush list-unstyled">
+            <%= error.full_message %>
+          </li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :country_code %>
-    <%= f.country_select :country_code, format: :with_alpha2 %>
-  </div>
+  <div class="row mt-4 py-4 border">
+    <div class="col-12">
+      <div class="form-group text-center d-block pb-4">
+        <%= f.label :title, class:"justify-content-md-start font-italic" %>
+        <%= f.text_field :title, class:"form-control w-100", placeholder:"（20文字以内）" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
+      <div class="form-group text-center d-block pb-4">
+        <%= f.label :content, class:"justify-content-md-start font-italic" %>
+        <%= f.text_area :content, class:"form-control w-100", placeholder:"（200文字以内）" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :content %>
-    <%= f.text_area :content %>
-  </div>
+      <div class="form-group text-center d-block pb-4">
+        <%= f.label :country_code, class:"justify-content-md-start font-italic" %>
+        <%= f.country_select :country_code, { include_blank: "国を選択", selected: 1 }, format: :with_alpha2, class:"custom-select w-100" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :image %>
-    <%= f.file_field :image %>
-  </div>
+      <div class="form-group text-center text-md-left d-block p-sm-2 pb-2 border">
+        <%= f.label :image, class:"d-block justify-content-md-start font-italic" %>
+        <%= f.file_field :image, class:"col-10 pl-5 pl-md-0" %>
+      </div>
 
-  <div class="actions">
-    <%= f.submit class: "btn btn-outline-primary btn-sm" %>
+      <div class="d-md-flex my-3">
+        <div class="col-12 col-md-6 text-center mb-4">
+          <%= f.submit "お悩みを相談する", class:"btn btn-outline-success btn-lg" %>
+        </div>
+        <div class="col-12 col-md-6 text-center">
+          <%= link_to "お悩み相談一覧に戻る", concerns_path, class:"btn btn-outline-info btn-lg" %>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
