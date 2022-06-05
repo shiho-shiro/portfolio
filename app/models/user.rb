@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable #:confirmable
 
   validates :username, presence: true
+  validates :country_code, presence: true
+  validates :username, {length: {maximum: 10}}
 
   has_many :memories, dependent: :destroy
   has_many :concerns, dependent: :destroy

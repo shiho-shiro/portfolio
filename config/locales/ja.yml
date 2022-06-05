@@ -19,6 +19,10 @@ ja:
         content: 日記
         date: 日付は
         image: 画像
+      user:
+        username: ユーザー名
+        country_code: 国
+        email: メールアドレス
   views:
     pagination:
       first: "&laquo; 最初"
