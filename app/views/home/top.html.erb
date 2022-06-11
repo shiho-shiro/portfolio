@@ -1,3 +1,76 @@
 <div class="background_img_top">
-  <h1 class="top">あなたの経験・知識が助けになる</h1>
+  <div class="container top-text">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="text-center font-italic font-weight-bold text-primary border-primary border-bottom d-inline-block">Venter Into <span class="d-inline-block">The Unknown</span></h1>
+      </div>
+      <div class="col-12 mt-2">
+        <h1 class="text-center pull-right font-weight-bold text-primary border-primary border-bottom d-inline-block">飛び出せ！<span class="d-inline-block">未知の世界へ！</span></h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-12 text-center">
+      <h1 class="py-2 px-5 d-inline-block second-head">VITU<span class="second-text">(Venture Into The Unknown)</span>とは...</h1>
+    </div>
+    <div class="col-11 text-center mt-2">
+      <p class="text-muted second-font">これからワーキングホリデーを考えている方、<br>現在ワーキングホリデーをされている方向けの<br>コミュニティサービスです。</p>
+      <p class="text-muted second-font">今まで住んでいた土地とは違う場所へ行く不安。<br>今までと全く違う文化・習慣への悩みをみんなと解決！<br>あなたは独りじゃない、みんなと楽しい思い出・貴重な経験をしよう！</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 text-center">
+      <h1 class="py-2 px-5 d-inline-block third-head">How to use VITU？</h1>
+    </div>
+    
+    <div class="col-12 text-center text-md-left mt-1">
+      <% if user_signed_in? %>
+        <h3 class="d-inline-block third-font font-italic font-weight-bold">
+          <%= link_to "Memory", memories_path, class:"link-color" %>
+        </h3>
+      <% else %>
+        <h3 class="d-inline-block third-font border-bottom border-dark font-italic font-weight-bold">Memory</h3>
+      <% end %>
+      <p class="text-muted second-font">自身の旅の軌跡を記録することが出来ます。<br>また、各コンテンツに表示される他のユーザーアイコンをクリックすることでそのユーザーのMemoryを閲覧することも出来ます。</p>
+    </div>
+
+    <div class="col-12 text-center text-md-right mt-2">
+      <% if user_signed_in? %>
+        <h3 class="d-inline-block third-font font-italic font-weight-bold">
+          <%= link_to "お悩み相談", concerns_path, class:"link-color" %>
+        </h3>
+      <% else %>
+        <h3 class="d-inline-block third-font border-bottom border-dark font-italic font-weight-bold">お悩み相談</h3>
+      <% end %>
+      <p class="text-muted second-font">知らない土地、国へ飛び出すのに不安は付きものです。<br>ここでは出発前の悩み・暮らしている中で生まれる悩みを、他のユーザーの方々へ気軽に相談することが出来ます。</br>また、あなたのアドバイスが他のユーザーの悩みを解決へ導く手助けになるでしょう。</p>
+    </div>
+
+    <div class="col-12 text-center text-md-left mt-2">
+      <% if user_signed_in? %>
+        <h3 class="d-inline-block third-font font-italic font-weight-bold">
+          <%= link_to "オススメ", recommends_path, class:"link-color" %>
+        </h3>
+      <% else %>
+        <h3 class="d-inline-block third-font border-bottom border-dark font-italic font-weight-bold">オススメ</h3>
+      <% end %>
+      <p class="text-muted second-font">あなたのおすすめスポットを皆んなにシェアしよう！<br>現地でしか味わえないグルメ・景色・感動を体験しよう！</p>
+    </div>
+
+    <div class="col-12 text-center text-md-right mt-2">
+      <% if user_signed_in? %>
+        <h3 class="d-inline-block third-font font-italic font-weight-bold">
+          <%= link_to "通知",notifications_path, class:"link-color" %>
+        </h3>
+      <% else %>
+        <h3 class="d-inline-block third-font border-bottom border-dark font-italic font-weight-bold">通知</h3>
+      <% end %>
+      <p class="text-muted second-font">他のユーザーがあなたの相談投稿に対してアドバイス・オススメ投稿でイイねが押された場合、<br>こちらのページにどのユーザーがアドバイス・イイねを押したかお知らせします。</p>
+    </div>
+  </div>
 </div>

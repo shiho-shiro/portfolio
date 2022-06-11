@@ -22,13 +22,13 @@
   <% @concerns.each do |concern| %>
     <div class="p-4 m-3 border">
       <% if concern.user.image.present? %>
-        <%= image_tag concern.user.image.url, class:"rounded-circle" %>
+        <%= link_to (image_tag concern.user.image.url, class:"rounded-circle"), show_other_user_path(concern.user) %>
         <span class="m-2">
           <i class="fa-solid fa-comment-dots"></i>
           <%= concern.advices.count %>
         </span>
       <% else %>
-        <%= image_tag 'no_image.jpeg', class:"rounded-circle" %>
+        <%= link_to (image_tag 'no_image.jpg', class:"rounded-circle"), show_other_user_path(concern.user) %>
         <span class="m-2">
           <i class="fa-solid fa-comment-dots"></i>
           <%= concern.advices.count %>

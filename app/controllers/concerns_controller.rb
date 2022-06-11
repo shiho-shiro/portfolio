@@ -23,7 +23,7 @@ class ConcernsController < ApplicationController
   def create
     @concern = Concern.new(concern_params)
     if @concern.save
-      redirect_to @concern, notice: '投稿されました。'
+      redirect_to @concern, notice: 'お悩みを投稿しました。'
     else
       render :new
     end

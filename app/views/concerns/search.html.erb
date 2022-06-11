@@ -6,13 +6,13 @@
   <% @concern_results.each do |c_result| %>
     <div class="p-4 m-3 border">
       <% if c_result.user.image.present? %>
-        <%= image_tag c_result.user.image.url, class:"rounded-circle" %>
+        <%= link_to (image_tag c_result.user.image.url, class:"rounded-circle"), show_other_user_path(c_result.user) %>
         <span class="m-2">
           <i class="fa-solid fa-comment-dots"></i>
           <%= c_result.advices.count %>
         </span>
       <% else %>
-        <%= image_tag 'no_image.jpeg', class:"rounded-circle" %>
+        <%= link_to (image_tag 'no_image.jpg', class:"rounded-circle"), show_other_user_path(c_result.user) %>
         <span class="m-2">
           <i class="fa-solid fa-comment-dots"></i>
           <%= c_result.advices.count %>

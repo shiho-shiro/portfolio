@@ -5,7 +5,7 @@
         <% if @recommend.user.image.present? %>
           <%= link_to image_tag(@recommend.user.image.url, class:"rounded-circle"), show_other_user_path(@recommend.user) %>
         <% else %>
-          <%= link_to image_tag('no_image.jpeg', class:"rounded-circle"), show_other_user_path(@recommend.user) %>
+          <%= link_to image_tag('no_image.jpg', class:"rounded-circle"), show_other_user_path(@recommend.user) %>
         <% end %>
       </div>
       <div class="d-md-block col-md-12 col-lg-12 px-md-0 px-lg-0">

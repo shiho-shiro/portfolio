@@ -6,7 +6,7 @@
 
   <div class="collapse navbar-collapse justify-content-end" id="responsiveMenu">
     <ul class="navbar-nav">
-      <% if user_signed_in?  %>
+      <% if user_signed_in? %>
         <li class="nav-item d-flex align-items-center">
           <%= link_to "Memory", memories_path, class:"nav-link" %><span class="sr-only">(current)</span>
         </li>
@@ -30,7 +30,7 @@
               <% if @user.image.present? %>
                 <%= image_tag @user.image.url, class:"rounded-circle" %>
               <% else %>
-                <%= image_tag 'no_image.jpeg', class:"rounded-circle" %>
+                <%= image_tag 'no_image.jpg', class:"rounded-circle" %>
               <% end %>
             <% end %>
           </a>
@@ -51,6 +51,8 @@
   </div>
 </nav>
 
-  <div class="text-center text-white bg-info my-3" id="notice">
-    <%= flash[:notice] %>
-  </div>
+  <% if flash[:notice]%>
+    <div class="text-center text-white bg-info" id="notice">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>

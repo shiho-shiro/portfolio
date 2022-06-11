@@ -11,6 +11,7 @@
           <% if @other_user != @user %>
             <%= link_to "プロフィールに戻る", show_other_user_path(@other_user.id), class: "dropdown-item" %>
             <%= link_to "お悩み相談一覧に戻る", concerns_path, class: "dropdown-item" %>
+            <%= link_to "オススメ一覧に戻る", recommends_path, class: "dropdown-item" %>
           <% end %>
         </div>
       </div>
