@@ -44,19 +44,20 @@ class MemoriesController < ApplicationController
   end
 
   private
-    def set_memory
-      @memory = Memory.find(params[:id])
-    end
 
-    def memory_params
-      params.require(:memory).permit(:title, :content, :date, :image).merge(user_id: current_user.id)
-    end
+  def set_memory
+    @memory = Memory.find(params[:id])
+  end
 
-    def memory_user
-      @other_user = User.find(params[:id])
-      @other_memories = @other_user.memories.order(created_at: :desc).page(params[:page]).per(5)
-      if @other_user == current_user
-        redirect_to :action => 'index'
-      end
+  def memory_params
+    params.require(:memory).permit(:title, :content, :date, :image).merge(user_id: current_user.id)
+  end
+
+  def memory_user
+    @other_user = User.find(params[:id])
+    @other_memories = @other_user.memories.order(created_at: :desc).page(params[:page]).per(5)
+    if @other_user == current_user
+      redirect_to :action => 'index'
     end
+  end
 end

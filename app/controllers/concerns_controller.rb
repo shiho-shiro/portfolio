@@ -47,6 +47,7 @@ class ConcernsController < ApplicationController
   end
 
   private
+
   def set_concern
     @concern = Concern.find(params[:id])
   end

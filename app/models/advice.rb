@@ -4,5 +4,5 @@ class Advice < ApplicationRecord
   has_many :notifications, dependent: :destroy
 
   validates :advice, presence: true
-  validates :advice, {length: {maximum: 100}}
+  validates :advice, { length: { maximum: 100 } }
 end

@@ -1,7 +1,7 @@
 class RecommendsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_current_user
-  before_action :set_recommend, only: [:show, :edit, :update, :destroy ]
+  before_action :set_recommend, only: [:show, :edit, :update, :destroy]
   before_action :set_q, only: [:index, :search]
 
   def index
@@ -10,6 +10,7 @@ class RecommendsController < ApplicationController
 
   def show
   end
+
   def new
     @recommend = Recommend.new
   end
@@ -39,12 +40,12 @@ class RecommendsController < ApplicationController
     redirect_to recommends_url, notice: 'オススメを削除しました。'
   end
 
-
   def search
     @recommend_results = @q.result.includes(:user).page(params[:page]).per(5)
   end
 
   private
+
   def set_recommend
     @recommend = Recommend.find(params[:id])
   end
@@ -54,6 +55,6 @@ class RecommendsController < ApplicationController
   end
 
   def recommend_params
-      params.require(:recommend).permit(:title, :content, :image, :country_code, :address, :latitude, :longitude).merge(user_id: current_user.id)
+    params.require(:recommend).permit(:title, :content, :image, :country_code, :address, :latitude, :longitude).merge(user_id: current_user.id)
   end
 end

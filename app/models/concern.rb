@@ -9,8 +9,8 @@ class Concern < ApplicationRecord
     validates :country_code
   end
 
-  validates :title, {length: {maximum: 20}}
-  validates :content, {length: {maximum: 200}}
+  validates :title, { length: { maximum: 20 } }
+  validates :content, { length: { maximum: 200 } }
 
   def country_name
     country = ISO3166::Country[country_code]

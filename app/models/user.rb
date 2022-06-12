@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true
   validates :country_code, presence: true
-  validates :username, {length: {maximum: 10}}
+  validates :username, { length: { maximum: 10 } }
 
   has_many :memories, dependent: :destroy
   has_many :concerns, dependent: :destroy
@@ -35,7 +35,7 @@ class User < ApplicationRecord
   end
 
   def already_likes?(recommend)
-    self.likes.exists?(recommend_id: recommend.id)
+    likes.exists?(recommend_id: recommend.id)
   end
 
   mount_uploader :image, ImageUploader

@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
-
   root 'home#top'
   devise_for :users,
     :controllers => {
       :registrations => 'users/registrations',
-      :sessions => 'users/sessions'
+      :sessions => 'users/sessions',
     }
 
   devise_scope :users do
@@ -16,7 +15,7 @@ Rails.application.routes.draw do
     collection do
       get 'search'
     end
-    resources :advices, only:[:create, :destroy]
+    resources :advices, only: [:create, :destroy]
   end
 
   resources :memories do
@@ -29,10 +28,10 @@ Rails.application.routes.draw do
     collection do
       get 'search'
     end
-    resource :likes, only:[:create, :destroy]
+    resource :likes, only: [:create, :destroy]
   end
 
-  resources :users, only:[:show] do
+  resources :users, only: [:show] do
     member do
       get 'show_other'
     end

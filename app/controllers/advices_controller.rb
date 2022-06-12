@@ -25,6 +25,7 @@ class AdvicesController < ApplicationController
   end
 
   private
+
   def advice_params
     params.require(:advice).permit(:advice).merge(user_id: current_user.id, concern_id: params[:concern_id])
   end
