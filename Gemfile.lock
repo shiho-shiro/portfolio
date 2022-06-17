@@ -106,11 +106,17 @@ GEM
     devise-i18n (1.10.2)
       devise (>= 4.8.0)
     devise-i18n-views (0.3.7)
+    diff-lcs (1.5.0)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
     erubi (1.10.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     ffi (1.15.5)
     geocoder (1.7.5)
     globalid (1.0.0)
@@ -221,6 +227,23 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.5)
+    rspec-core (3.11.0)
+      rspec-support (~> 3.11.0)
+    rspec-expectations (3.11.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-mocks (3.11.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-rails (4.0.2)
+      actionpack (>= 4.2)
+      activesupport (>= 4.2)
+      railties (>= 4.2)
+      rspec-core (~> 3.10)
+      rspec-expectations (~> 3.10)
+      rspec-mocks (~> 3.10)
+      rspec-support (~> 3.10)
+    rspec-support (3.11.0)
     rubocop (0.93.1)
       parallel (~> 1.10)
       parser (>= 2.7.1.5)
@@ -328,6 +351,7 @@ DEPENDENCIES
   devise-i18n
   devise-i18n-views
   dotenv-rails
+  factory_bot_rails
   geocoder
   jbuilder (~> 2.7)
   kaminari
@@ -340,6 +364,7 @@ DEPENDENCIES
   rails-erd
   rails-i18n
   ransack
+  rspec-rails (~> 4.0.0)
   rubocop-airbnb
   sass-rails (>= 6)
   selenium-webdriver
