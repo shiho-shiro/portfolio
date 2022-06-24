@@ -9,7 +9,7 @@ class Memory < ApplicationRecord
   validate :date_cannot_be_in_the_past, on: :create
 
   def date_cannot_be_in_the_past
-    if date < Date.today
+    if date.past?
       errors.add(:date, "今日より過去の日付の指定はできません。")
     end
   end
