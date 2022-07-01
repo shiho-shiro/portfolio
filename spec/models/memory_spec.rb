@@ -43,12 +43,6 @@ RSpec.describe Memory, type: :model do
       @memory.valid?
       expect(@memory.errors[:content]).to include("は300文字以内で入力してください")
     end
-
-    it "日付は今日より過去の日付の場合無効" do
-      @memory.date = Faker::Date.backward(days: 2)
-      @memory.valid?
-      expect(@memory.errors[:date]).to include("今日より過去の日付の指定はできません。")
-    end
   end
 
   describe "画像" do

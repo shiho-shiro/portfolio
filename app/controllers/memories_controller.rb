@@ -5,7 +5,7 @@ class MemoriesController < ApplicationController
   before_action :memory_user, only: [:show_other_index]
 
   def index
-    @memories = @user.memories.order(created_at: :desc).page(params[:page]).per(5)
+    @memories = @user.memories.order(date: :desc).page(params[:page]).per(5)
   end
 
   def show_other_index
@@ -55,7 +55,7 @@ class MemoriesController < ApplicationController
 
   def memory_user
     @other_user = User.find(params[:id])
-    @other_memories = @other_user.memories.order(created_at: :desc).page(params[:page]).per(5)
+    @other_memories = @other_user.memories.order(date: :desc).page(params[:page]).per(5)
     if @other_user == current_user
       redirect_to :action => 'index'
     end

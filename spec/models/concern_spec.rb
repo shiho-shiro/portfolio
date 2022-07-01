@@ -8,6 +8,7 @@ RSpec.describe Concern, type: :model do
 
     it "タイトル、コンテンツ、国名を入力していると有効" do
       expect(@concern).to be_valid
+
     end
 
     it "タイトルが空欄の場合無効" do
