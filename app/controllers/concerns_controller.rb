@@ -39,7 +39,7 @@ class ConcernsController < ApplicationController
 
   def destroy
     @concern.destroy
-    redirect_to concerns_url, notice: '投稿が削除されました。'
+    redirect_to concerns_path, notice: '投稿が削除されました。'
   end
 
   def search

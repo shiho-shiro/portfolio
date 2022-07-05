@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :recommend do
-    title { Faker::Lorem.characters(number: 20) }
+    title { "オススメのタイトル" }
     content { Faker::Lorem.characters(number: 200) }
     country_code { Faker::Address.country }
     address { Faker::Address.full_address }

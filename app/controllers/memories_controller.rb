@@ -40,7 +40,7 @@ class MemoriesController < ApplicationController
 
   def destroy
     @memory.destroy
-    redirect_to memories_url, notice: 'Memoryを削除しました。'
+    redirect_to memories_path, notice: 'Memoryを削除しました。'
   end
 
   private

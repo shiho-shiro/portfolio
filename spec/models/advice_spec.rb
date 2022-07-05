@@ -13,8 +13,7 @@ RSpec.describe Advice, type: :model do
     it "アドバイスが空欄の場合無効" do
       @advice.advice = nil
       @advice.valid?
-      expect(@advice).to_not be_valid
+      expect(@advice).not_to be_valid
     end
-
   end
 end

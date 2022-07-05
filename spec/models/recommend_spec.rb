@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Recommend, type: :model do
   describe "バリデーション" do
-    before  do
+    before do
       @recommend = build(:recommend)
     end
 
@@ -67,7 +67,7 @@ RSpec.describe Recommend, type: :model do
 
   describe "アドレス" do
     it "入力したアドレスの経度と緯度が合っているか" do
-      @recommend_1 = create(:recommend, address: "東京都千代田区丸の内１丁目９ 東京駅" )
+      @recommend_1 = create(:recommend, address: "東京都千代田区丸の内１丁目９ 東京駅")
       expect(@recommend_1.latitude).to be_within(0.005).of 35.6811751768504
       expect(@recommend_1.longitude).to be_within(0.005).of 139.76595535452452
     end
