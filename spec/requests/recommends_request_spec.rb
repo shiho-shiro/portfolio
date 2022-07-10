@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RecommendsController, type: :controller do
+RSpec.describe RecommendsController, type: :request do
   before do
     @user = create(:user)
   end
@@ -10,7 +10,7 @@ RSpec.describe RecommendsController, type: :controller do
       before do
         @recommend = create(:recommend, user_id: @user.id)
         sign_in @user
-        get :index
+        get recommends_path
       end
 
       it "200レスポンスを返す" do
@@ -27,7 +27,7 @@ RSpec.describe RecommendsController, type: :controller do
         @other_user = create(:user)
         @recommend = create(:recommend, user_id: @other_user.id)
         sign_in @user
-        get :index
+        get recommends_path
       end
 
       it "200レスポンスを返す" do
@@ -42,7 +42,7 @@ RSpec.describe RecommendsController, type: :controller do
     context "未登録のゲストとして" do
       before do
         @recommend = create(:recommend, user_id: @user.id)
-        get :index
+        get recommends_path
       end
 
       it "302レスポンスを返す" do
@@ -64,7 +64,7 @@ RSpec.describe RecommendsController, type: :controller do
       before do
         sign_in @user
         @recommend = create(:recommend, user_id: @user.id)
-        get :show, params: { id: @recommend.id }
+        get recommend_path(@recommend.id)
       end
 
       it "正常のレスポンスを返す" do
@@ -81,7 +81,7 @@ RSpec.describe RecommendsController, type: :controller do
         @other_user = create(:user)
         @recommend = create(:recommend, user_id: @user.id)
         sign_in @other_user
-        get :show, params: { id: @recommend.id }
+        get recommend_path(@recommend.id)
       end
 
       it "正常のレスポンスを返す" do
@@ -96,7 +96,7 @@ RSpec.describe RecommendsController, type: :controller do
     context "未登録のゲストとして" do
       before do
         @recommend = create(:recommend, user_id: @user.id)
-        get :show, params: { id: @recommend.id }
+        get recommend_path(@recommend.id)
       end
 
       it "正常なレスポンスを返す" do
@@ -117,7 +117,7 @@ RSpec.describe RecommendsController, type: :controller do
     context "登録済みのユーザーとして" do
       before do
         sign_in @user
-        get :new
+        get new_recommend_path
       end
 
       it "正常なレスポンスを返す" do
@@ -131,7 +131,7 @@ RSpec.describe RecommendsController, type: :controller do
 
     context "未登録のゲストとして" do
       before do
-        get :new
+        get new_recommend_path
       end
 
       it "正常なレスポンスを返す" do
@@ -157,13 +157,13 @@ RSpec.describe RecommendsController, type: :controller do
       it "オススメを追加できる" do
         @recommend = attributes_for(:recommend, user_id: @user.id)
         expect do
-          post :create, params: { recommend: @recommend }
+          post recommends_path(recommend: @recommend)
         end.to change(@user.recommends, :count).by(1)
       end
 
       it "新しいオススメを作成後、詳細画面にリダイレクトされる" do
         @recommend = attributes_for(:recommend, user_id: @user.id)
-        post :create, params: { recommend: @recommend }
+        post recommends_path(recommend: @recommend)
         recommend = Recommend.last
         expect(response).to redirect_to recommend_path(recommend)
       end
@@ -171,7 +171,7 @@ RSpec.describe RecommendsController, type: :controller do
       it "不正があった場合は登録されない" do
         @recommend = attributes_for(:recommend, title: nil, user_id: @user.id)
         expect do
-          post :create, params: { recommend: @recommend }
+          post recommends_path(recommend: @recommend)
         end.to change(@user.recommends, :count).by(0)
       end
     end
@@ -179,19 +179,19 @@ RSpec.describe RecommendsController, type: :controller do
     context "未登録のゲストとして" do
       it "正常のレスポンスを返す" do
         @recommend = attributes_for(:recommend, user_id: @user.id)
-        post :create, params: { recommend: @recommend }
+        post recommends_path(recommend: @recommend)
         expect(response).not_to be_successful
       end
 
       it "302レスポンスを返す" do
         @recommend = attributes_for(:recommend, user_id: @user.id)
-        post :create, params: { recommend: @recommend }
+        post recommends_path(recommend: @recommend)
         expect(response).to have_http_status "302"
       end
 
       it "ログイン画面へリダイレクトする" do
         @recommend = attributes_for(:recommend, user_id: @user.id)
-        post :create, params: { recommend: @recommend }
+        post recommends_path(recommend: @recommend)
         expect(response).to redirect_to "/users/sign_in"
       end
     end
@@ -205,7 +205,7 @@ RSpec.describe RecommendsController, type: :controller do
     context "登録済みのユーザーとして" do
       before do
         sign_in @user
-        get :edit, params: { id: @recommend.id }
+        get edit_recommend_path(@recommend.id)
       end
 
       it "正常のレスポンスを返す" do
@@ -219,7 +219,7 @@ RSpec.describe RecommendsController, type: :controller do
 
     context "未登録のゲストとして" do
       before do
-        get :edit, params: { id: @recommend.id }
+        get edit_recommend_path(@recommend.id)
       end
 
       it "正常のレスポンスを返す" do
@@ -245,19 +245,19 @@ RSpec.describe RecommendsController, type: :controller do
 
       it "オススメのタイトル名を変更できる" do
         recommend_title = attributes_for(:recommend, title: "オススメを変更しました")
-        patch :update, params: { id: @recommend.id, recommend: recommend_title }
+        patch recommend_path(@recommend.id, recommend: recommend_title)
         expect(@recommend.reload.title).to eq "オススメを変更しました"
       end
 
       it "オススメを更新後、詳細画面にリダイレクトされる" do
         recommend_title = attributes_for(:recommend, title: "オススメを変更しました")
-        patch :update, params: { id: @recommend.id, recommend: recommend_title }
+        patch recommend_path(@recommend.id, recommend: recommend_title)
         expect(response).to redirect_to recommend_path(@recommend)
       end
 
       it "不正があった場合は更新されない" do
         recommend_title = attributes_for(:recommend, title: nil)
-        patch :update, params: { id: @recommend.id, recommend: recommend_title }
+        patch recommend_path(@recommend.id, recommend: recommend_title)
         expect(@recommend.reload.title).to eq "オススメのタイトル"
       end
     end
@@ -269,19 +269,19 @@ RSpec.describe RecommendsController, type: :controller do
 
       it "正常のレスポンスを返す" do
         recommend_title = attributes_for(:recommend, title: "オススメを変更しました")
-        patch :update, params: { id: @recommend.id, recommend: recommend_title }
+        patch recommend_path(@recommend.id, recommend: recommend_title)
         expect(response).not_to be_successful
       end
 
       it "302レスポンスを返す" do
         recommend_title = attributes_for(:recommend, title: "オススメを変更しました")
-        patch :update, params: { id: @recommend.id, recommend: recommend_title }
+        patch recommend_path(@recommend.id, recommend: recommend_title)
         expect(response).to have_http_status "302"
       end
 
       it "ログイン画面へリダイレクトする" do
         recommend_title = attributes_for(:recommend, title: "オススメを変更しました")
-        patch :update, params: { id: @recommend.id, recommend: recommend_title }
+        patch recommend_path(@recommend.id, recommend: recommend_title)
         expect(response).to redirect_to "/users/sign_in"
       end
     end
@@ -296,12 +296,12 @@ RSpec.describe RecommendsController, type: :controller do
 
       it "正常に削除されているか" do
         expect do
-          delete :destroy, params: { id: @recommend.id }
+          delete recommend_path(@recommend.id)
         end.to change(@user.recommends, :count).by(-1)
       end
 
       it "削除後オススメ一覧ページへリダイレクトされるか" do
-        delete :destroy, params: { id: @recommend.id }
+        delete recommend_path(@recommend.id)
         expect(response).to redirect_to recommends_path
       end
     end
@@ -315,7 +315,7 @@ RSpec.describe RecommendsController, type: :controller do
 
       it "削除出来ない" do
         expect do
-          delete :destroy, params: { id: @recommend.id }
+          delete recommend_path(@recommend.id)
         end.to change(Recommend, :count)
       end
     end
@@ -326,12 +326,12 @@ RSpec.describe RecommendsController, type: :controller do
       end
 
       it "302レスポンスを返す" do
-        delete :destroy, params: { id: @recommend.id }
+        delete recommend_path(@recommend.id)
         expect(response).to have_http_status "302"
       end
 
       it "ログイン画面にリダイレクトされる" do
-        delete :destroy, params: { id: @recommend.id }
+        delete recommend_path(@recommend.id)
         expect(response).to redirect_to "/users/sign_in"
       end
     end

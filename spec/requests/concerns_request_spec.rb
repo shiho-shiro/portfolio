@@ -1,15 +1,33 @@
 require 'rails_helper'
 
-RSpec.describe MemoriesController, type: :controller do
+RSpec.describe ConcernsController, type: :request do
   before do
     @user = create(:user)
   end
 
-  describe "#index" do
+  describe "index" do
     context "登録済みのユーザーとして" do
       before do
+        @concern = create(:concern, user_id: @user.id)
         sign_in @user
-        get :index
+        get concerns_path
+      end
+
+      it "200レスポンスを返す" do
+        expect(response).to have_http_status "200"
+      end
+
+      it "正常のレスポンスを返す" do
+        expect(response).to be_successful
+      end
+    end
+
+    context "登録済みの他のユーザーとして" do
+      before do
+        @other_user = create(:user)
+        @concern = create(:concern, user_id: @other_user.id)
+        sign_in @user
+        get concerns_path
       end
 
       it "200レスポンスを返す" do
@@ -23,7 +41,8 @@ RSpec.describe MemoriesController, type: :controller do
 
     context "未登録のゲストとして" do
       before do
-        get :index
+        @concern = create(:concern, user_id: @user.id)
+        get concerns_path
       end
 
       it "302レスポンスを返す" do
@@ -41,14 +60,28 @@ RSpec.describe MemoriesController, type: :controller do
   end
 
   describe "show" do
-    before do
-      @memory = create(:memory, user_id: @user.id)
-    end
-
     context "登録済みのユーザーとして" do
       before do
         sign_in @user
-        get :show, params: { id: @memory.id }
+        @concern = create(:concern, user_id: @user.id)
+        get concern_path(@concern.id)
+      end
+
+      it "正常のレスポンスを返す" do
+        expect(response).to be_successful
+      end
+
+      it "200レスポンスを返す" do
+        expect(response).to have_http_status "200"
+      end
+    end
+
+    context "登録済みの他のユーザーとして" do
+      before do
+        @other_user = create(:user)
+        @concern = create(:concern, user_id: @user.id)
+        sign_in @other_user
+        get concern_path(@concern.id)
       end
 
       it "正常のレスポンスを返す" do
@@ -62,7 +95,8 @@ RSpec.describe MemoriesController, type: :controller do
 
     context "未登録のゲストとして" do
       before do
-        get :show, params: { id: @memory.id }
+        @concern = create(:concern, user_id: @user.id)
+        get concern_path(@concern.id)
       end
 
       it "正常なレスポンスを返す" do
@@ -79,52 +113,11 @@ RSpec.describe MemoriesController, type: :controller do
     end
   end
 
-  describe "show_other_index" do
-    before do
-      @other_user = create(:user)
-      @memory = create(:memory, user_id: @other_user.id)
-    end
-
-    context "user =! other_user の場合" do
-      before do
-        sign_in @user
-        get :show_other_index, params: { id: @other_user.id }
-      end
-
-      it "正常なレスポンスを返す" do
-        expect(response).to be_successful
-      end
-
-      it "200レスポンスを返す" do
-        expect(response).to have_http_status "200"
-      end
-    end
-
-    context "user == other_user の場合" do
-      before do
-        sign_in @other_user
-        get :show_other_index, params: { id: @other_user.id }
-      end
-
-      it "正常なレスポンスを返す" do
-        expect(response).not_to be_successful
-      end
-
-      it "302レスポンスを返す" do
-        expect(response).to have_http_status "302"
-      end
-
-      it "memory一覧画面へリダイレクトする" do
-        expect(response).to redirect_to "/memories"
-      end
-    end
-  end
-
   describe "new" do
     context "登録済みのユーザーとして" do
       before do
         sign_in @user
-        get :new
+        get new_concern_path
       end
 
       it "正常なレスポンスを返す" do
@@ -138,7 +131,7 @@ RSpec.describe MemoriesController, type: :controller do
 
     context "未登録のゲストとして" do
       before do
-        get :new
+        get new_concern_path
       end
 
       it "正常なレスポンスを返す" do
@@ -161,44 +154,44 @@ RSpec.describe MemoriesController, type: :controller do
         sign_in @user
       end
 
-      it "memoryを追加できる" do
-        @memory = attributes_for(:memory, user_id: @user.id)
+      it "お悩みを追加できる" do
+        @concern = attributes_for(:concern, user_id: @user.id)
         expect do
-          post :create, params: { memory: @memory }
-        end.to change(@user.memories, :count).by(1)
+          post concerns_path(concern: @concern)
+        end.to change(@user.concerns, :count).by(1)
       end
 
-      it "新しいMemoryを作成後、詳細画面にリダイレクトされる" do
-        @memory = attributes_for(:memory, user_id: @user.id)
-        post :create, params: { memory: @memory }
-        memory = Memory.last
-        expect(response).to redirect_to memory_path(memory)
+      it "新規お悩みを作成後、詳細画面にリダイレクトされる" do
+        @concern = attributes_for(:concern, user_id: @user.id)
+        post concerns_path(concern: @concern)
+        concern = Concern.last
+        expect(response).to redirect_to concern_path(concern)
       end
 
       it "不正があった場合は登録されない" do
-        @memory = attributes_for(:memory, title: nil, user_id: @user.id)
+        @concern = attributes_for(:concern, title: nil, user_id: @user.id)
         expect do
-          post :create, params: { memory: @memory }
-        end.to change(@user.memories, :count).by(0)
+          post concerns_path(concern: @concern)
+        end.to change(@user.concerns, :count).by(0)
       end
     end
 
     context "未登録のゲストとして" do
       it "正常のレスポンスを返す" do
-        @memory = attributes_for(:memory, user_id: @user.id)
-        post :create, params: { memory: @memory }
+        @concern = attributes_for(:concern, user_id: @user.id)
+        post concerns_path(concern: @concern)
         expect(response).not_to be_successful
       end
 
       it "302レスポンスを返す" do
-        @memory = attributes_for(:memory, user_id: @user.id)
-        post :create, params: { memory: @memory }
+        @concern = attributes_for(:concern, user_id: @user.id)
+        post concerns_path(concern: @concern)
         expect(response).to have_http_status "302"
       end
 
       it "ログイン画面へリダイレクトする" do
-        @memory = attributes_for(:memory, user_id: @user.id)
-        post :create, params: { memory: @memory }
+        @concern = attributes_for(:concern, user_id: @user.id)
+        post concerns_path(concern: @concern)
         expect(response).to redirect_to "/users/sign_in"
       end
     end
@@ -206,13 +199,13 @@ RSpec.describe MemoriesController, type: :controller do
 
   describe "edit" do
     before do
-      @memory = create(:memory, user_id: @user.id)
+      @concern = create(:concern, user_id: @user.id)
     end
 
     context "登録済みのユーザーとして" do
       before do
         sign_in @user
-        get :edit, params: { id: @memory.id }
+        get edit_concern_path(@concern.id)
       end
 
       it "正常のレスポンスを返す" do
@@ -226,7 +219,7 @@ RSpec.describe MemoriesController, type: :controller do
 
     context "未登録のゲストとして" do
       before do
-        get :edit, params: { id: @memory.id }
+        get edit_concern_path(@concern.id)
       end
 
       it "正常のレスポンスを返す" do
@@ -247,48 +240,48 @@ RSpec.describe MemoriesController, type: :controller do
     context "登録済みのユーザーとして" do
       before do
         sign_in @user
-        @memory = create(:memory, user_id: @user.id)
+        @concern = create(:concern, user_id: @user.id)
       end
 
-      it "memoryのタイトル名を変更できる" do
-        memory_title = attributes_for(:memory, title: "変更しました")
-        patch :update, params: { id: @memory.id, memory: memory_title }
-        expect(@memory.reload.title).to eq "変更しました"
+      it "お悩みのタイトル名を変更できる" do
+        concern_title = attributes_for(:concern, title: "お悩みを変更しました")
+        patch concern_path(@concern.id, concern: concern_title)
+        expect(@concern.reload.title).to eq "お悩みを変更しました"
       end
 
-      it "Memory更新後、詳細画面にリダイレクトされる" do
-        memory_title = attributes_for(:memory, title: "変更しました")
-        patch :update, params: { id: @memory.id, memory: memory_title }
-        expect(response).to redirect_to memory_path(@memory)
+      it "お悩みを更新後、詳細画面にリダイレクトされる" do
+        concern_title = attributes_for(:concern, title: "お悩みを変更しました")
+        patch concern_path(@concern.id, concern: concern_title)
+        expect(response).to redirect_to concern_path(@concern)
       end
 
       it "不正があった場合は更新されない" do
-        memory_title = attributes_for(:memory, title: nil)
-        patch :update, params: { id: @memory.id, memory: memory_title }
-        expect(@memory.reload.title).to eq "memoryのタイトル"
+        concern_title = attributes_for(:concern, title: nil)
+        patch concern_path(@concern.id, concern: concern_title)
+        expect(@concern.reload.title).to eq "お悩みのタイトル"
       end
     end
 
     context "未登録のゲストとして" do
       before do
-        @memory = create(:memory, user_id: @user.id)
+        @concern = create(:concern, user_id: @user.id)
       end
 
       it "正常のレスポンスを返す" do
-        memory_title = attributes_for(:memory, title: "変更しました")
-        patch :update, params: { id: @memory.id, memory: memory_title }
+        concern_title = attributes_for(:concern, title: "お悩みを変更しました")
+        patch concern_path(@concern.id, concern: concern_title)
         expect(response).not_to be_successful
       end
 
       it "302レスポンスを返す" do
-        memory_title = attributes_for(:memory, title: "変更しました")
-        patch :update, params: { id: @memory.id, memory: memory_title }
+        concern_title = attributes_for(:concern, title: "お悩みを変更しました")
+        patch concern_path(@concern.id, concern: concern_title)
         expect(response).to have_http_status "302"
       end
 
       it "ログイン画面へリダイレクトする" do
-        memory_title = attributes_for(:memory, title: "変更しました")
-        patch :update, params: { id: @memory.id, memory: memory_title }
+        concern_title = attributes_for(:concern, title: "お悩みを変更しました")
+        patch concern_path(@concern.id, concern: concern_title)
         expect(response).to redirect_to "/users/sign_in"
       end
     end
@@ -298,47 +291,47 @@ RSpec.describe MemoriesController, type: :controller do
     context "登録済みのユーザーとして" do
       before do
         sign_in @user
-        @memory = create(:memory, user_id: @user.id)
+        @concern = create(:concern, user_id: @user.id)
       end
 
       it "正常に削除されているか" do
         expect do
-          delete :destroy, params: { id: @memory.id }
-        end.to change(@user.memories, :count).by(-1)
+          delete concern_path(@concern.id)
+        end.to change(@user.concerns, :count).by(-1)
       end
 
-      it "削除後Memory一覧ページへリダイレクトされるか" do
-        delete :destroy, params: { id: @memory.id }
-        expect(response).to redirect_to memories_path
+      it "削除後お悩み一覧ページへリダイレクトされるか" do
+        delete concern_path(@concern.id)
+        expect(response).to redirect_to concerns_path
       end
     end
 
     context "他のユーザーとして" do
       before do
         @other_user = create(:user)
-        @memory = create(:memory, user_id: @other_user.id)
+        @concern = create(:concern, user_id: @other_user.id)
         sign_in @user
       end
 
       it "削除出来ない" do
         expect do
-          delete :destroy, params: { id: @memory.id }
-        end.to change(Memory, :count)
+          delete concern_path(@concern.id)
+        end.to change(Concern, :count)
       end
     end
 
     context "未登録のゲストとして" do
       before do
-        @memory = create(:memory, user_id: @user.id)
+        @concern = create(:concern, user_id: @user.id)
       end
 
       it "302レスポンスを返す" do
-        delete :destroy, params: { id: @memory.id }
+        delete concern_path(@concern.id)
         expect(response).to have_http_status "302"
       end
 
       it "ログイン画面にリダイレクトされる" do
-        delete :destroy, params: { id: @memory.id }
+        delete concern_path(@concern.id)
         expect(response).to redirect_to "/users/sign_in"
       end
     end
