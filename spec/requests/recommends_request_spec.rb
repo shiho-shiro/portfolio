@@ -336,4 +336,60 @@ RSpec.describe RecommendsController, type: :request do
       end
     end
   end
+
+  describe "search_recommends " do
+    context "登録済みユーザーとして" do
+      before do
+        @recommend = create(:recommend, user_id: @user.id)
+        @another_recommend = create(:recommend, user_id: @user.id)
+        sign_in @user
+        get search_recommends_path, params: { q: { title_cont: "オススメ"} }
+      end
+
+      it "200レスポンスを返す" do
+        expect(response).to have_http_status "200"
+      end
+
+      it "正常のレスポンスを返す" do
+        expect(response).to be_successful
+      end
+
+      it "タイトル名が表示されていること" do
+        expect(response.body).to include(@recommend.title)
+      end
+    end
+
+    context "国名を指定した場合" do
+      before do
+        @recommend = create(:recommend, user_id: @user.id)
+        @another_recommend = create(:another_recommend, user_id: @user.id)
+        sign_in @user
+        get search_recommends_path, params: { q: { country_code_eq: "JP" } }
+      end
+
+      it "タイトル名が表示される" do
+        expect(response.body).to include(@another_recommend.title)
+      end
+    end
+
+    context "未登録のゲストとして" do
+      before do
+        @recommend = create(:recommend, user_id: @user.id)
+        @another_recommend = create(:recommend, user_id: @user.id)
+        get search_recommends_path, params: { q: { title_cont: "オススメ"} }
+      end
+
+      it "正常のレスポンスを返す" do
+        expect(response).not_to have_http_status "200"
+      end
+
+      it "302レスポンスを返す" do
+        expect(response).to have_http_status "302"
+      end
+
+      it "ログイン画面へリダイレクトする" do
+        expect(response).to redirect_to "/users/sign_in"
+      end
+    end
+  end
 end
