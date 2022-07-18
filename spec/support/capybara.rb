@@ -1,13 +1,15 @@
-require 'capybara/rspec'
+Capybara.register_driver :selenium_chrome_headless do |app|
+  options = ::Selenium::WebDriver::Chrome::Options.new
 
-Capybara.register_driver :headless_chrome do |app|
-  browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-    opts.args << "--headless"
-    opts.args << "--disable-gpu"
-    opts.args << "--no-sandbox"
-  end
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+  options.add_argument('--headless')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+  options.add_argument('--window-size=1400,1400')
+
+  driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
+
+Capybara.javascript_driver = :selenium_chrome_headless
 
 RSpec.configure do |config|
   config.before(:each, type: :system) do
