@@ -21,12 +21,12 @@ FactoryBot.define do
 
   factory :friend_user, class: "User" do
     username { Faker::Name.name }
-    sequence(:email) { |n| "test_another#{n}@example.com" }
-    sequence(:password) { |n| "test_another#{n}" }
+    sequence(:email) { |n| "test_friend#{n}@example.com" }
+    sequence(:password) { |n| "test_friend#{n}" }
     password_confirmation { password }
     country_code { Faker::Address.country_code }
     job { Faker::Job.title }
-    image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/aurora.jpg')) }
+    image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/cake.jpg')) }
   end
 
   def country_name

@@ -145,6 +145,7 @@ RSpec.describe "Memories", type: :system do
       attach_file('画像', "#{Rails.root}/spec/fixtures/aurora.jpg")
       click_button 'Memoryを投稿する'
       expect(current_path).to eq memory_path(memory_2.id)
+      expect(page).to have_content 'Memoryを更新しました。'
       expect(page).to have_content 'memoryの編集後'
       expect(page).to have_content '編集されました'
       expect(page).to have_content '2022-04-06'
