@@ -42,13 +42,14 @@ RSpec.describe MemoriesController, type: :request do
 
   describe "show" do
     before do
+      @other_user = create(:user)
       @memory = create(:memory, user_id: @user.id)
     end
 
     context "登録済みのユーザーとして" do
       before do
         sign_in @user
-        get memory_path(@memory.id)
+        get memory_path(id: @memory.id)
       end
 
       it "正常のレスポンスを返す" do
@@ -60,9 +61,24 @@ RSpec.describe MemoriesController, type: :request do
       end
     end
 
+    context "他のユーザーとして" do
+      before do
+        sign_in @other_user
+        get memory_path(id: @memory.id)
+      end
+
+      it "302レスポンスを返す" do
+        expect(response).to have_http_status "302"
+      end
+
+      it "ルートパスへリダイレクトする" do
+        expect(response).to redirect_to root_path
+      end
+    end
+
     context "未登録のゲストとして" do
       before do
-        get memory_path(@memory.id)
+        get memory_path(id: @memory.id)
       end
 
       it "正常なレスポンスを返す" do
@@ -100,7 +116,7 @@ RSpec.describe MemoriesController, type: :request do
       end
     end
 
-    context "other_userがメインユーザーの場合" do
+    context "@other_userがメインユーザーの場合" do
       before do
         sign_in @other_user
         get show_other_index_memory_path(@other_user.id)
@@ -206,6 +222,7 @@ RSpec.describe MemoriesController, type: :request do
 
   describe "edit" do
     before do
+      @other_user = create(:user)
       @memory = create(:memory, user_id: @user.id)
     end
 
@@ -221,6 +238,21 @@ RSpec.describe MemoriesController, type: :request do
 
       it "200レスポンスを返す" do
         expect(response).to have_http_status "200"
+      end
+    end
+
+    context "他のユーザーとして" do
+      before do
+        sign_in @other_user
+        get edit_memory_path(id: @memory.id)
+      end
+
+      it "302レスポンスを返す" do
+        expect(response).to have_http_status "302"
+      end
+
+      it "ルートパスへリダイレクトする" do
+        expect(response).to redirect_to root_path
       end
     end
 

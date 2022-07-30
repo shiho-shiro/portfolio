@@ -12,6 +12,11 @@ class MemoriesController < ApplicationController
   end
 
   def show
+    if @memory.user == current_user
+      render "show"
+    else
+      redirect_to root_path
+    end
   end
 
   def new
@@ -19,6 +24,11 @@ class MemoriesController < ApplicationController
   end
 
   def edit
+    if @memory.user == current_user
+      render "edit"
+    else
+      redirect_to root_path
+    end
   end
 
   def create
