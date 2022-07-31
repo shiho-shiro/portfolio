@@ -11,26 +11,27 @@ RSpec.describe "Concerns", type: :system do
     before do
       login(user)
       visit root_path
-      first(".navbar-nav").click_link("お悩み相談")
+      within '.navbar-nav' do
+        click_link 'お悩み相談'
+      end
       visit concerns_path
     end
 
-    context "ログイン済みのユーザーとして" do
-      scenario "タイトル、更新日、アカウント画像が表示される" do
-        expect(page).to have_content concern_1.title
-        expect(page).to have_content concern_1.created_at.to_s(:datetime_jp)
-        expect(page).to have_selector ("img[src$='cake.jpg']")
-        expect(page).to have_content concern_2.title
-        expect(page).to have_content concern_2.created_at.to_s(:datetime_jp)
-        expect(page).to have_selector ("img[src$='no_image.jpg']")
-      end
+    scenario "タイトル、更新日、アカウント画像が表示される" do
+      expect(page).to have_content concern_1.title
+      expect(page).to have_content concern_1.created_at.to_s(:datetime_jp)
+      expect(page).to have_selector ("img[src$='cake.jpg']")
+      expect(page).to have_content concern_2.title
+      expect(page).to have_content concern_2.created_at.to_s(:datetime_jp)
+      expect(page).to have_selector ("img[src$='no_image.jpg']")
+    end
 
-      scenario "タイトルをクリックすると、その投稿の詳細画面へリンクする" do
-        click_on(concern_2.title)
-        expect(current_path).to eq concern_path(concern_2.id)
-      end
+    scenario "タイトルをクリックすると、その投稿の詳細画面へリンクする" do
+      click_on(concern_2.title)
+      expect(current_path).to eq concern_path(concern_2.id)
     end
   end
+
 
   describe "concernの投稿" do
     before do
@@ -109,6 +110,7 @@ RSpec.describe "Concerns", type: :system do
       expect(page).to have_content concern_1.title
       expect(page).to have_content concern_1.content
       expect(page).to have_content concern_1.user.username
+      expect(page).to have_content concern_1.country_name
       expect(page).to have_selector("img[src$='cake.jpg']")
     end
 
@@ -206,19 +208,37 @@ RSpec.describe "Concerns", type: :system do
   end
 
   describe "concernの削除" do
-    before do
+    context "メインユーザーが投稿した場合" do
+      before do
       login(friend_user)
       visit concerns_path
       click_link concern_1.title
       visit concern_path(concern_1.id)
+      end
+
+      scenario "投稿を削除できる" do
+        find(".concern_dropdown").click
+        click_button '削除する'
+        expect(current_path).to eq concerns_path
+        expect(page).to have_content '投稿が削除されました。'
+      end
     end
 
-    scenario "投稿を削除できる" do
-      find(".concern_dropdown").click
-      click_button '削除する'
-      expect(current_path).to eq concerns_path
-      expect(page).to have_content '投稿が削除されました。'
+    context "他のユーザーの投稿の場合" do
+      before do
+      login(friend_user)
+      visit concerns_path
+      click_link concern_2.title
+      visit concern_path(concern_2.id)
+      end
+
+      scenario "編集する・削除するのボタンが表示されない" do
+        find('.concern_dropdown').click
+        expect(page).to_not have_button '削除する'
+        expect(page).to_not have_link '編集する'
+      end
     end
+
   end
 
   describe "アドバイス" do
@@ -228,6 +248,7 @@ RSpec.describe "Concerns", type: :system do
       click_link concern_1.title
       visit concern_path(concern_1.id)
     end
+
     scenario "アドバイスができる" do
       fill_in('advice_advice', with: '空港の換金所がオススメ')
       click_button 'アドバイスを送る'
@@ -246,6 +267,12 @@ RSpec.describe "Concerns", type: :system do
       expect(page).to have_content(advice_1.user.username)
       expect(page).to have_selector("img[src$='cake.jpg']")
     end
+
+    scenario "アドバイスした投稿者の場合自分のアドバイスを削除できる" do
+      click_on advice_1.user.username
+      click_button 'アドバイスを削除'
+      expect(page).to have_content 'アドバイスを削除しました。'
+    end
   end
 
   describe "検索" do
@@ -253,6 +280,7 @@ RSpec.describe "Concerns", type: :system do
       login(friend_user)
       visit concerns_path
     end
+
     scenario "タイトル名が含まれている場合" do
       fill_in('q_title_cont', with: 'ど')
       click_button 'お悩み検索'
