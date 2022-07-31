@@ -22,13 +22,13 @@
   <% @recommends.each do |recommend| %>
     <div class="p-4 m-3 border">
       <% if recommend.user.image.present? %>
-        <%= link_to (image_tag recommend.user.image.url, class:"rounded-circle"), show_other_user_path(recommend.user) %>
+        <%= link_to (image_tag recommend.user.image.url, class:"rounded-circle", alt:"show_recommend_img"), show_other_user_path(recommend.user) %>
         <span class="m-2">
           <i class="fa-solid fa-heart"></i>
           <%= recommend.likes.count %>
         </span>
       <% else %>
-        <%= link_to (image_tag 'no_image.jpg', class:"rounded-circle"), show_other_user_path(recommend.user) %>
+        <%= link_to (image_tag 'no_image.jpg', class:"rounded-circle", alt:"初期アカウント画像"), show_other_user_path(recommend.user) %>
         <span class="m-2">
           <i class="fa-solid fa-heart"></i>
           <%= recommend.likes.count %>
