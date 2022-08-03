@@ -21,14 +21,8 @@ services:
             - 3000:3000
         depends_on:
             - db
-            - webdriver_chrome
         tty: true
         stdin_open: true
-        environment:
-            SELENIUM_REMOTE_URL: http://webdriver_chrome:4444/wd/hub
 
-
-    webdriver_chrome:
-        image: selenium/standalone-chrome
 volumes:
   gem_data:
