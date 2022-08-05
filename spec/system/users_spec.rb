@@ -77,6 +77,7 @@ RSpec.describe "User", type: :system do
       before do
         visit new_user_session_path
       end
+
       scenario "フォームの値が正常か" do
         fill_in('user_email', with: user.email)
         fill_in('user_password', with: user.password)
@@ -87,14 +88,14 @@ RSpec.describe "User", type: :system do
       end
 
       scenario "メールアドレス未入力" do
-        fill_in('user_email', with:'')
+        fill_in('user_email', with: '')
         fill_in('user_password', with: user.password)
         click_button("ログイン")
         expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
       end
 
       scenario "パスワード未入力" do
-        fill_in('user_email', with:user.email)
+        fill_in('user_email', with: user.email)
         fill_in('user_password', with: '')
         click_button("ログイン")
         expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
@@ -132,10 +133,10 @@ RSpec.describe "User", type: :system do
         click_on '編集する'
         visit edit_user_registration_path
         click_on 'アカウント削除'
-        expect{
+        expect do
           expect(page.accept_confirm).to eq '本当に良いですか?'
           expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております。'
-          }.to change { User.count }.by(-1)
+        end.to change { User.count }.by(-1)
         expect(current_path).to eq root_path
       end
 

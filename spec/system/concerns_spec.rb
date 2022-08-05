@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Concerns", type: :system do
-  let(:user) {create(:user)}
-  let!(:friend_user) {create(:friend_user)}
-  let!(:concern_1) {create(:concern, user_id: friend_user.id)}
-  let!(:concern_2) {create(:another_concern, user_id: user.id)}
-  let!(:advice_1) {create(:advice, concern_id: concern_1.id, user_id: user.id)}
-  let!(:advice_2) {create(:advice, concern_id: concern_2.id, user_id: friend_user.id)}
+  let(:user) { create(:user) }
+  let!(:friend_user) { create(:friend_user) }
+  let!(:concern_1) { create(:concern, user_id: friend_user.id) }
+  let!(:concern_2) { create(:another_concern, user_id: user.id) }
+  let!(:advice_1) { create(:advice, concern_id: concern_1.id, user_id: user.id) }
+  let!(:advice_2) { create(:advice, concern_id: concern_2.id, user_id: friend_user.id) }
+
   describe "投稿一覧" do
     before do
       login(user)
@@ -20,10 +21,10 @@ RSpec.describe "Concerns", type: :system do
     scenario "タイトル、更新日、アカウント画像が表示される" do
       expect(page).to have_content concern_1.title
       expect(page).to have_content concern_1.created_at.to_s(:datetime_jp)
-      expect(page).to have_selector ("img[src$='cake.jpg']")
+      expect(page).to have_selector("img[src$='cake.jpg']")
       expect(page).to have_content concern_2.title
       expect(page).to have_content concern_2.created_at.to_s(:datetime_jp)
-      expect(page).to have_selector ("img[src$='no_image.jpg']")
+      expect(page).to have_selector("img[src$='no_image.jpg']")
     end
 
     scenario "タイトルをクリックすると、その投稿の詳細画面へリンクする" do
@@ -32,12 +33,12 @@ RSpec.describe "Concerns", type: :system do
     end
   end
 
-
   describe "concernの投稿" do
     before do
       login(user)
       visit new_concern_path
-     end
+    end
+
     scenario "フォームの値が正常か" do
       fill_in('タイトル', with: 'シェアハウスについて')
       fill_in('相談内容', with: 'ダウンタウンの相場はどのくらいなのでしょうか？')
@@ -124,11 +125,11 @@ RSpec.describe "Concerns", type: :system do
 
   describe "concernの編集" do
     before do
-      login(friend_user)
+      another_login(friend_user)
       visit concerns_path
       click_link concern_1.title
       visit concern_path(concern_1.id)
-     end
+    end
 
     scenario "タイトルをクリックすると編集する・戻る・削除するの文字が表示される" do
       find(".concern_dropdown").click
@@ -210,10 +211,10 @@ RSpec.describe "Concerns", type: :system do
   describe "concernの削除" do
     context "メインユーザーが投稿した場合" do
       before do
-      login(friend_user)
-      visit concerns_path
-      click_link concern_1.title
-      visit concern_path(concern_1.id)
+        another_login(friend_user)
+        visit concerns_path
+        click_link concern_1.title
+        visit concern_path(concern_1.id)
       end
 
       scenario "投稿を削除できる" do
@@ -226,19 +227,18 @@ RSpec.describe "Concerns", type: :system do
 
     context "他のユーザーの投稿の場合" do
       before do
-      login(friend_user)
-      visit concerns_path
-      click_link concern_2.title
-      visit concern_path(concern_2.id)
+        another_login(friend_user)
+        visit concerns_path
+        click_link concern_2.title
+        visit concern_path(concern_2.id)
       end
 
       scenario "編集する・削除するのボタンが表示されない" do
         find('.concern_dropdown').click
-        expect(page).to_not have_button '削除する'
-        expect(page).to_not have_link '編集する'
+        expect(page).not_to have_button '削除する'
+        expect(page).not_to have_link '編集する'
       end
     end
-
   end
 
   describe "アドバイス" do
@@ -252,7 +252,7 @@ RSpec.describe "Concerns", type: :system do
     scenario "アドバイスができる" do
       fill_in('advice_advice', with: '空港の換金所がオススメ')
       click_button 'アドバイスを送る'
-        expect(page).to have_content '空港の換金所がオススメ'
+      expect(page).to have_content '空港の換金所がオススメ'
     end
 
     scenario "100文字以上だとアドバイスできない" do
@@ -277,14 +277,14 @@ RSpec.describe "Concerns", type: :system do
 
   describe "検索" do
     before do
-      login(friend_user)
+      another_login(friend_user)
       visit concerns_path
     end
 
     scenario "タイトル名が含まれている場合" do
       fill_in('q_title_cont', with: 'ど')
       click_button 'お悩み検索'
-      expect(page).to_not have_content concern_1.title
+      expect(page).not_to have_content concern_1.title
       expect(page).to have_content concern_2.title
     end
 
@@ -298,7 +298,7 @@ RSpec.describe "Concerns", type: :system do
     scenario "国名が含まれている場合" do
       select('日本', from: 'q_country_code_cont')
       click_button 'お悩み検索'
-      expect(page).to_not have_content concern_1.title
+      expect(page).not_to have_content concern_1.title
       expect(page).to have_content concern_2.title
     end
 
@@ -307,6 +307,61 @@ RSpec.describe "Concerns", type: :system do
       click_button 'お悩み検索'
       expect(page).to have_content concern_1.title
       expect(page).to have_content concern_2.title
+    end
+  end
+
+  describe "アドバイス後、アドバイスされた側に通知が行く" do
+    before do
+      login(user)
+      visit concerns_path
+      click_link concern_1.title
+      visit concern_path(concern_1.id)
+      fill_in('advice_advice', with: '空港の換金所がオススメ')
+      click_button 'アドバイスを送る'
+      within '.navbar-nav' do
+        find(".dropdown-toggle").click
+        click_on 'ログアウト'
+      end
+      another_login(friend_user)
+    end
+
+    scenario "黄色い丸が表示される" do
+      expect(page).to have_css 'i.fa.fa-circle'
+    end
+
+    scenario "通知をクリックすると黄色い丸が消える" do
+      within '.navbar-nav' do
+        click_link '通知'
+      end
+      expect(page).not_to have_css 'i.fa.fa-circle'
+    end
+
+    scenario "通知画面に通知が表示されている" do
+      visit notifications_path
+      expect(page).to have_content "#{advice_1.user.username}が#{advice_1.concern.title}にコメントしました"
+    end
+
+    scenario "アドバイス内容が表示される" do
+      visit notifications_path
+      expect(page).to have_content '空港の換金所がオススメ'
+    end
+
+    scenario "アドバイスしたユーザーのリンク先はあっているか" do
+      visit notifications_path
+      click_on(advice_1.user.username)
+      expect(current_path).to eq show_other_user_path(user.id)
+    end
+
+    scenario "悩みのタイトルのリンク先はあっているか" do
+      visit notifications_path
+      click_on(advice_1.concern.title)
+      expect(current_path).to eq concern_path(advice_1.concern.id)
+    end
+
+    scenario "通知が削除できる" do
+      visit notifications_path
+      click_link '通知削除'
+      expect(page).to have_content '通知はありません'
     end
   end
 end

@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Recommends", type: :system do
-  let(:user) {create(:user)}
-  let!(:friend_user) {create(:friend_user)}
-  let!(:recommend_1) {create(:recommend, user_id: friend_user.id)}
-  let!(:recommend_2) {create(:another_recommend, user_id: user.id)}
-  let!(:like_1) {create(:like, recommend_id: recommend_1.id, user_id: user.id)}
-  let!(:like_2) {create(:like, recommend_id: recommend_2.id, user_id: friend_user.id)}
+  let(:user) { create(:user) }
+  let!(:friend_user) { create(:friend_user) }
+  let!(:recommend_1) { create(:recommend, user_id: friend_user.id) }
+  let!(:recommend_2) { create(:another_recommend, user_id: user.id) }
+  let!(:like_1) { create(:like, recommend_id: recommend_1.id, user_id: user.id) }
+  let!(:like_2) { create(:like, recommend_id: recommend_2.id, user_id: friend_user.id) }
+
   describe "投稿一覧" do
     before do
       login(user)
@@ -20,14 +21,14 @@ RSpec.describe "Recommends", type: :system do
     scenario "タイトル、更新日、アカウント画像が表示される" do
       expect(page).to have_content recommend_1.title
       expect(page).to have_content recommend_1.created_at.to_s(:datetime_jp)
-      expect(page).to have_selector ("img[src$='cake.jpg']")
+      expect(page).to have_selector("img[src$='cake.jpg']")
       expect(page).to have_content recommend_2.title
       expect(page).to have_content recommend_2.created_at.to_s(:datetime_jp)
-      expect(page).to have_selector ("img[src$='no_image.jpg']")
+      expect(page).to have_selector("img[src$='no_image.jpg']")
     end
 
     scenario "いいねの数が表示される" do
-      expect(recommend_1.likes.count).to eq (1)
+      expect(recommend_1.likes.count).to eq(1)
     end
 
     scenario "タイトルをクリックすると、その投稿の詳細画面へリンクする" do
@@ -40,7 +41,8 @@ RSpec.describe "Recommends", type: :system do
     before do
       login(user)
       visit new_recommend_path
-     end
+    end
+
     scenario "フォームの値が正常か", js: true do
       fill_in('タイトル', with: 'アメリカで美味しいケーキ屋さん')
       fill_in('オススメ内容', with: 'ここのケーキ屋さんは種類が豊富で、お値段がそこまで高くない！')
@@ -113,7 +115,7 @@ RSpec.describe "Recommends", type: :system do
 
   describe "投稿の詳細画面" do
     before do
-      login(friend_user)
+      another_login(friend_user)
       visit recommends_path
     end
 
@@ -142,6 +144,7 @@ RSpec.describe "Recommends", type: :system do
       click_link recommend_2.title
       visit edit_recommend_path(recommend_2.id)
     end
+
     scenario "フォームの値が正常か", js: true do
       fill_in('タイトル', with: 'オーロラ')
       fill_in('オススメ内容', with: '人生で一度は見たいオーロラ！カナダがオススメ！')
@@ -240,8 +243,8 @@ RSpec.describe "Recommends", type: :system do
 
       scenario "編集する・削除するのボタンが表示されない" do
         find('.recommend_dropdown').click
-        expect(page).to_not have_button '削除する'
-        expect(page).to_not have_link '編集する'
+        expect(page).not_to have_button '削除する'
+        expect(page).not_to have_link '編集する'
       end
     end
   end
@@ -251,6 +254,7 @@ RSpec.describe "Recommends", type: :system do
       login(user)
       visit recommends_path
     end
+
     scenario "タイトル名が含まれている場合" do
       fill_in('q_title_cont', with: '出来事')
       expect(page).to have_content recommend_2.title
@@ -282,7 +286,7 @@ RSpec.describe "Recommends", type: :system do
       end
 
       scenario "自分の投稿にいいね出来ない" do
-        expect(page).to_not have_link recommend_likes_path(recommend_2.id)
+        expect(page).not_to have_link recommend_likes_path(recommend_2.id)
         expect(page).to have_css 'i.fa-solid.fa-heart'
       end
     end
@@ -299,6 +303,103 @@ RSpec.describe "Recommends", type: :system do
         find('.like_post').click
         expect(page).to have_css 'i.fa-solid.fa-heart'
       end
+    end
+  end
+
+  describe "いいねした後、いいねされたユーザーに通知がいく" do
+    before do
+      login(user)
+      visit recommends_path
+      click_link recommend_1.title
+      visit recommend_path(recommend_1.id)
+    end
+
+    scenario "黄色い丸が表示される" do
+      find('.like_delete').click
+      expect(page).to have_css 'i.fa-regular.fa-heart'
+      find('.like_post').click
+      expect(page).to have_css 'i.fa-solid.fa-heart'
+      within '.navbar-nav' do
+        find(".dropdown-toggle").click
+        click_on 'ログアウト'
+      end
+      another_login(friend_user)
+      expect(page).to have_css 'i.fa.fa-circle'
+    end
+
+    scenario "通知をクリックすると黄色い丸が消える" do
+      find('.like_delete').click
+      expect(page).to have_css 'i.fa-regular.fa-heart'
+      find('.like_post').click
+      expect(page).to have_css 'i.fa-solid.fa-heart'
+      within '.navbar-nav' do
+        find(".dropdown-toggle").click
+        click_on 'ログアウト'
+      end
+      another_login(friend_user)
+      within '.navbar-nav' do
+        click_link '通知'
+      end
+      expect(page).not_to have_css 'i.fa.fa-circle'
+    end
+
+    scenario "通知画面に通知が表示されている" do
+      find('.like_delete').click
+      expect(page).to have_css 'i.fa-regular.fa-heart'
+      find('.like_post').click
+      expect(page).to have_css 'i.fa-solid.fa-heart'
+      within '.navbar-nav' do
+        find(".dropdown-toggle").click
+        click_on 'ログアウト'
+      end
+      another_login(friend_user)
+      visit notifications_path
+      expect(page).to have_content "#{like_1.user.username}があなたの投稿にいいねしました"
+    end
+
+    scenario "いいねしたユーザーのリンク先はあっているか" do
+      find('.like_delete').click
+      expect(page).to have_css 'i.fa-regular.fa-heart'
+      find('.like_post').click
+      expect(page).to have_css 'i.fa-solid.fa-heart'
+      within '.navbar-nav' do
+        find(".dropdown-toggle").click
+        click_on 'ログアウト'
+      end
+      another_login(friend_user)
+      visit notifications_path
+      click_on(like_1.user.username)
+      expect(current_path).to eq show_other_user_path(user.id)
+    end
+
+    scenario "オススメタイトルのリンク先はあっているか" do
+      find('.like_delete').click
+      expect(page).to have_css 'i.fa-regular.fa-heart'
+      find('.like_post').click
+      expect(page).to have_css 'i.fa-solid.fa-heart'
+      within '.navbar-nav' do
+        find(".dropdown-toggle").click
+        click_on 'ログアウト'
+      end
+      another_login(friend_user)
+      visit notifications_path
+      click_on 'あなたの投稿'
+      expect(current_path).to eq recommend_path(like_1.recommend.id)
+    end
+
+    scenario "通知が削除できる" do
+      find('.like_delete').click
+      expect(page).to have_css 'i.fa-regular.fa-heart'
+      find('.like_post').click
+      expect(page).to have_css 'i.fa-solid.fa-heart'
+      within '.navbar-nav' do
+        find(".dropdown-toggle").click
+        click_on 'ログアウト'
+      end
+      another_login(friend_user)
+      visit notifications_path
+      click_link '通知削除'
+      expect(page).to have_content '通知はありません'
     end
   end
 end

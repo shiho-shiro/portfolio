@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Memories", type: :system do
-  let(:user) {create(:user)}
-  let!(:memory) {create(:memory, user_id: user.id)}
-  let!(:memory_1) {create(:memory_1, user_id: user.id)}
-  let!(:memory_2) {create(:memory_2, user_id: user.id)}
+  let(:user) { create(:user) }
+  let!(:memory) { create(:memory, user_id: user.id) }
+  let!(:memory_1) { create(:memory_1, user_id: user.id) }
+  let!(:memory_2) { create(:memory_2, user_id: user.id) }
+
   describe "投稿一覧" do
     context "ログイン済みのユーザーとして" do
       before do
@@ -13,6 +14,7 @@ RSpec.describe "Memories", type: :system do
         first(".navbar-nav").click_link("Memory")
         visit memories_path
       end
+
       scenario "memory一覧画面にタイトルと、更新日が表示されている" do
         expect(page).to have_content memory.title
         expect(page).to have_content memory.date
@@ -84,7 +86,7 @@ RSpec.describe "Memories", type: :system do
 
     scenario "コンテンツが300文字以上はエラーコメントが表示" do
       fill_in('タイトル', with: '初めての投稿')
-      fill_in('日記', with: Faker::Lorem.characters(number: 301) )
+      fill_in('日記', with: Faker::Lorem.characters(number: 301))
       select('2022', from: 'memory_date_1i')
       select('1月', from: 'memory_date_2i')
       select('1', from: 'memory_date_3i')

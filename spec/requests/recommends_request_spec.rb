@@ -343,7 +343,7 @@ RSpec.describe RecommendsController, type: :request do
         @recommend = create(:recommend, user_id: @user.id)
         @another_recommend = create(:recommend, user_id: @user.id)
         sign_in @user
-        get search_recommends_path, params: { q: { title_cont: "オススメ"} }
+        get search_recommends_path, params: { q: { title_cont: "オススメ" } }
       end
 
       it "200レスポンスを返す" do
@@ -376,7 +376,7 @@ RSpec.describe RecommendsController, type: :request do
       before do
         @recommend = create(:recommend, user_id: @user.id)
         @another_recommend = create(:recommend, user_id: @user.id)
-        get search_recommends_path, params: { q: { title_cont: "オススメ"} }
+        get search_recommends_path, params: { q: { title_cont: "オススメ" } }
       end
 
       it "正常のレスポンスを返す" do

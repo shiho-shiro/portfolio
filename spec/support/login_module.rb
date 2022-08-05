@@ -7,7 +7,7 @@ module LoginModule
     click_button 'ログイン'
   end
 
-  def login(friend_user)
+  def another_login(friend_user)
     visit root_path
     click_link 'ログイン'
     fill_in 'user_email', with: friend_user.email

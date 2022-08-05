@@ -342,7 +342,7 @@ RSpec.describe ConcernsController, type: :request do
       before do
         @concern = create(:concern, user_id: @user.id)
         sign_in @user
-        get search_concerns_path, params: { q: { title_cont: "悩み"} }
+        get search_concerns_path, params: { q: { title_cont: "悩み" } }
       end
 
       it "200レスポンスを返す" do
@@ -374,7 +374,7 @@ RSpec.describe ConcernsController, type: :request do
     context "未登録のゲストとして" do
       before do
         @concern = create(:concern, user_id: @user.id)
-        get search_concerns_path, params: { q: { title_cont: "悩み"} }
+        get search_concerns_path, params: { q: { title_cont: "悩み" } }
       end
 
       it "正常のレスポンスを返す" do
