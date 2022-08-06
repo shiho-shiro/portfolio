@@ -1,0 +1,19 @@
+<div class="col-12">
+  <% visiter = notification.visiter %>
+  <div class="p-2 my-3 border">
+    <% if visiter.image.present? %>
+      <%= image_tag(visiter.image.url, class:"rounded-circle mr-2") %>
+    <% else %>
+      <%= image_tag 'no_image.jpg', class:"rounded-circle mr-2" %>
+    <% end %>
+    <%= notification_form(notification) %>
+    <span class="moderate-font">
+      <%= "(#{time_ago_in_words(notification.created_at)}前)" %>
+    </span>
+    <div class="moderate-font text-break mt-2">
+      <% if !@advice.nil? %>
+        <%= @advice.advice %>
+      <% end %>
+    </div>
+  </div>
+</div>

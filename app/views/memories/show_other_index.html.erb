@@ -1,16 +1,41 @@
-<h1>Memories</h1>
-<% @memories.each do |memory| %>
-  <div class="memory_content">
-    <%= link_to(memory_path(memory.id), {class:"menu tr_size"}) do %>
-      <%= memory.date %>
-      <%= memory.title %>
-    <% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 mt-4 border-bottom">
+      <div class="dropdown">
+        <button class="btn dropdown-toggle mx-auto d-block" type="button" id="other_memorytMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="h2 mr-3 font-italic">
+            <%= @other_user.username %>の日記
+          </span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="other_memoryMenu">
+          <% if @other_user != @user %>
+            <%= link_to "プロフィールに戻る", show_other_user_path(@other_user.id), class: "dropdown-item" %>
+            <%= link_to "お悩み相談一覧に戻る", concerns_path, class: "dropdown-item" %>
+            <%= link_to "オススメ一覧に戻る", recommends_path, class: "dropdown-item" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-<% end %>
 
-<br>
+  <% @other_memories.each do |memory| %>
+    <div class="p-4 m-3 border">
+      <div class="row d-md-inline-flex align-top">
+        <div class="col-lg-12 align-middle">
+          <ul class="list-group">
+            <li class="list-group-flush list-unstyled">
+              <span class="small">
+                <%= memory.created_at.to_s(:datetime_jp) %>
+              </span>
+            </li>
+            <li class="list-group-flush list-unstyled">
+              <%= link_to memory.title + "の日記を見る", memory_path(memory.id) %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
 
-<% if @other_user != @user %>
-	<%= link_to 'Back', show_other_user_path(@other_user.id), class:"menu" %>
-	<%= link_to "Concern一覧に戻る", concerns_path, class:"menu" %>
-<% end %>
+<%= paginate @other_memories, class:"pagination" %>

@@ -1,57 +1,66 @@
-<h2><%= t('.title', resource: resource.model_name.human) %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <div class="field">
-    <%= f.label :image, "アカウント" %><br/>
-    <%= f.file_field :image %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 d-md-flex justify-content-between border-bottom mt-4">
+      <h2 class="col-md-6 text-center text-md-left font-italic">アカウント編集</h2>
+      <%= link_to t('devise.shared.links.back'), user_path(current_user.id), class:"col-12 col-md-3 col-lg-2 btn btn-outline-primary mb-3 mb-md-2" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, placeholder: "メールアドレス" %>
+  <%= form_with(model: @user, url: user_registration_path, local: true) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="row mt-4 py-4 border">
+      <div class="col-12">
+        <div class="form-group text-center d-block pb-4">
+          <%= f.label :username, class:"font-italic" %>
+          <%= f.text_field :username, autofocus: true, placeholder: "10文字以内", class:"form-control w-100" %>
+        </div>
+
+        <div class="form-group d-block p-sm-2 pb-2 border">
+          <%= f.label :image, "アカウント画像", class:"text-center d-block justify-content-md-start font-italic" %>
+          <%= f.file_field :image, class:"col-10 pl-5 pl-md-0" %>
+        </div>
+
+        <div class="form-group text-center d-block pb-4">
+          <%= f.label :email, class:"font-italic" %>
+          <%= f.email_field :email, autofocus: true, placeholder: "メールアドレス", class:"form-control w-100" %>
+        </div>
+
+        <div class="form-group text-center d-block pb-4">
+          <%= f.label :country_code, "行ったことのある/行ってみたい", class:"justify-content-md-start font-italic" %>
+          <%= f.country_select :country_code, { include_blank: "国を選択", selected: 1 }, format: :with_alpha2, class:"custom-select w-100" %>
+        </div>
+
+        <div class="form-group text-center d-block pb-4">
+          <%= f.label :job, "現地で経験した/やってみたい", class:"font-italic" %>
+          <%= f.text_field :job, autofocus: true, placeholder: "どんなお仕事？", class:"form-control w-100" %>
+        </div>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></div>
+        <% end %>
+
+        <div class="form-group text-center d-block pb-4">
+          <%= f.label :password, class:"font-italic" %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i>
+          <% if @minimum_password_length %>
+            <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "新しいパスワード", class:"form-control w-100" %>
+        </div>
+
+        <div class="form-group text-center d-block pb-4">
+          <%= f.label :password_confirmation, class:"font-italic" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "確認用パスワード", class:"form-control w-100" %>
+        </div>
+
+        <div class="text-center my-3">
+          <div class="col-12 text-center mb-4">
+            <%= f.submit t('.update'), class:"btn btn-outline-success py-2 px-5" %>
+          </div>
+        </div>
+      <% end %>
+      <p class="text-primary">
+        <%= t('.unhappy') %>? <%= link_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete, class:"text-danger" %>
+      </p>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username, autofocus: true, placeholder: "アカウント名"  %>
-  </div>
-
-  <div class="field">
-    <%= f.label :country_code,"行ったことのある/行ってみたい" %><br />
-    <%= f.country_select :country_code, autofocus: true, placeholder: "Country name", format: :with_alpha2 %>
-  </div>
-
-  <div class="field">
-    <%= f.label :job, "現地で経験した/やってみたい" %><br />
-    <%= f.text_field :job, autofocus: true, placeholder: "Job name" %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password", placeholder: "新しいパスワード" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "確認用パスワード" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit t('.update') %>
-  </div>
-<% end %>
-
-<h3><%= t('.cancel_my_account') %></h3>
-
-<p><%= t('.unhappy') %> <%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %></p>
-
-<%= link_to t('devise.shared.links.back'), :back %>
+</div>

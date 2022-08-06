@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-2 col-lg-2 p-1 h-25 mt-3 border text-center d-flex d-md-block">
+      <div class="text-center mt-2 col-sm-5 col-md-12 col-lg-12">
+        <% if @recommend.user.image.present? %>
+          <%= link_to image_tag(@recommend.user.image.url, class:"rounded-circle", alt:"show_recommend_img"), show_other_user_path(@recommend.user) %>
+        <% else %>
+          <%= link_to image_tag('no_image.jpg', class:"rounded-circle", alt:"初期アカウント画像"), show_other_user_path(@recommend.user) %>
+        <% end %>
+      </div>
+      <div class="d-md-block col-md-12 col-lg-12 px-md-0 px-lg-0">
+        <span class="small border-bottom">
+          <%= @recommend.user.username %>
+        </span>
+        <br>
+        <span class="font-weight-bold">
+          <%= @recommend.country_name %>
+        </span>
+        <br>
+        <span>
+          <% if @recommend.user != current_user %>
+            <% if current_user.already_likes?(@recommend) %>
+              <%= link_to recommend_likes_path(@recommend), class:"like_delete", method: :delete do %>
+                <i class="fa-solid fa-heart"></i>
+              <% end %>
+            <% else %>
+              <%= link_to recommend_likes_path(@recommend),  class:"like_post", method: :post do %>
+                <i class="fa-regular fa-heart"></i>
+              <% end %>
+            <% end %>
+            <%= @recommend.likes.count %>
+          <% else %>
+            <i class="fa-solid fa-heart"></i>
+            <%= @recommend.likes.count %>
+          <% end %>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-9 col-lg-9 ml-md-4 mt-3 border-bottom">
+      <div class="border-top border-bottom text-center py-3 justify-content-center font-weight-bold">
+        <div class="dropdown">
+          <button class="btn btn-outline-info dropdown-toggle recommend_dropdown" type="button" id="contentMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= @recommend.title %>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="contentMenu">
+            <% if @user == @recommend.user %>
+              <%= link_to '編集する', edit_recommend_path(@recommend), class: "dropdown-item" %>
+              <%= link_to '戻る', recommends_path, class: "dropdown-item text" %>
+              <%= button_to '削除する', recommend_path, method: :delete, class: "dropdown-item" %>
+            <% else %>
+              <%= link_to '戻る', recommends_path, class: "dropdown-item" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-2">
+        <span class="border-bottom"><%= @recommend.created_at.to_s(:datetime_jp) %></span>
+      </div>
+      <div class="d-md-flex pb-md-4 border-bottom">
+        <div class="img-fluid m-md-2 text-center">
+          <% if @recommend.image.present? %>
+            <%= image_tag @recommend.image.url %>
+          <% end %>
+        </div>
+        <div class="pb-4 pb-md-0 p-1">
+          <%= @recommend.content %>
+        </div>
+      </div>
+      <div class="text-center mt-4 pb-4">
+        <div class="d-inline-block" id="map"></div>
+        <script type="text/javascript">
+          function initMap() {
+            geocoder = new google.maps.Geocoder()
+              var test = {lat: <%= @recommend.latitude %>, lng: <%= @recommend.longitude %>};
+              var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: test
+              });
+              var transitLayer = new google.maps.TransitLayer();
+                    transitLayer.setMap(map);
+              var contentString = '住所：<%= @recommend.address %>';
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+              var marker = new google.maps.Marker({
+                position: test,
+                map: map,
+                title: contentString
+              });
+            marker.addListener('click', function() {
+              infowindow.open(map, marker);
+            });
+          }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?&key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap" async defer></script>
+      </div>
+    </div>
+  </div>
+</div>

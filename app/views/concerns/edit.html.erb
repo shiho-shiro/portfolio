@@ -1,6 +1,11 @@
-<h1>Editing Concern</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 d-md-flex justify-content-between border-bottom mt-4">
+      <h2 class="col-md-6 text-center text-md-left font-italic">お悩みを編集</h2>
+      <%= link_to "この投稿を見る", @concern, class:"col-12 col-md-3 col-lg-2 btn btn-outline-primary mb-3 mb-md-2" %>
+    </div>
+  </div>
 
-<%= render 'form', concern: @concern %>
+  <%= render 'form', concern: @concern %>
 
-<%= link_to 'Show', @concern %> |
-<%= link_to 'Back', concerns_path %>
+</div>

@@ -1,4 +1,109 @@
+body{
+  font-family:"ヒラギノ明朝 Pro W3",
+    "Hiragino Mincho Pro",
+    "MS Ｐ明朝",
+    "MS PMincho",
+    serif;
+}
+@media screen and (max-width:500px) {
+  #notice {
+    font-size: 0.1rem;
+  }
+}
 .rounded-circle{
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
+}
+
+#map {
+  height: 200px;
+  width: 80%;
+}
+
+.small-account{
+  width: 50px;
+  height: 50px;
+}
+.dropdown-menu{
+  min-width: 0;
+}
+.pagination{
+  justify-content: center;
+}
+.field_with_errors{
+  input {
+    border: solid 1px red;
+  }
+}
+.field_with_errors {
+  textarea {
+    border: solid 1px red;
+  }
+}
+.field_with_errors {
+  select {
+    border: solid 1px red;
+  }
+}
+p{
+  word-break: break-all;
+}
+.submit_overflow{
+  overflow: scroll;
+}
+
+.background_img_top {
+  background-image: url("../images/usa-g843a5c64c_1280.jpg");
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+  display: block;
+}
+.main-bottom{
+  padding-bottom: 100px;
+}
+.top-text{
+  padding-top: 350px;
+}
+@media screen and (max-width:375px) {
+  .top-text {
+    padding-top: 200px;
+  }
+}
+.second-text{
+  font-size: small;
+}
+.second-head{
+  background-color: #ecfbff96;
+  color: blue;
+}
+@media screen and (max-width:767px) {
+  .second-head {
+    font-size: 0.1rem;
+  }
+}
+@media screen and (max-width:767px) {
+  .second-font{
+    font-size: 0.1rem;
+  }
+}
+.third-head {
+  background-color: #eafce9;
+  color: green;
+}
+@media screen and (max-width:767px) {
+  .third-head {
+    font-size: 1rem;
+  }
+}
+@media screen and (max-width:767px) {
+  .third-font {
+    font-size: 1rem;
+  }
+}
+.link-color{
+  color: black;
 }

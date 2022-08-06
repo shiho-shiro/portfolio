@@ -6,9 +6,11 @@ class AdvicesController < ApplicationController
     @concern = Concern.find(params[:concern_id])
     @advice = current_user.advices.new(advice_params)
     if @advice.save
-      redirect_to concern_path(@concern)
+      @concern.create_notification_advice!(current_user, @advice.id)
+      redirect_to concern_path(@concern), notice: "アドバイスしました。"
     else
-      render 'concerns/show'
+      flash[:notice] = "アドバイスが出来ませんでした。"
+      redirect_back(fallback_location: root_path)
     end
   end
 
@@ -23,6 +25,7 @@ class AdvicesController < ApplicationController
   end
 
   private
+
   def advice_params
     params.require(:advice).permit(:advice).merge(user_id: current_user.id, concern_id: params[:concern_id])
   end

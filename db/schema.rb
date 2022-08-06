@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_07_035854) do
+ActiveRecord::Schema.define(version: 2022_04_27_025043) do
 
   create_table "advices", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
@@ -30,12 +30,44 @@ ActiveRecord::Schema.define(version: 2022_04_07_035854) do
     t.string "country_code", default: "JP"
   end
 
+  create_table "likes", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "recommend_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "memories", charset: "utf8mb4", force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.date "date"
     t.string "image"
     t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "notifications", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "visiter_id"
+    t.integer "visited_id"
+    t.integer "concern_id"
+    t.integer "advice_id"
+    t.integer "recommend_id"
+    t.string "action"
+    t.boolean "checked", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "recommends", charset: "utf8mb4", force: :cascade do |t|
+    t.string "title"
+    t.string "content"
+    t.string "image"
+    t.string "country_code", default: "JP"
+    t.integer "user_id"
+    t.string "address"
+    t.float "latitude"
+    t.float "longitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

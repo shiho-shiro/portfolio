@@ -20,7 +20,8 @@ module Myapp
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     # config.eager_load_paths << Rails.root.join("extras")
     config.generators do |g|
-      g.stylesheet false
+      g.assets false
+      g.helper false
     end
   end
 end

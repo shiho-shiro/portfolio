@@ -4,7 +4,10 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 /app/assets/images
+/app/javascript/images
 /public/uploads/*
+
+
 /db/mysql/*
 /.env
 # Ignore bundler config.
@@ -33,6 +36,7 @@
 
 /public/packs
 /public/packs-test
+/spec/fixtures
 /node_modules
 /yarn-error.log
 yarn-debug.log*

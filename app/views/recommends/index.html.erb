@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <h2 class="col-lg-12 text-center text-md-left mt-4 font-italic border-bottom">オススメ</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 text-center mt-md-4">
+      <%= link_to 'オススメを投稿する', new_recommend_path, class:"btn btn-outline-primary btn-sm" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <%= search_form_for @q, url: search_recommends_path, class:"form-inline justify-content-center" do |f| %>
+        <%= f.country_select :country_code_cont, { include_blank: "国を指定する", selected: 1 }, class:"custom-select col-lg-2 col-md-3 col-sm-4 mr-sm-2 my-2" %>
+        <%= f.text_field :title_cont, class:"form-control col-lg-7 col-md-5 col-sm-4 mr-sm-2", type:"search", placeholder:"タイトルから探す" %>
+        <%= f.submit 'オススメ検索',class:"btn btn-outline-success my-1 my-sm-0 " %>
+      <% end %>
+    </div>
+  </div>
+
+  <% @recommends.each do |recommend| %>
+    <div class="p-4 m-3 border">
+      <% if recommend.user.image.present? %>
+        <%= link_to (image_tag recommend.user.image.url, class:"rounded-circle", alt:"show_recommend_img"), show_other_user_path(recommend.user) %>
+        <span class="m-2">
+          <i class="fa-solid fa-heart"></i>
+          <%= recommend.likes.count %>
+        </span>
+      <% else %>
+        <%= link_to (image_tag 'no_image.jpg', class:"rounded-circle", alt:"初期アカウント画像"), show_other_user_path(recommend.user) %>
+        <span class="m-2">
+          <i class="fa-solid fa-heart"></i>
+          <%= recommend.likes.count %>
+        </span>
+      <% end %>
+      <div class="row d-md-inline-flex align-top ml-1">
+        <div class="col-lg-12 align-middle">
+          <ul class="list-group">
+            <li class="list-group-flush list-unstyled">
+              <span class="small"><%= recommend.created_at.to_s(:datetime_jp) %></span>
+            </li>
+            <li class="list-group-flush list-unstyled font-weight-bold">
+              <%= link_to recommend_path(recommend.id) do %>
+                <%= recommend.title %>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @recommends, class:"pagination" %>

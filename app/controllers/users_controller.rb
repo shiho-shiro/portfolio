@@ -9,10 +9,11 @@ class UsersController < ApplicationController
   end
 
   private
-    def other_user
-      @other_user = User.find(params[:id])
-      if @other_user == current_user
-        redirect_to :action => 'show'
-      end
+
+  def other_user
+    @other_user = User.find(params[:id])
+    if @other_user == current_user
+      redirect_to :action => 'show'
     end
+  end
 end

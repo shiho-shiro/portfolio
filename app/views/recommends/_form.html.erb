@@ -1,0 +1,53 @@
+<%= form_with(model: @recommend, local: true, class:"form-inline d-block") do |f| %>
+  <% if @recommend.errors.any? %>
+    <div class="text-center text-danger font-weight-bold py-3" id="error_explanation">
+      <h2><%= pluralize(@recommend.errors.count, "件") %>入力ミスがあります。</h2>
+      <ul class="list-group">
+        <% @recommend.errors.each do |error| %>
+          <li class="list-group-flush list-unstyled">
+            <%= error.full_message %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row mt-4 py-4 border">
+    <div class="col-12">
+
+      <div class="form-group text-center d-block pb-4">
+        <%= f.label :title, class:"justify-content-md-start font-italic" %>
+        <%= f.text_field :title, placeholder:"例：「店名、場所名」...など（20文字以内）", class:"form-control w-100" %>
+      </div>
+
+      <div class="form-group text-center d-block pb-4">
+        <%= f.label :content, class:"justify-content-md-start font-italic" %>
+        <%= f.text_area :content, placeholder:"例：「朝食にピッタリのサンドウッチが楽しめるカフェです！」...など（200文字以内）", class:"form-control w-100" %>
+      </div>
+
+      <div class="form-group text-center d-block pb-4">
+        <%= f.label :country_code, class:"justify-content-md-start font-italic" %>
+        <%= f.country_select :country_code, { include_blank: "国を選択", selected: 1 }, format: :with_alpha2, class:"custom-select w-100" %>
+      </div>
+
+      <div class="form-group text-center d-block pb-4">
+        <%= f.label :address, class:"justify-content-md-start font-italic" %>
+        <%= f.text_field :address, placeholder: "住所を教えてね！", class:"form-control w-100" %>
+      </div>
+
+      <div class="form-group text-center text-md-left d-block p-sm-2 pb-2 border">
+        <%= f.label :image, class:"d-block justify-content-md-start font-italic" %>
+        <%= f.file_field :image, class:"col-10 pl-5 pl-md-0" %>
+      </div>
+
+      <div class="d-md-flex my-3">
+        <div class="col-12 col-md-6 text-center mb-4">
+          <%= f.submit "オススメを投稿する", class:"btn btn-outline-success btn-lg" %>
+        </div>
+        <div class="col-12 col-md-6 text-center">
+          <%= link_to "オススメ一覧に戻る", recommends_path, class:"btn btn-outline-info btn-lg" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

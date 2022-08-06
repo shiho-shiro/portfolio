@@ -1,26 +1,58 @@
-<header>
-  <div class="header">
-    <div class="header_menu">
-      <% if user_signed_in?  %>
-        <% if @user == current_user %>
-          <% if @user.image.present? %>
-            <%= link_to image_tag(@user.image.url, class:"rounded-circle"), user_path(current_user) %>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <%= link_to (image_tag 'vitu_(2).png', class:"navbar-brand"), root_path %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#responsiveMenu" aria-controls="responsiveMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse justify-content-end" id="responsiveMenu">
+    <ul class="navbar-nav">
+      <% if user_signed_in? %>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to "Memory", memories_path, class:"nav-link" %><span class="sr-only">(current)</span>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to "お悩み相談", concerns_path, class:"nav-link" %>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to "オススメ", recommends_path, class:"nav-link" %>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <% if unchecked_notifications.any? %>
+            <i class="fa fa-circle" style="color: gold;"></i>
+            <%= link_to "通知",notifications_path, class:"nav-link" %>
           <% else %>
-            <%= link_to image_tag('no_image.jpeg', class:"rounded-circle"), user_path(current_user) %>
+            <%= link_to "通知", notifications_path, class:"nav-link" %>
           <% end %>
-        <% end %>
-        <%= link_to "Home", root_path, class:"menu menu_list" %>
-        <%= link_to "Memory", memories_path, class:"menu menu_list" %>
-        <%= link_to "Concern", concerns_path, class:"menu menu_list" %>
-        <%= link_to "プロフィール", user_path(current_user), class:"menu menu_list" %>
-        <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"menu menu_list btn_to" %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <% if @user == current_user %>
+              <% if @user.image.present? %>
+                <%= image_tag @user.image.url, class:"rounded-circle" %>
+              <% else %>
+                <%= image_tag 'no_image.jpg', class:"rounded-circle" %>
+              <% end %>
+            <% end %>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <%= link_to "アカウント", user_path(current_user), class: "dropdown-item" %>
+            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+          </div>
+        </li>
       <% else %>
-        <%= link_to "ログイン", new_user_session_path, class:"menu menu_list" %>
-        <%= link_to "新規登録", new_user_registration_path, class:"menu menu_list" %>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to "ログイン", new_user_session_path, class:"nav-link" %>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <%= link_to "新規登録", new_user_registration_path, class:"nav-link" %>
+        </li>
       <% end %>
-    </div>
-    <div id="notice">
+    </ul>
+  </div>
+</nav>
+
+  <% if flash[:notice]%>
+    <div class="text-center text-white bg-info" id="notice">
       <%= flash[:notice] %>
     </div>
-  </div>
-</header>
+  <% end %>
