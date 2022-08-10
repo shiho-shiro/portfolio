@@ -23,9 +23,12 @@
 
 ## Demo画像
 
+アドバイスの投稿<br>
+<img src="https://user-images.githubusercontent.com/84885436/183929556-a8702dc8-3a52-4844-a156-df4d36ee8b42.jpg" width="200">
 
 
-
+オススメの投稿<br>
+<img src="https://user-images.githubusercontent.com/84885436/183929737-edc03fc4-1a69-42c3-ab70-2e2fd8b5b469.jpg" width="200">
 
 ## ER図
 
