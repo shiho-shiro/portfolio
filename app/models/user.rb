@@ -1,8 +1,6 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable #:confirmable
+         :recoverable, :rememberable, :validatable
 
   validates :username, presence: true
   validates :country_code, presence: true
@@ -36,6 +34,13 @@ class User < ApplicationRecord
 
   def already_likes?(recommend)
     likes.exists?(recommend_id: recommend.id)
+  end
+
+  def self.guest
+    find_or_create_by(email: 'guest_user@example.com') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.username = "ゲスト"
+    end
   end
 
   mount_uploader :image, ImageUploader
