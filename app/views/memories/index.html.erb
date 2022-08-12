@@ -15,7 +15,7 @@
         <div class="col-lg-12 align-middle">
           <ul class="list-group">
             <li class="list-group-flush list-unstyled">
-              <span class="small"><%= memory.created_at.to_s(:datetime_jp) %></span>
+              <span class="small"><%= memory.date %></span>
             </li>
             <li class="list-group-flush list-unstyled">
               <%= link_to memory.title + "の日記を見る", memory_path(memory.id) %>
