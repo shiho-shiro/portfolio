@@ -361,7 +361,7 @@ RSpec.describe ConcernsController, type: :request do
     context "国名を指定した場合" do
       before do
         @concern = create(:concern, user_id: @user.id)
-        @another_concern = create(:another_concern, user_id: @user.id)
+        @another_concern = create(:concern_1, user_id: @user.id)
         sign_in @user
         get search_concerns_path, params: { q: { country_code_eq: "JP" } }
       end

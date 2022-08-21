@@ -5,31 +5,40 @@
 
   <% @recommend_results.each do |r_result| %>
     <div class="p-4 m-3 border">
-      <% if r_result.user.image.present? %>
-        <%= link_to (image_tag r_result.user.image.url, class:"rounded-circle", alt:"show_recommend_img"), show_other_user_path(r_result.user) %>
-        <span class="m-2">
-          <i class="fa-solid fa-heart"></i>
-          <%= r_result.likes.count %>
-        </span>
-      <% else %>
-        <%= link_to (image_tag 'no_image.jpg', class:"rounded-circle", alt:"初期アカウント画像"), show_other_user_path(r_result.user) %>
-        <span class="m-2">
-          <i class="fa-solid fa-heart"></i>
-          <%= r_result.likes.count %>
-        </span>
-      <% end %>
-      <div class="row d-md-inline-flex align-top ml-1">
-        <div class="col-lg-12 align-middle">
-          <ul class="list-group">
-            <li class="list-group-flush list-unstyled">
-              <span class="small"><%= r_result.created_at.to_s(:datetime_jp) %></span>
-            </li>
-            <li class="list-group-flush list-unstyled font-weight-bold">
-              <%= link_to recommend_path(r_result.id) do %>
-                <%= r_result.title %>
-              <% end %>
-            </li>
-          </ul>
+      <div class="d-sm-flex justify-content-sm-between align-items-center">
+        <div class="d-md-inline-block">
+          <% if r_result.user.image.present? %>
+            <%= link_to (image_tag r_result.user.image.url, class:"rounded-circle", alt:"show_recommend_img"), show_other_user_path(r_result.user) %>
+            <span class="m-2">
+              <i class="fa-solid fa-heart"></i>
+              <%= r_result.likes.count %>
+            </span>
+          <% else %>
+            <%= link_to (image_tag 'no_image.jpg', class:"rounded-circle", alt:"初期アカウント画像"), show_other_user_path(r_result.user) %>
+            <span class="m-2">
+              <i class="fa-solid fa-heart"></i>
+              <%= r_result.likes.count %>
+            </span>
+          <% end %>
+          <div class="row d-md-inline-flex align-top ml-1">
+            <div class="col-lg-12 align-middle">
+              <ul class="list-group">
+                <li class="list-group-flush list-unstyled">
+                  <span class="small"><%= r_result.created_at.to_s(:datetime_jp) %></span>
+                </li>
+                <li class="list-group-flush list-unstyled font-weight-bold">
+                  <%= link_to recommend_path(r_result.id) do %>
+                    <%= r_result.title %>
+                  <% end %>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="img-fluid d-md-inline-block text-center mt-3">
+          <% if r_result.image.present? %>
+            <%= image_tag r_result.image.url %>
+          <% end %>
         </div>
       </div>
     </div>

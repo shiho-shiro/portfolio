@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "Memories", type: :system do
   let(:user) { create(:user) }
-  let!(:memory) { create(:memory, user_id: user.id) }
-  let!(:memory_1) { create(:memory_1, user_id: user.id) }
-  let!(:memory_2) { create(:memory_2, user_id: user.id) }
+  let(:friend_user) { create(:friend_user) }
+  let!(:memory) { create(:memory, user_id: friend_user.id) }
+  let!(:memory_1) { create(:memory_2, user_id: user.id) }
 
   describe "投稿一覧" do
     context "ログイン済みのユーザーとして" do
       before do
-        login(user)
+        another_login(friend_user)
         visit root_path
         first(".navbar-nav").click_link("Memory")
         visit memories_path
@@ -18,8 +18,7 @@ RSpec.describe "Memories", type: :system do
       scenario "memory一覧画面にタイトルと、更新日が表示されている" do
         expect(page).to have_content memory.title
         expect(page).to have_content memory.date
-        expect(page).to have_content memory_1.title
-        expect(page).to have_content memory_1.date
+        expect(page).to have_selector("img[src$='no_image.jpg']")
       end
 
       scenario "タイトルをクリックすると、その投稿の詳細画面へリンクする" do
@@ -103,20 +102,20 @@ RSpec.describe "Memories", type: :system do
     end
 
     scenario "タイトルとコンテンツと画像が表示されているか" do
-      click_link memory_2.title
-      visit memory_path(memory_2.id)
-      expect(page).to have_content memory_2.title
-      expect(page).to have_content memory_2.content
+      click_link memory_1.title
+      visit memory_path(memory_1.id)
+      expect(page).to have_content memory_1.title
+      expect(page).to have_content memory_1.content
       expect(page).to have_selector("img[src$='no_image.jpg']")
     end
   end
 
   describe "Memoryの編集" do
     before do
-      login(user)
+      another_login(friend_user)
       visit memories_path
-      click_link memory_2.title
-      visit memory_path(memory_2.id)
+      click_link memory.title
+      visit memory_path(memory.id)
     end
 
     scenario "タイトルをクリックすると編集する・戻る・削除するの文字が表示される" do
@@ -127,18 +126,18 @@ RSpec.describe "Memories", type: :system do
     end
 
     scenario "投稿詳細へ戻るボタンがあるか" do
-      visit edit_memory_path(memory_2.id)
+      visit edit_memory_path(memory.id)
       expect(page).to have_content 'この投稿を見る'
     end
 
     scenario "投稿詳細へ戻るボタンのパスはあっているか" do
-      visit edit_memory_path(memory_2.id)
+      visit edit_memory_path(memory.id)
       click_link 'この投稿を見る'
-      expect(current_path).to eq memory_path(memory_2.id)
+      expect(current_path).to eq memory_path(memory.id)
     end
 
     scenario "フォームの値が正常か" do
-      visit edit_memory_path(memory_2.id)
+      visit edit_memory_path(memory.id)
       fill_in('タイトル', with: 'memoryの編集後')
       fill_in('日記', with: '編集されました。')
       select('2022', from: 'memory_date_1i')
@@ -146,7 +145,7 @@ RSpec.describe "Memories", type: :system do
       select('6', from: 'memory_date_3i')
       attach_file('画像', "#{Rails.root}/spec/fixtures/aurora.jpg")
       click_button 'Memoryを投稿する'
-      expect(current_path).to eq memory_path(memory_2.id)
+      expect(current_path).to eq memory_path(memory.id)
       expect(page).to have_content 'Memoryを更新しました。'
       expect(page).to have_content 'memoryの編集後'
       expect(page).to have_content '編集されました'
@@ -154,8 +153,15 @@ RSpec.describe "Memories", type: :system do
       expect(page).to have_selector("img[src$='aurora.jpg']")
     end
 
+    scenario "画像のみ削除できるか" do
+      visit edit_memory_path(memory.id)
+      check 'memory_remove_image'
+      click_button 'Memoryを投稿する'
+      expect(page).not_to have_selector("img[src$='no_image.jpg']")
+    end
+
     scenario "タイトルがnilの場合" do
-      visit edit_memory_path(memory_2.id)
+      visit edit_memory_path(memory.id)
       fill_in('タイトル', with: nil)
       fill_in('日記', with: '編集されました。')
       select('2022', from: 'memory_date_1i')
@@ -167,7 +173,7 @@ RSpec.describe "Memories", type: :system do
     end
 
     scenario "コンテンツがnilの場合" do
-      visit edit_memory_path(memory_2.id)
+      visit edit_memory_path(memory.id)
       fill_in('タイトル', with: 'memoryの編集後')
       fill_in('日記', with: nil)
       select('2022', from: 'memory_date_1i')
@@ -179,7 +185,7 @@ RSpec.describe "Memories", type: :system do
     end
 
     scenario "タイトルが20文字以上はエラーコメントが表示" do
-      visit edit_memory_path(memory_2.id)
+      visit edit_memory_path(memory.id)
       fill_in('タイトル', with: Faker::Lorem.characters(number: 21))
       fill_in('日記', with: '編集されました。')
       select('2022', from: 'memory_date_1i')
@@ -191,7 +197,7 @@ RSpec.describe "Memories", type: :system do
     end
 
     scenario "コンテンツが300文字以上はエラーコメントが表示" do
-      visit edit_memory_path(memory_2.id)
+      visit edit_memory_path(memory.id)
       fill_in('タイトル', with: 'memoryの編集後')
       fill_in('日記', with: Faker::Lorem.characters(number: 301))
       select('2022', from: 'memory_date_1i')
@@ -207,8 +213,8 @@ RSpec.describe "Memories", type: :system do
     before do
       login(user)
       visit memories_path
-      click_link memory_2.title
-      visit memory_path(memory_2.id)
+      click_link memory_1.title
+      visit memory_path(memory_1.id)
     end
 
     scenario "投稿を削除できる" do

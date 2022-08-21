@@ -4,7 +4,8 @@ RSpec.describe "Concerns", type: :system do
   let(:user) { create(:user) }
   let!(:friend_user) { create(:friend_user) }
   let!(:concern_1) { create(:concern, user_id: friend_user.id) }
-  let!(:concern_2) { create(:another_concern, user_id: user.id) }
+  let!(:concern_2) { create(:concern_1, user_id: user.id) }
+  let!(:concern_3) { create(:concern_2, user_id: user.id) }
   let!(:advice_1) { create(:advice, concern_id: concern_1.id, user_id: user.id) }
   let!(:advice_2) { create(:advice, concern_id: concern_2.id, user_id: friend_user.id) }
 
@@ -25,6 +26,12 @@ RSpec.describe "Concerns", type: :system do
       expect(page).to have_content concern_2.title
       expect(page).to have_content concern_2.created_at.to_s(:datetime_jp)
       expect(page).to have_selector("img[src$='no_image.jpg']")
+    end
+
+    scenario "投稿画像が表示されている" do
+      expect(page).to have_content concern_3.title
+      expect(page).to have_content concern_3.created_at.to_s(:datetime_jp)
+      expect(page).to have_selector("img[src$='aurora.jpg']")
     end
 
     scenario "タイトルをクリックすると、その投稿の詳細画面へリンクする" do
@@ -162,6 +169,13 @@ RSpec.describe "Concerns", type: :system do
       expect(page).to have_content 'アイルランド'
     end
 
+    scenario "画像のみ削除できるか" do
+      visit edit_concern_path(concern_1.id)
+      check 'concern_remove_image'
+      click_button 'お悩みを相談する'
+      expect(page).not_to have_selector("img[src$='no_image.jpg']")
+    end
+
     scenario "タイトルがnilの場合" do
       visit edit_concern_path(concern_1.id)
       fill_in('タイトル', with: nil)
@@ -286,6 +300,7 @@ RSpec.describe "Concerns", type: :system do
       click_button 'お悩み検索'
       expect(page).not_to have_content concern_1.title
       expect(page).to have_content concern_2.title
+      expect(page).not_to have_selector("img[src$='aurora.jpg']")
     end
 
     scenario "タイトル名が空欄の場合" do
@@ -293,6 +308,7 @@ RSpec.describe "Concerns", type: :system do
       click_button 'お悩み検索'
       expect(page).to have_content concern_1.title
       expect(page).to have_content concern_2.title
+      expect(page).to have_selector("img[src$='aurora.jpg']")
     end
 
     scenario "国名が含まれている場合" do
@@ -300,6 +316,7 @@ RSpec.describe "Concerns", type: :system do
       click_button 'お悩み検索'
       expect(page).not_to have_content concern_1.title
       expect(page).to have_content concern_2.title
+      expect(page).to have_selector("img[src$='aurora.jpg']")
     end
 
     scenario "国名が空欄の場合" do
@@ -307,6 +324,7 @@ RSpec.describe "Concerns", type: :system do
       click_button 'お悩み検索'
       expect(page).to have_content concern_1.title
       expect(page).to have_content concern_2.title
+      expect(page).to have_selector("img[src$='aurora.jpg']")
     end
   end
 

@@ -55,6 +55,6 @@ class RecommendsController < ApplicationController
   end
 
   def recommend_params
-    params.require(:recommend).permit(:title, :content, :image, :country_code, :address, :latitude, :longitude).merge(user_id: current_user.id)
+    params.require(:recommend).permit(:title, :content, :image, :remove_image, :country_code, :address, :latitude, :longitude).merge(user_id: current_user.id)
   end
 end

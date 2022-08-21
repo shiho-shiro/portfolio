@@ -40,6 +40,10 @@
         <%= f.file_field :image, class:"col-10 pl-5 pl-md-0" %>
       </div>
 
+      <div class="text-center text-md-left text-danger">
+        <%= f.check_box :remove_image %> 画像を削除
+      </div>
+
       <div class="d-md-flex my-3">
         <div class="col-12 col-md-6 text-center mb-4">
           <%= f.submit "オススメを投稿する", class:"btn btn-outline-success btn-lg" %>

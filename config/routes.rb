@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     :controllers => {
       :registrations => 'users/registrations',
       :sessions => 'users/sessions',
-      passwords: 'users/passwords'
+      passwords: 'users/passwords',
     }
 
   devise_scope :user do
@@ -18,11 +18,7 @@ Rails.application.routes.draw do
     resources :advices, only: [:create, :destroy]
   end
 
-  resources :memories do
-    member do
-      get 'show_other_index'
-    end
-  end
+  resources :memories
 
   resources :recommends do
     collection do
