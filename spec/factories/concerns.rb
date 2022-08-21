@@ -7,11 +7,19 @@ FactoryBot.define do
     association :user
   end
 
-  factory :another_concern, class: "Concern" do
+  factory :concern_1, class: "Concern" do
     title { "どうすれば..." }
     content { Faker::Lorem.characters(number: 200) }
     country_code { "JP" }
     image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/no_image.jpg')) }
+    association :user
+  end
+
+  factory :concern_2, class: "Concern" do
+    title { "教えてください" }
+    content { Faker::Lorem.characters(number: 200) }
+    country_code { "JP" }
+    image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/aurora.jpg')) }
     association :user
   end
 

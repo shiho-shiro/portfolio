@@ -95,47 +95,6 @@ RSpec.describe MemoriesController, type: :request do
     end
   end
 
-  describe "show_other_index" do
-    before do
-      @other_user = create(:user)
-      @memory = create(:memory, user_id: @other_user.id)
-    end
-
-    context "other_userがメインユーザではない場合" do
-      before do
-        sign_in @user
-        get show_other_index_memory_path(@other_user.id)
-      end
-
-      it "正常なレスポンスを返す" do
-        expect(response).to be_successful
-      end
-
-      it "200レスポンスを返す" do
-        expect(response).to have_http_status "200"
-      end
-    end
-
-    context "@other_userがメインユーザーの場合" do
-      before do
-        sign_in @other_user
-        get show_other_index_memory_path(@other_user.id)
-      end
-
-      it "正常なレスポンスを返す" do
-        expect(response).not_to be_successful
-      end
-
-      it "302レスポンスを返す" do
-        expect(response).to have_http_status "302"
-      end
-
-      it "memory一覧画面へリダイレクトする" do
-        expect(response).to redirect_to "/memories"
-      end
-    end
-  end
-
   describe "new" do
     context "登録済みのユーザーとして" do
       before do

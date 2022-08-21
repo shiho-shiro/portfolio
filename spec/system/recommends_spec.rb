@@ -4,7 +4,8 @@ RSpec.describe "Recommends", type: :system do
   let(:user) { create(:user) }
   let!(:friend_user) { create(:friend_user) }
   let!(:recommend_1) { create(:recommend, user_id: friend_user.id) }
-  let!(:recommend_2) { create(:another_recommend, user_id: user.id) }
+  let!(:recommend_2) { create(:recommend_1, user_id: user.id) }
+  let!(:recommend_3) { create(:recommend_2, user_id: user.id) }
   let!(:like_1) { create(:like, recommend_id: recommend_1.id, user_id: user.id) }
   let!(:like_2) { create(:like, recommend_id: recommend_2.id, user_id: friend_user.id) }
 
@@ -25,6 +26,12 @@ RSpec.describe "Recommends", type: :system do
       expect(page).to have_content recommend_2.title
       expect(page).to have_content recommend_2.created_at.to_s(:datetime_jp)
       expect(page).to have_selector("img[src$='no_image.jpg']")
+    end
+
+    scenario "投稿画像が表示されている" do
+      expect(page).to have_content recommend_3.title
+      expect(page).to have_content recommend_3.created_at.to_s(:datetime_jp)
+      expect(page).to have_selector("img[src$='aurora.jpg']")
     end
 
     scenario "いいねの数が表示される" do
@@ -139,10 +146,10 @@ RSpec.describe "Recommends", type: :system do
 
   describe "オススメの編集" do
     before do
-      login(user)
+      another_login(friend_user)
       visit(recommends_path)
-      click_link recommend_2.title
-      visit edit_recommend_path(recommend_2.id)
+      click_link recommend_1.title
+      visit edit_recommend_path(recommend_1.id)
     end
 
     scenario "フォームの値が正常か", js: true do
@@ -152,13 +159,19 @@ RSpec.describe "Recommends", type: :system do
       fill_in('住所', with: 'イエローナイフ')
       attach_file('画像', "#{Rails.root}/spec/fixtures/aurora.jpg")
       click_button 'オススメを投稿する'
-      expect(current_path).to eq recommend_path(recommend_2.id)
+      expect(current_path).to eq recommend_path(recommend_1.id)
       expect(page).to have_content 'オススメを更新しました。'
       expect(page).to have_content 'オーロラ'
       expect(page).to have_content '人生で一度は見たいオーロラ！カナダがオススメ！'
       expect(page).to have_content 'カナダ'
       expect(page).to have_css '.gm-style '
       expect(page).to have_selector("img[src$='aurora.jpg']")
+    end
+
+    scenario "画像のみ削除できるか" do
+      check 'recommend_remove_image'
+      click_button 'オススメを投稿する'
+      expect(page).not_to have_selector("img[src$='no_image.jpg']")
     end
 
     scenario "タイトルがnilの場合" do
@@ -257,24 +270,34 @@ RSpec.describe "Recommends", type: :system do
 
     scenario "タイトル名が含まれている場合" do
       fill_in('q_title_cont', with: '出来事')
+      click_button 'オススメ検索'
+      expect(page).not_to have_content recommend_1.title
       expect(page).to have_content recommend_2.title
+      expect(page).not_to have_selector("img[src$='aurora.jpg']")
     end
 
     scenario "タイトル名が空欄の場合" do
       fill_in('q_title_cont', with: nil)
+      click_button 'オススメ検索'
       expect(page).to have_content recommend_1.title
       expect(page).to have_content recommend_2.title
+      expect(page).to have_selector("img[src$='aurora.jpg']")
     end
 
     scenario "国名が含まれている場合" do
       select('日本', from: 'q_country_code_cont')
+      click_button 'オススメ検索'
+      expect(page).not_to have_content recommend_1.title
       expect(page).to have_content recommend_2.title
+      expect(page).to have_selector("img[src$='aurora.jpg']")
     end
 
     scenario "国名が空欄の場合" do
       select('国を指定する', from: 'q_country_code_cont')
+      click_button 'オススメ検索'
       expect(page).to have_content recommend_1.title
       expect(page).to have_content recommend_2.title
+      expect(page).to have_selector("img[src$='aurora.jpg']")
     end
   end
 

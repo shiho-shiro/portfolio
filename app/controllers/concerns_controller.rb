@@ -57,6 +57,6 @@ class ConcernsController < ApplicationController
   end
 
   def concern_params
-    params.require(:concern).permit(:country_code, :title, :content, :image).merge(user_id: current_user.id)
+    params.require(:concern).permit(:country_code, :title, :content, :image, :remove_image).merge(user_id: current_user.id)
   end
 end

@@ -362,7 +362,7 @@ RSpec.describe RecommendsController, type: :request do
     context "国名を指定した場合" do
       before do
         @recommend = create(:recommend, user_id: @user.id)
-        @another_recommend = create(:another_recommend, user_id: @user.id)
+        @another_recommend = create(:recommend_1, user_id: @user.id)
         sign_in @user
         get search_recommends_path, params: { q: { country_code_eq: "JP" } }
       end

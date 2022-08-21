@@ -8,12 +8,21 @@ FactoryBot.define do
     association :user
   end
 
-  factory :another_recommend, class: "Recommend" do
+  factory :recommend_1, class: "Recommend" do
     title { "今日の出来事" }
     content { Faker::Lorem.characters(number: 200) }
     country_code { "JP" }
     address { Faker::Address.full_address }
     image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/no_image.jpg')) }
+    association :user
+  end
+
+  factory :recommend_2, class: "Recommend" do
+    title { "ここがオススメ" }
+    content { Faker::Lorem.characters(number: 200) }
+    country_code { "JP" }
+    address { Faker::Address.full_address }
+    image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/aurora.jpg')) }
     association :user
   end
 
