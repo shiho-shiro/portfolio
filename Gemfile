@@ -73,3 +73,5 @@ gem 'countries', require: 'countries/global'
 gem 'geocoder'
 gem 'kaminari'
 gem 'devise-bootstrap-views', '~> 1.0'
+gem 'fog-aws'
+gem 'aws-sdk-s3', require: false
