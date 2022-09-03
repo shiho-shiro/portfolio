@@ -2,8 +2,8 @@
   <div class="row justify-content-center">
     <div class="col-12 col-md-2 col-lg-2 p-1 h-25 mt-3 border text-center d-flex d-md-block">
       <div class="text-center mt-2 col-sm-5 col-md-12 col-lg-12">
-        <% if @recommend.user.image.present? %>
-          <%= link_to image_tag(@recommend.user.image.url, class:"rounded-circle", alt:"show_recommend_img"), show_other_user_path(@recommend.user) %>
+        <% if @recommend.user.image.attached? %>
+          <%= link_to image_tag(@recommend.user.image, class:"rounded-circle", alt:"show_recommend_img"), show_other_user_path(@recommend.user) %>
         <% else %>
           <%= link_to image_tag('no_image.jpg', class:"rounded-circle", alt:"初期アカウント画像"), show_other_user_path(@recommend.user) %>
         <% end %>
@@ -59,8 +59,8 @@
       </div>
       <div class="d-md-flex pb-md-4 border-bottom">
         <div class="img-fluid m-md-2 text-center">
-          <% if @recommend.image.present? %>
-            <%= image_tag @recommend.image.url %>
+          <% if @recommend.image.attached?%>
+            <%= image_tag @recommend.image.variant(resize: '300x300') %>
           <% end %>
         </div>
         <div class="pb-4 pb-md-0 p-1">

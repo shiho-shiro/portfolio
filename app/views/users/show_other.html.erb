@@ -7,8 +7,8 @@
   <div class="row">
     <div class="col-12 col-md-3 col-lg-2 p-1 h-25 text-center d-md-block">
       <div class="text-center py-3 py-md-3 ">
-        <% if @other_user.image.present? %>
-          <%= image_tag @other_user.image.url, class:"img-fluid img-thumbnail" %>
+        <% if @other_user.image.attached? %>
+          <%= image_tag @other_user.image, class:"img-fluid img-thumbnail" %>
         <% else %>
           <%= image_tag 'no_image.jpg', class:"img-fluid" %>
         <% end %>

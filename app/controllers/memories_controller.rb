@@ -49,6 +49,17 @@ class MemoriesController < ApplicationController
     redirect_to memories_path, notice: 'Memoryを削除しました。'
   end
 
+  def remove_image
+    @memory = Memory.find(params[:id])
+    if @memory.image.attached?
+      if @memory.image.purge
+        redirect_to memorys_path
+      else
+        render :edit
+      end
+    end
+  end
+
   private
 
   def set_memory
@@ -56,6 +67,6 @@ class MemoriesController < ApplicationController
   end
 
   def memory_params
-    params.require(:memory).permit(:title, :content, :date, :image, :remove_image).merge(user_id: current_user.id)
+    params.require(:memory).permit(:title, :content, :date, :image).merge(user_id: current_user.id)
   end
 end

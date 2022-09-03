@@ -27,8 +27,8 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <% if @user == current_user %>
-              <% if @user.image.present? %>
-                <%= image_tag @user.image.url, class:"rounded-circle" %>
+              <% if @user.image.attached? %>
+                <%= image_tag @user.image, class:"rounded-circle" %>
               <% else %>
                 <%= image_tag 'no_image.jpg', class:"rounded-circle" %>
               <% end %>
