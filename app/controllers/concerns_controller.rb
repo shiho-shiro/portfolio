@@ -38,12 +38,26 @@ class ConcernsController < ApplicationController
   end
 
   def destroy
-    @concern.destroy
-    redirect_to concerns_path, notice: '投稿が削除されました。'
+    if @concern.destroy
+      redirect_to concerns_path, notice: '投稿が削除されました。'
+    else
+      render :edit
+    end
   end
 
   def search
-    @concern_results = @q.result.includes(:user).page(params[:page]).per(5)
+    @concern_results = @q.result.includes(:user).order(created_at: :desc).page(params[:page]).per(5)
+  end
+
+  def remove_image
+    @concern = Concern.find(params[:id])
+    if @concern.image.attached?
+      if @concern.image.purge
+        redirect_to concerns_path
+      else
+        render :edit
+      end
+    end
   end
 
   private
@@ -57,6 +71,6 @@ class ConcernsController < ApplicationController
   end
 
   def concern_params
-    params.require(:concern).permit(:country_code, :title, :content, :image, :remove_image).merge(user_id: current_user.id)
+    params.require(:concern).permit(:country_code, :title, :content, :image).merge(user_id: current_user.id)
   end
 end

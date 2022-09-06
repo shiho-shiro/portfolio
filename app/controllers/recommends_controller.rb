@@ -41,7 +41,18 @@ class RecommendsController < ApplicationController
   end
 
   def search
-    @recommend_results = @q.result.includes(:user).page(params[:page]).per(5)
+    @recommend_results = @q.result.includes(:user).order(created_at: :desc).page(params[:page]).per(5)
+  end
+
+  def remove_image
+    @recommend = Recommend.find(params[:id])
+    if @recommend.image.attached?
+      if @recommend.image.purge
+        redirect_to recommends_path
+      else
+        render :edit
+      end
+    end
   end
 
   private
@@ -55,6 +66,6 @@ class RecommendsController < ApplicationController
   end
 
   def recommend_params
-    params.require(:recommend).permit(:title, :content, :image, :remove_image, :country_code, :address, :latitude, :longitude).merge(user_id: current_user.id)
+    params.require(:recommend).permit(:title, :content, :image, :country_code, :address, :latitude, :longitude).merge(user_id: current_user.id)
   end
 end

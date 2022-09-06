@@ -43,5 +43,5 @@ class User < ApplicationRecord
     end
   end
 
-  mount_uploader :image, ImageUploader
+  has_one_attached :image
 end

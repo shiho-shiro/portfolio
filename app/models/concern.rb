@@ -2,7 +2,9 @@ class Concern < ApplicationRecord
   belongs_to :user
   has_many :advices, dependent: :destroy
   has_many :notifications, dependent: :destroy
-  mount_uploader :image, ImageUploader
+
+  has_one_attached :image
+
   with_options presence: true do
     validates :title
     validates :content

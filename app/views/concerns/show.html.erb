@@ -2,8 +2,8 @@
   <div class="row justify-content-center">
     <div class="col-12 col-md-2 col-lg-2 p-1 h-25 mt-3 border text-center d-flex d-md-block">
       <div class="text-center col-sm-5 col-md-12 col-lg-12">
-        <% if @concern.user.image.present? %>
-          <%= link_to image_tag(@concern.user.image.url, class:"rounded-circle", alt:"show_concern_img"), show_other_user_path(@concern.user) %>
+        <% if @concern.user.image.attached? %>
+          <%= link_to image_tag(@concern.user.image, class:"rounded-circle", alt:"show_concern_img"), show_other_user_path(@concern.user) %>
         <% else %>
           <%= link_to image_tag('no_image.jpg', class:"rounded-circle", alt:"初期アカウント画像"), show_other_user_path(@concern.user) %>
         <% end %>
@@ -40,8 +40,8 @@
       </div>
       <div class="d-md-flex pb-md-4">
         <div class="img-fluid m-md-2 text-center">
-          <% if @concern.image.present? %>
-            <%= image_tag @concern.image.url %>
+          <% if @concern.image.attached? %>
+            <%= image_tag @concern.image.variant(resize: '300x300') %>
           <% end %>
         </div>
         <div class="pb-4 pb-md-0 p-1">
@@ -65,10 +65,10 @@
   <% @advices.each do |advice| %>
     <div class="p-3 m-2 border d-flex">
       <div class="mr-2 text-center">
-        <% if advice.user.image.present? %>
-          <%= link_to image_tag(advice.user.image.url, class:"rounded-circle small-account", alt:"show_advice_img"), show_other_user_path(advice.user) %>
+        <% if advice.user.image.attached? %>
+          <%= link_to image_tag(advice.user.image, class:"rounded-circle small-account", alt:"show_advice_img"), show_other_user_path(advice.user) %>
         <% else %>
-          <%= link_to image_tag('no_image.jpeg', class:"rounded-circle small-account", alt:"初期アカウント画像"), show_other_user_path(advice.user) %>
+          <%= link_to image_tag('no_image.jpg', class:"rounded-circle small-account", alt:"初期アカウント画像"), show_other_user_path(advice.user) %>
         <% end %>
         <% if advice.user == current_user %>
           <div class="dropdown">

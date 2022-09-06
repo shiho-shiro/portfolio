@@ -23,8 +23,8 @@
     <div class="p-4 m-3 border">
       <div class="d-sm-flex justify-content-sm-between align-items-center">
         <div class="d-md-inline-block">
-          <% if recommend.user.image.present? %>
-            <%= link_to (image_tag recommend.user.image.url, class:"rounded-circle", alt:"show_recommend_img"), show_other_user_path(recommend.user) %>
+          <% if recommend.user.image.attached? %>
+            <%= link_to (image_tag recommend.user.image, class:"rounded-circle", alt:"show_recommend_img"), show_other_user_path(recommend.user) %>
             <span class="m-2">
               <i class="fa-solid fa-heart"></i>
               <%= recommend.likes.count %>
@@ -52,8 +52,8 @@
           </div>
         </div>
         <div class="img-fluid d-md-inline-block text-center mt-3">
-          <% if recommend.image.present? %>
-            <%= image_tag recommend.image.url %>
+          <% if recommend.image.attached? %>
+            <%= image_tag recommend.image.variant(resize: '100x80') %>
           <% end %>
         </div>
       </div>

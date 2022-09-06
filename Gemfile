@@ -56,7 +56,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'launchy'
-end
+end 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
@@ -64,7 +64,6 @@ gem 'devise'
 gem 'devise-i18n'
 gem 'devise-i18n-views'
 gem 'rails-i18n'
-gem 'carrierwave'
 gem 'mini_magick'
 gem 'dotenv-rails'
 gem 'ransack'
@@ -73,3 +72,5 @@ gem 'countries', require: 'countries/global'
 gem 'geocoder'
 gem 'kaminari'
 gem 'devise-bootstrap-views', '~> 1.0'
+gem 'aws-sdk-s3'
+gem "image_processing"

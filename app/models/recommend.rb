@@ -3,7 +3,8 @@ class Recommend < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
-  mount_uploader :image, ImageUploader
+  has_one_attached :image
+  
   geocoded_by :address
   after_validation :geocode, if: :address_changed?
   with_options presence: true do

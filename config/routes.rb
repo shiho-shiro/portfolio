@@ -15,14 +15,24 @@ Rails.application.routes.draw do
     collection do
       get 'search'
     end
+    member do
+      delete 'remove_image'
+    end
     resources :advices, only: [:create, :destroy]
   end
 
-  resources :memories
+  resources :memories do
+    member do
+      delete 'remove_image'
+    end
+  end
 
   resources :recommends do
     collection do
       get 'search'
+    end
+    member do
+      delete 'remove_image'
     end
     resource :likes, only: [:create, :destroy]
   end
