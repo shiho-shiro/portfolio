@@ -68,7 +68,7 @@
         <% if advice.user.image.attached? %>
           <%= link_to image_tag(advice.user.image, class:"rounded-circle small-account", alt:"show_advice_img"), show_other_user_path(advice.user) %>
         <% else %>
-          <%= link_to image_tag('no_image.jpeg', class:"rounded-circle small-account", alt:"初期アカウント画像"), show_other_user_path(advice.user) %>
+          <%= link_to image_tag('no_image.jpg', class:"rounded-circle small-account", alt:"初期アカウント画像"), show_other_user_path(advice.user) %>
         <% end %>
         <% if advice.user == current_user %>
           <div class="dropdown">

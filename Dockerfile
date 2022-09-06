@@ -1,5 +1,8 @@
 FROM ruby:2.7.5
 
+ENV RAILS_ENV=production
+
+
 RUN gem install rails
 
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs graphviz
@@ -16,10 +19,6 @@ RUN apt-get update && apt-get install -y unzip && \
   sh -c 'wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -' && \
   sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
   apt-get update && apt-get install -y google-chrome-stable
-
-
-RUN ["apt-get", "update"]
-RUN ["apt-get", "install", "-y", "vim"]
 
 RUN mkdir /myapp
 WORKDIR /myapp
@@ -42,9 +41,6 @@ RUN mkdir -p /usr/share/fonts/ipa
 RUN cp IPAexfont00401/*.ttf /usr/share/fonts/ipa
 RUN fc-cache -fv
 
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
-
-CMD ["rails", "server", "-b", "0.0.0.0"]
+COPY start.sh /start.sh
+RUN chmod 744 /start.sh
+CMD ["sh","/start.sh"]
